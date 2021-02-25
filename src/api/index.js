@@ -7,12 +7,10 @@ const url = `http://localhost:4000`
 
 export async function getLoginUser(id_service, username, password) {
   const json_data = {
-    id_service: 1,
-    user: '12345',
-    password: 'abcde',
+    username,
+    password,
   }
   let result = await instance.post("login", JSON.stringify(json_data))
-
   return result.data;
 }
 
@@ -73,9 +71,8 @@ export async function getTask(id_service, id_task) {
 }
 
 export async function getStatus() {
-  const res = await fetch(`http://localhost:4000/task/status`)
-  const data = await res.json()
-  console.log(data)
+  const res = await instance.get(`task/status`)
+  const data = await res.data
   return data
 }
 

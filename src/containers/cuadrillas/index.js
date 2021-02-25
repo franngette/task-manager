@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from './cuadrilla.module.scss'
 
-import Layout from '../../components/Layout'
+import Layout from "../Layout/index";
 import WorkTeam from '../../components/WorkTeam'
 import Button from '../../components/Button'
 import Table from '../../components/Table'

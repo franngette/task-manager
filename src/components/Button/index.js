@@ -36,7 +36,7 @@ export default function Button({
       type={type}
       onClick={onClick}
     >
-      <div className={style.buttonContent}>{children}</div>
+      <div className={style.button_content}>{children}</div>
     </button>
   );
 }

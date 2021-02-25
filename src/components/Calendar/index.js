@@ -17,25 +17,17 @@ import Modal from '../Modal/index'
 import CalendarButton from '../CalendarButton/index'
 import Status from './Status/index'
 import AssignTask from './AssignTask/index'
+import Spinner from '../Spinner/index'
 
-import { io } from 'socket.io-client'
 
-import { getCalendar } from '../../api/index'
+import { getCalendar, getStatus, getTeams } from '../../api/index'
 
 const id_service = 1
-
-const client = io('http://localhost:4000')
-const customClientID = '1'
-client.on('connect', () => {
-  if (client.connected) {
-    client.emit('storeClient', { customId: customClientID })
-  }
-})
 
 const monthNow = moment().format('MM')
 const yearNow = moment().format('YYYY')
 
-const Calendar = ({ tasksCalendar, teams, operators, states }) => {
+const Calendar = ({ tasksCalendar }) => {
   const [year, setYear] = useState(yearNow)
   const [month, setMonth] = useState(monthNow)
   const [week, setWeek] = useState(0)
@@ -45,6 +37,30 @@ const Calendar = ({ tasksCalendar, teams, operators, states }) => {
   const [tasks, setTasks] = useState(tasksCalendar)
   const [task, setTask] = useState({})
   const [show, setShow] = useState(false)
+  const [states, setStates] = useState()
+  const [teams, setTeams] = useState([])
+
+  /* useEffect(() => {
+    client.on('calendar', (socket) => {
+      getCalendar(id_service, dateSelected).then((res) => {
+        const newTasks = res
+        setTasks(newTasks)
+      })
+    })
+  }, []) */
+  
+  const getData = async () => {
+    const status = await getStatus();
+    const teams = await getTeams(1)
+    setStates(status)
+    setTeams(teams)
+  }
+
+  useEffect(() => {
+    let calendar = getDaysArray(tasks, year, month)
+    setCalendar(calendar)
+    getData()
+  }, [tasks])
 
   const content = {
     display: 'grid',
@@ -62,21 +78,6 @@ const Calendar = ({ tasksCalendar, teams, operators, states }) => {
     display: 'grid',
     gridTemplateRows: `repeat(${teams.length}, minmax(300px, auto))`,
   }
-
-  useEffect(() => {
-    client.on('calendar', (socket) => {
-      getCalendar(id_service, dateSelected).then((res) => {
-        const newTasks = res
-        setTasks(newTasks)
-      })
-    })
-  }, [])
-
-  useEffect(() => {
-    let calendar = getDaysArray(tasks, year, month)
-    setCalendar(calendar)
-  }, [tasks])
-
   const dateHandler = (date) => {
     const updateDateSelected = date.toString()
     setDateSelected(updateDateSelected)
@@ -165,7 +166,6 @@ const Calendar = ({ tasksCalendar, teams, operators, states }) => {
     renderContent = (
       <AssignTask
         task={task}
-        operators={operators}
         onClose={closeModalHandler}
       />
     )
@@ -173,7 +173,7 @@ const Calendar = ({ tasksCalendar, teams, operators, states }) => {
 
   if (editType == 'status') {
     renderContent = (
-      <Status task={task} states={states} onClose={closeModalHandler} />
+      <Status task={task} onClose={closeModalHandler} />
     )
   }
 
@@ -247,8 +247,8 @@ const Calendar = ({ tasksCalendar, teams, operators, states }) => {
     })
   }
 
-  let loadedCalendar = null
-  if (calendar.length > 0) {
+  let loadedCalendar = <Spinner />
+  if (calendar.length > 0 && teams.length > 0) {
     loadedCalendar = (
       <>
         <div className={style.container_header}>
@@ -274,6 +274,7 @@ const Calendar = ({ tasksCalendar, teams, operators, states }) => {
       )
     })
   }
+
   return (
     <div className={style.wrapper}>
       {renderModal}

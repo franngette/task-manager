@@ -31,7 +31,7 @@ DropDown.propTypes = {
   form: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
-  selectedValue: PropTypes.string,
+  selectedValue: PropTypes.number,
 }
 
 export default DropDown

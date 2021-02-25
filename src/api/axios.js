@@ -1,22 +1,40 @@
 import axios from 'axios'
+import {AUTH_LOGOUT} from "../store/actions/actionTypes";
+import store from "../store/store";
 
 const instance = axios.create({
   baseURL: 'http://localhost:4000/',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': ''
   },
 })
-instance.interceptors.request.use((request) => {
 
-  //request.headers['authorization'] = `Bearer ${ cookies.get('tokenn')}`
-  return request;
-}, (error) => {
-  console.log(error)
-  // Do something with request error
-  return Promise.reject(error);
-});
+instance.interceptors.request.use(
+  function (request) {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    const isUserAuthenticated = token ? true : false
+    if (isUserAuthenticated) {
+      request.headers["authorization"] = `Bearer ${token}`
+    } else {
+      request.headers["authorization"] = `Bearer ${' '}`
+      store.dispatch({type: AUTH_LOGOUT})
+    }
+    return request;
+  },
+);
 
-
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error) {
+      console.log("EXPIRED TOKEN!");
+      store.dispatch({ type: AUTH_LOGOUT });
+    } 
+    return Promise.reject(error);
+   
+  }
+);
 
 export default instance

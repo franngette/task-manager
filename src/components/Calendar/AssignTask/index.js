@@ -8,9 +8,9 @@ import CheckBox from '../../Checkbox/index'
 import Message from '../../Message/index'
 import Spinner from '../../Spinner/index'
 
-import { updateCalendarTask } from '../../../api/index'
+import { updateCalendarTask, getTeams } from '../../../api/index'
 
-const AssignTask = ({operators, task, onClose}) => {
+const AssignTask = ({task, onClose}) => {
   const [operatorList, setOperatorList] = useState([])
   const [teamDate, setTeamDate] = useState(
     new Date().toISOString().slice(0, 10)
@@ -22,11 +22,9 @@ const AssignTask = ({operators, task, onClose}) => {
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
 
-  useEffect(() => {
-    operatorHandler()
-  }, [operators])
-
-  const operatorHandler = () => {
+  const getData = async () => {
+    const operators = await getTeams(1);
+    console.log(operators)
     const arrOperators = []
     operators.forEach((el) => {
       let id = el.id_team
@@ -40,7 +38,11 @@ const AssignTask = ({operators, task, onClose}) => {
       arrOperators.push(newOp)
     })
     setOperatorList(arrOperators)
+
   }
+  useEffect(() => {
+    getData()
+  }, [])
 
   const onSave = async (e) => {
     e.preventDefault()

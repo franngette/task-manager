@@ -1,25 +1,39 @@
-import Layout from "./containers/Layout/index";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "./containers/Home/index";
 import Calendario from "./containers/Calendario/index";
 import Reclamos from "./containers/reclamos/index";
 import Reclamo from "./containers/reclamos/reclamo";
 import Signin from "./containers/Signin/index";
-
+import withAuth from "./hoc/withAuth/index";
+import { useSelector } from "react-redux";
+import Layout from "./containers/Layout/index";
 function App() {
-  return (
-  <div>
-    <Layout>
-      <Switch>
-        <Route path="/home"  component={Home} />
-        <Route path="/calendario" component={Calendario} />
-        <Route path="/reclamos/:id/:number" component={Reclamos} />
-        <Route path="/reclamo" component={Reclamo} />
-        <Route path="/" exact component={Signin} />
-      </Switch>
-    </Layout>
+  const isUserAuthenticated = useSelector((state) => state.auth.logged);
 
-  </div>)
+  return (
+    <div>
+      <Route
+        exact
+        path="/"
+        render={() => {
+          return isUserAuthenticated ? (
+            <Redirect to="/home" />
+          ) : (
+            <Redirect to="/" />
+          );
+        }}
+      />
+      <Switch>
+        <Route path="/" exact component={Signin} />
+        <Layout>
+          <Route path="/home" component={Home} />
+          <Route path="/reclamo" component={Reclamo} />
+          <Route path="/calendario" component={Calendario} />
+          <Route path="/reclamos" component={Reclamos} />
+        </Layout>
+      </Switch>
+    </div>
+  );
 }
 
-export default App;
+export default withAuth(App);

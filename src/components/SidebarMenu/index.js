@@ -19,7 +19,6 @@ const SidebarMenu = () => {
     { path: "/calendario", icon: faCalendar },
     { path: "/reclamos", icon: faSearch },
     { path: "/cuadrillas", icon: faHardHat },
-    { path: "/", icon: null},
   ];
 
   const createNavItems = () => {
@@ -38,7 +37,7 @@ const SidebarMenu = () => {
   return (
     <div className={style.container}>
       <div className={style.logoContainer}>
-        <img className={style.logo} src="/images/logo.svg" alt="G2 Logo" />
+        <img className={style.logo} src="/images/logon.png" alt="G2 Logo" />
       </div>
       <ul className={style.ul} style={{ width: "25px" }}>
         {createNavItems()}

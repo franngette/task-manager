@@ -23,6 +23,7 @@ import Card from '../../components/Card/index'
 import Status from '../../components/Status/index'
 import DropDown from '../../components/DropDown/index'
 import InputText from '../../components/InputText/index'
+import Layout from "../Layout/index";
 
 export default function Index(props) {
   const [reclamos, setReclamos] = useState(props.reclamos)
@@ -150,7 +151,7 @@ export default function Index(props) {
   }*/
 
   return (
-    <div>
+    <Layout>
       <div className={styles.header}>
         <h3 style={{ margin: '1rem' }}>
           <b>Reclamos</b>
@@ -183,7 +184,7 @@ export default function Index(props) {
           />
         </div>
       </main>
-    </div>
+    </Layout>
   )
 }
 
