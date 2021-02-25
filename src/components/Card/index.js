@@ -1,12 +1,13 @@
-import styles from "./style.module.scss";
+import "./style.module.scss";
 
 const Card = ({ children, hoverCheck = false, style = "" }) => {
-  let hoverStyle = [styles.wrapper, style] //`${style.wrapper} ${style}`;
+  console.log(style)
+  let hoverStyle =`wrapper ${style}`
   if (hoverCheck) {
-    hoverStyle = [styles.wrapper_hover, style] //`${style.wrapper} ${style}`;
+    hoverStyle = `wrapper_hover ${style}`
   }
   return (
-    <div className={hoverStyle.join(' ')}>
+    <div className={hoverStyle}>
       <div>{children}</div>
     </div>
   );

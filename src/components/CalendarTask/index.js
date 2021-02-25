@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
-import Card from '../Card/index'
-import style from './style.module.scss'
-import useVisible from '../../hooks/useVisible'
-import {Link, useHistory } from "react-router-dom";
+import Card from "../Card/index";
+import style from "./style.module.scss";
+import useVisible from "../../hooks/useVisible";
+import { Link } from "react-router-dom";
 
 import {
   faEllipsisV,
@@ -11,19 +11,11 @@ import {
   faMapMarkerAlt,
   faTasks,
   faCalendarAlt,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CalendarTask = ({ index, task, onEdit }) => {
-  const { ref, isVisible, setIsVisible } = useVisible(false)
-  
-const history = useHistory()
-const nextHandler = (task) => {
-  history.push({
-    pathname: '/reclamo',
-    state: {task: task}
-  })
-} 
+  const { ref, isVisible, setIsVisible } = useVisible(false);
 
   return (
     <div key={index} className={style.card_container}>
@@ -31,12 +23,12 @@ const nextHandler = (task) => {
         <div className={style.task}>
           <div className={style.task_content}>
             <p>
-              #{task.id_account ? task.id_account : ''} -{' '}
+              #{task.id_account ? task.id_account : ""} -{" "}
               {task.account_name
                 ? task.account_name.length > 17
-                  ? task.account_name.substring(0, 17) + '...'
+                  ? task.account_name.substring(0, 17) + "..."
                   : task.account_name
-                : 'Sin Titular'}
+                : "Sin Titular"}
             </p>
             <div className={style.content_icon}>
               <FontAwesomeIcon
@@ -44,7 +36,7 @@ const nextHandler = (task) => {
                 size="1x"
                 className={style.icon}
               />
-              <p>{task.region ? task.region : 'Sin Region'}</p>
+              <p>{task.region ? task.region : "Sin Region"}</p>
             </div>
           </div>
           <div className={style.content_icon}>
@@ -53,8 +45,12 @@ const nextHandler = (task) => {
                 <div className={style.options_menu}></div>
                 <Card>
                   <div className={style.options}>
-                   <Link to={{pathname: '/reclamo',state: {task: task}}} >
-                      <button className={style.option} /* onClick={() => {nextHandler(task)}} */>
+                    <Link to={{ pathname: "/reclamo", state: { task: task } }}>
+                      <button
+                        className={
+                          style.option
+                        } /* onClick={() => {nextHandler(task)}} */
+                      >
                         <FontAwesomeIcon
                           icon={faEye}
                           size="1x"
@@ -67,8 +63,8 @@ const nextHandler = (task) => {
                       <button
                         className={style.option}
                         onClick={() => {
-                          onEdit(task, 'assign')
-                          setIsVisible(false)
+                          onEdit(task, "assign");
+                          setIsVisible(false);
                         }}
                       >
                         <FontAwesomeIcon
@@ -82,8 +78,8 @@ const nextHandler = (task) => {
                     <button
                       className={style.option}
                       onClick={() => {
-                        onEdit(task, 'status')
-                        setIsVisible(false)
+                        onEdit(task, "status");
+                        setIsVisible(false);
                       }}
                     >
                       <FontAwesomeIcon
@@ -108,7 +104,7 @@ const nextHandler = (task) => {
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default CalendarTask
+export default CalendarTask;

@@ -7,14 +7,18 @@ import Spinner from '../../components/Spinner/index'
 
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { getLoginUser } from '../../api/index'
-import instance from '../../api/axios'
+import { io } from 'socket.io-client'
 
+import * as actions from '../../store/actions/auth'
+import { useDispatch } from "react-redux";
 
-const Signin = () => {
+const Signin = (props) => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+
+  const dispatch = useDispatch()
 
   const userHandler = (newUser) => {
     const nickname = newUser
@@ -32,11 +36,20 @@ const Signin = () => {
     getLoginUser(1, user, password)
       .then((response) => {
         setLoading(false)
-        if (response.error || response.token.length == 0) {
+        if (response.error) {
           setError(true)
           setLoading(false)
         } else {
+          dispatch(actions.authLogged(response.token))
           sessionStorage.setItem('token', JSON.stringify(response.token))
+          const client = io('http://localhost:4000')
+          const customClientID = response.id
+          client.on('connect', () => {
+            if (client.connected) {
+              client.emit('storeClient', { customId: customClientID })
+            }
+          })
+          props.history.push("/home")
         }
       })
       .catch((err) => {

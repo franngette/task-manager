@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './style.module.scss'
 
 import DropDown from '../../DropDown/index'
@@ -6,13 +6,22 @@ import Button from '../../Button/index'
 import Message from '../../Message/index'
 import Spinner from '../../Spinner/index'
 
-import { createStatusTask } from '../../../api/index'
+import { createStatusTask, getStatus } from '../../../api/index'
 
-const Status = ({ states, task, onClose }) => {
+const Status = ({ task, onClose }) => {
   const [stateSelected, setStateSelected] = useState()
+  const [states, setStates] = useState()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
+
+  const getData = async () => {
+    const status = await getStatus();
+    setStates(status)
+  }
+  useEffect(() => {
+    getData()
+  },[])
 
   const updateStateHandler = (e) => {
     e.preventDefault()
@@ -36,9 +45,9 @@ const Status = ({ states, task, onClose }) => {
     }, 5000)*/
 
   }
-
-  return (
-    <div>
+  let render = null;
+  if (states) {
+    render = (    <div>
       <div className={style.modalContent}>
         <label htmlFor="status">
           <h4>Estados</h4>
@@ -79,7 +88,10 @@ const Status = ({ states, task, onClose }) => {
           Cancelar
         </Button>
       </div>
-    </div>
+    </div>)
+  }
+  return (
+    <div>{render}</div>
   )
 }
 
