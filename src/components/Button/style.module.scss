@@ -5,7 +5,6 @@
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   padding: 0.3rem 0.8rem;
   min-width: 100px;
-  width: 50%;
   &:disabled {
     background-color: var(--disabled);
     border: 2px solid #ffffff;
@@ -46,6 +45,7 @@
   outline: none;
   padding: 0.3rem 0.8rem;
   margin: 1rem;
+  background-color: transparent;
   &:hover {
     background-color: var(--light);
     border-radius: 5px;
@@ -58,7 +58,7 @@
   }
 }
 
-.buttonContent {
+.button_content {
   display: flex;
   justify-content: center;
   align-items: center;

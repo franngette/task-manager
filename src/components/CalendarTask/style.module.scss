@@ -61,6 +61,7 @@ $breakpoint-lg: 1360px;
 .options_button {
   color: var(--dark-blue);
   padding: 0.2rem 0.4rem;
+  background-color: transparent;
   &:hover {
     background-color: rgba(231, 231, 231, 0.644);
     border-radius: 50%;
@@ -107,7 +108,7 @@ $breakpoint-lg: 1360px;
   padding: 0.5rem 0.5rem;
   margin: 0.2rem 0rem;
   border-radius: 5px;
-
+  background-color: transparent;
   &:hover {
     background-color: var(--light);
     margin: 0.2rem 0rem;
