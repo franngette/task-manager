@@ -1,0 +1,52 @@
+.Show {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: block;
+  z-index: 200;
+}
+
+.modalMain {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: none;
+  position: fixed;
+  width: 30%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  z-index: 500;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--dark-blue);
+  color: white;
+}
+
+.closeButton{
+  &:focus{
+    outline: none;
+  }
+  &:hover {
+    color: var(--light);
+  }
+}
+
+.children {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: white;
+}
+
+

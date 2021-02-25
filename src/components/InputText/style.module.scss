@@ -1,0 +1,37 @@
+.content_input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 30px;
+  min-width: 350px;
+  width: 25%;
+  padding: 0.5em 0rem;
+  margin: 0rem 1rem;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.input {
+  width: 80%;
+  outline: none;
+  color: var(--gray-text);
+}
+
+/* Chrome, Safari, Edge, Opera */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.icon {
+  margin: 0rem 1rem;
+  min-width: 0.5rem;
+  width: 10%;
+}

@@ -1,0 +1,138 @@
+// variables:
+$breakpoint-xs: 360px;
+$breakpoint-sm: 767px;
+$breakpoint-md: 1023px;
+$breakpoint-lg: 1360px;
+
+@mixin media($media) {
+  @if $media == xs {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $media == sm {
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $media == md {
+    @media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $media == lg {
+    @media (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
+
+.card_container {
+  margin: 0.3rem 0.2rem;
+  position: relative;
+}
+
+.task {
+  display: flex;
+  padding: 0.2rem;
+  justify-content: space-between;
+}
+
+.task_content {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.task_content {
+  display: flex;
+  flex-direction: column;
+  p {
+    font-size: 14px;
+  }
+}
+
+.content_icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+
+.options_button {
+  color: var(--dark-blue);
+  padding: 0.2rem 0.4rem;
+  &:hover {
+    background-color: rgba(231, 231, 231, 0.644);
+    border-radius: 50%;
+    padding: 0.2rem 0.4rem;
+    color: var(--dark-blue);
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.options_menu_container {
+  position: absolute;
+  display: flex;
+  top: 60px;
+  right: 0px;
+  z-index: 1;
+  @include media(lg) {
+    top: 108px;
+  }
+}
+
+.options_menu {
+  position: absolute;
+  border-left: 12px solid transparent;
+  border-right: 10px solid #fff;
+  border-top: 16px solid transparent;
+  /* border-bottom: 5px solid #fff; */
+  right: 20px;
+  top: -13px;
+  border-radius: 50%;
+  transform: rotate(45deg);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  margin: 0.2rem 0rem;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: var(--light);
+    margin: 0.2rem 0rem;
+  }
+  &:focus {
+    outline: none;
+    background-color: #4299e1;
+  }
+}
+
+.option_center {
+  border-bottom: 1px solid rgba(170, 170, 170, 0.719);
+  border-top: 1px solid rgba(170, 170, 170, 0.719);
+}
+
+.option_center > p {
+  font-size: 12px;
+  color: #585858;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.option > p {
+  font-size: 12px;
+  color: #585858;
+  cursor: pointer;
+  font-weight: 500;
+}

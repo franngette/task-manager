@@ -1,0 +1,38 @@
+.content {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper_hidden {
+  @extend .wrapper;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.container {
+  width: 90%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 1px var(--info-light);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.contentCenter {
+  @extend .content;
+  display: flex;
+  justify-content: center;
+}

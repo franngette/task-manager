@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.content {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.graph {
+  width: 45%;
+}
+
+.graphContainer {
+  padding: 3rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}

@@ -1,0 +1,58 @@
+%status {
+  padding: 0.2rem 0.8rem 0.2rem 0.8rem;
+  margin: 0rem 0.2rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+%enable {
+  background-color: #c6f6d5;
+  color: #276749;
+}
+
+.enabled {
+  background-color: #c6f6d5;
+  color: #276749;
+}
+
+.disabled {
+  background-color: #d8d8d8;
+  color: #000000;
+}
+
+.assigned {
+  background-color: #c6e3f6;
+  color: #274567;
+}
+
+.going {
+  background-color: #f6ddc6;
+  color: #674b27;
+}
+
+.working {
+  background-color: #c6cff6;
+  color: #272d67;
+}
+
+.paused {
+  background-color: #f7b3b3;
+  color: #4e1e1e;
+}
+
+.finished {
+  background-color: #f5f6c6;
+  color: #666727;
+}
+
+.call {
+  background-color: #f6c6f5;
+  color: #5d2767;
+}
+
+.confirmed {
+  background-color: #c6f6ed;
+  color: #276467;
+}

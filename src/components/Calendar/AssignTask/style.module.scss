@@ -1,0 +1,25 @@
+.modalContent {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.buttom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-top: 2rem;
+}
+
+.wrapper_message {
+  width: 50%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.content_message {
+  position: absolute;
+  bottom: -25px;
+  width: 100%;
+}

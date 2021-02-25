@@ -1,0 +1,77 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapperClient {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.containerSmall {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.container {
+  display: flex;
+  flex: 3;
+}
+
+.contentWrapper {
+  display: flex;
+  width: 100%;
+}
+
+.inputContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  cursor: pointer;
+  &:hover {
+    background: var(--info-light);
+  }
+}
+
+.cardChild {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.id {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  width: 5em;
+  height: 2em;
+  background-color: var(--light-blue);
+  margin: 1rem;
+}

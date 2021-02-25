@@ -1,0 +1,261 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.logoContainer {
+  flex: 2;
+  display: flex;
+}
+
+.img_content {
+  display: flex;
+  background: #000000;
+  width: 100%;
+  position: relative;
+}
+
+.img {
+  position: absolute;
+  bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  margin: 1rem 0rem;
+  display: flex;
+  justify-content: center;
+}
+
+.formContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdfcff;
+  text-align: center;
+  z-index: 1;
+}
+
+.logForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /*  width: 40%; */
+}
+
+.formContent {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.content_button_options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content_logo {
+  position: fixed;
+  width: 70px;
+  border-radius: 50%;
+  background-color: #197ac900;
+  top: 20px;
+  height: 70px;
+  z-index: 1;
+  animation-duration: 2s;
+  animation-delay: 4s;
+  animation-name: logo;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+}
+.logo {
+  width: 50px;
+  left: 20px;
+  top: 10px;
+  position: absolute;
+}
+
+.content_title {
+  position: absolute;
+  left: 100px;
+  top: 600px;
+  transform: rotate3d(9, 3, -6, 85deg);
+  animation-duration: 2s;
+  animation-delay: 1s;
+  animation-name: title;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: white;
+  font-size: 52px;
+  font-family: sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  text-shadow: -6px 20px 4px #203975;
+}
+
+
+ .lines {
+  width: 100%;
+  .line {
+    position: absolute;
+    height: 5px;
+    visibility: hidden;
+    transform: rotate3d(9, 2, -6, 80deg);
+    &:nth-child(1) {
+      top: 100px;
+      width: 40%;
+      left: 100px;
+      opacity: 0.3;
+      animation-name: line_2;
+      animation-fill-mode: forwards;
+      animation-duration: 1s;
+    }
+    &:nth-child(2) {
+      top: 100px;
+      width: 20%;
+      left: 450px;
+      opacity: 0.8;
+      animation-name: line_2;
+      animation-fill-mode: forwards;
+      animation-duration: 2s;
+      animation-delay: 1s;
+    }
+    &:nth-child(3) {
+      top: 300px;
+      width: 20%;
+      left: 0px;
+      opacity: 0.5;
+      animation-name: line_2;
+      animation-fill-mode: forwards;
+      animation-duration: 3s;
+    }
+    &:nth-child(4) {
+      top: 250px;
+      width: 80%;
+      left: 250px;
+      opacity: 0.3;
+      animation-name: line_1;
+      animation-fill-mode: forwards;
+      animation-duration: 3s;
+      animation-delay: 1s;
+    }
+    &:nth-child(5) {
+      top: 500px;
+      width: 80%;
+      left: 0px;
+      opacity: 0.5;
+      animation-name: line_1;
+      animation-fill-mode: forwards;
+      animation-duration: 3s;
+      animation-delay: 1s;
+    }
+    &:nth-child(6) {
+      top: 450px;
+      width: 20%;
+      left: 0px;
+      opacity: 0.8;
+      animation-name: line_2;
+      animation-fill-mode: forwards;
+      animation-duration: 2s;
+      animation-delay: 1s;
+    }
+    &:nth-child(7) {
+      top: 600px;
+      width: 80%;
+      left: 250px;
+      opacity: 0.8;
+      animation-name: line_1;
+      animation-fill-mode: forwards;
+      animation-duration: 1s;
+      animation-delay: 2s;
+    }
+  }
+}
+
+.line {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, #170d5b, #19c0ec);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background: #19c0ec;
+  border-radius: 50%;
+  box-shadow: 1px -1px 0px 20px #19135f7d;
+  position: fixed;
+}
+
+@keyframes logo {
+  from {
+    top: -100px;
+    visibility: hidden;
+  }
+  to {
+    top: 20px;
+    visibility: visible;
+  }
+}
+
+@keyframes title {
+  0% {
+    opacity: 0;
+    left: -300px;
+    visibility: hidden;
+    //top: 400px;
+  }
+  100% {
+    opacity: 1;
+    left: 150px;
+    top: 650px;
+    visibility: visible;
+  }
+}
+
+@keyframes line_1 {
+  0% {
+    width: 0%;
+    visibility: hidden;
+  }
+/*   25% {
+    width: 25%;
+  }
+  50% {
+    width: 50%;
+  } */
+  100% {
+    width: 80%;
+    visibility: visible;
+  }
+}
+
+@keyframes line_2 {
+  0% {
+    width: 0%;
+    visibility: hidden;
+  }
+/*   25% {
+    width: 25%;
+  }
+  50% {
+    width: 50%;
+  } */
+  100% {
+    width: 40%;
+    visibility: visible;
+  }
+}
+

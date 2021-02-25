@@ -1,0 +1,45 @@
+.client_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem 0rem;
+  width: 100%;
+}
+
+.client_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin: 1rem;
+
+  & .child {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  & .id {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: white;
+    width: 5em;
+    height: 2em;
+    background-color: var(--light-blue);
+    margin: 0rem 1rem;
+  }
+}
+
+.client_card_child {
+  background-color: #eaeaea;
+  padding: 0.5rem;
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--info-light);
+  }
+}

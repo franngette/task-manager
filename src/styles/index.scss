@@ -1,0 +1,139 @@
+@import './card.scss';
+@import './status.scss';
+//@import './../components/ClientAccordion/clientAccordion.scss';
+
+* {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e2e8f0;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 600;
+  //src: url('/public/fonts/Roboto-Regular.ttf');
+}
+
+:root {
+  --dark: rgba(45, 55, 72, 1);
+  --dark-blue: #2c5282;
+  --blue: #2b6cb0;
+  --medium-blue: #4b4b4b;
+  --light-blue: #4299e1;
+  --disabled: #90cdf4;
+  --light: #ebf8ff;
+  --warning-light: #ffdccc;
+  --warning-medium: #fb6376;
+  --warning-dark: #5d2a42;
+  --info-light: #bee3f8;
+  --success-light: #c7f9cc;
+  --success-medium: #38a3a5;
+  --sucess-dark: #22577a;
+  --gray-text: rgba(160, 174, 192, 1);
+}
+
+h1 {
+  font-size: 38px;
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 1.5;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1365px) {
+  h1 {
+    font-size: 34px;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  h3 {
+    font-size: 22px;
+  }
+  h4 {
+    font-size: 16px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
+
+/*  Tablets in portrait mode, large display smartphones landscape mode */
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 26px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  h4 {
+    font-size: 14px;
+  }
+  p {
+    font-size: 12px;
+  }
+}
+
+/*  Smartphones in landscape mode */
+
+@media only screen and (min-width: 421px) and (max-width: 767px) {
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+  h4 {
+    font-size: 12px;
+  }
+  p {
+    font-size: 10px;
+  }
+}
+
+/*  Smartphones in portrait mode  */
+
+@media only screen and (max-width: 420px) {
+  h1 {
+    font-size: 26px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  h4 {
+    font-size: 10px;
+  }
+  p {
+    font-size: 8px;
+  }
+}
