@@ -7,7 +7,7 @@ import Spinner from '../../components/Spinner/index'
 
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { getLoginUser } from '../../api/index'
-import { io } from 'socket.io-client'
+
 
 import * as actions from '../../store/actions/auth'
 import { useDispatch } from "react-redux";
@@ -40,20 +40,12 @@ const Signin = (props) => {
           setError(true)
           setLoading(false)
         } else {
-          dispatch(actions.authLogged(response.token))
-          sessionStorage.setItem('token', JSON.stringify(response.token))
-          const client = io('http://localhost:4000')
-          const customClientID = response.id
-          client.on('connect', () => {
-            if (client.connected) {
-              client.emit('storeClient', { customId: customClientID })
-            }
-          })
+          dispatch(actions.authLogged(response))
+          dispatch(actions.connectSocket(response.id))
           props.history.push("/home")
         }
       })
       .catch((err) => {
-        console.log("error sigin", err)
         setError(true)
         setLoading(false)
       })

@@ -1,4 +1,5 @@
 export {
   authLogged,
-  authLogOut
+  authLogOut,
+  connectSocket
 } from "./auth"

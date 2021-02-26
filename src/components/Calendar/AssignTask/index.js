@@ -24,7 +24,6 @@ const AssignTask = ({task, onClose}) => {
 
   const getData = async () => {
     const operators = await getTeams(1);
-    console.log(operators)
     const arrOperators = []
     operators.forEach((el) => {
       let id = el.id_team
@@ -33,7 +32,7 @@ const AssignTask = ({task, onClose}) => {
       })
       const newOp = {
         id: id,
-        operators: op.toString().replace(',', ' - '),
+        name: op.toString().replace(',', ' - '),
       }
       arrOperators.push(newOp)
     })

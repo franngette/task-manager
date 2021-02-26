@@ -11,10 +11,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (request) {
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const isUserAuthenticated = token ? true : false
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const isUserAuthenticated = user ? true : false
     if (isUserAuthenticated) {
-      request.headers["authorization"] = `Bearer ${token}`
+      request.headers["authorization"] = `Bearer ${user.token}`
     } else {
       request.headers["authorization"] = `Bearer ${' '}`
       store.dispatch({type: AUTH_LOGOUT})

@@ -11,10 +11,7 @@ import { useLocation } from "react-router-dom";
 
 const Reclamo = (props) => {
   //const location = useLocation()
-  const task_id = props.location.state.task.id;
-  console.log(task_id);
   const [task, setTask] = useState(props.location.state.task);
-  const [loading, setLoading] = useState(true);
   const cuadrilla = { error: true };
   //const cuenta = { error: true };
   const equipamientos = { error: true };
@@ -158,7 +155,7 @@ const Reclamo = (props) => {
     );
   }
 
-  return <Layout>{loaded}</Layout>;
+  return <div>{loaded}</div>;
 };
 
 export default Reclamo;
