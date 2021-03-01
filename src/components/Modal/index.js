@@ -15,7 +15,7 @@ const Modal = ({ onClose, children, title}) => {
           </button>
         </div>
         <div className={style.children}>{children}</div>
-
+a
       </div>
     </div>
   )
