@@ -1,8 +1,13 @@
 import style from './style.module.scss'
+import Notification from '../Notification/Notification'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
+
 
 const Header = () => {
+  const countNotifications = 1
   return (
     <div className={style.container}>
+        <Notification icon={faBell} cantNotifications={countNotifications} iconColor={"black"} />
       <div>
         <button
           className={style.button}

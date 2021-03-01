@@ -8,7 +8,7 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import style from "./style.module.scss";
 
@@ -23,10 +23,14 @@ const SidebarMenu = () => {
 
   const createNavItems = () => {
     let listItems = navItems.map((item, index) => {
+      const isCurrent = window.location.pathname === item.path;
       return (
         <li className={style.li} key={index}>
           <Link to={item.path}>
-            <FontAwesomeIcon icon={item.icon} color="white" size="lg" />
+            <FontAwesomeIcon
+              icon={item.icon}
+              className={`${style.icon} ${isCurrent ? style.icon_active : ""}`}
+            />
           </Link>
         </li>
       );

@@ -51,23 +51,30 @@ const Calendar = ({ tasksCalendar }) => {
       console.log("sockete");
       getCalendar(id_service, dateSelected).then((res) => {
         const newTasks = res;
+        let calendar = getDaysArray(newTasks, year, month);
+        setCalendar(calendar);
         setTasks(newTasks);
       });
     });
-  }, [socket, dateSelected, isSocketConnected]);
+  }, [socket]);
 
   const getData = async () => {
     const status = await getStatus();
     const teams = await getTeams(1);
+    getCalendar(id_service, dateSelected).then((res) => {
+      const newTasks = res;
+      setTasks(newTasks);
+    });
     setStates(status);
     setTeams(teams);
   };
 
   useEffect(() => {
+    console.log("use")
     let calendar = getDaysArray(tasks, year, month);
     setCalendar(calendar);
     getData();
-  }, [tasks]);
+  }, [year, month]);
 
   const content = {
     display: "grid",
@@ -95,17 +102,13 @@ const Calendar = ({ tasksCalendar }) => {
     setWeek(0);
     setMonth(month);
     setYear(year);
-    getCalendar(id_service, dateSelected).then((res) => {
-      const newTasks = res;
-      setTasks(newTasks);
-    });
   };
 
   const nextWeek = (e) => {
     e.preventDefault();
     let selectedWeek = week;
     const calendarMonth = calendar.length;
-    if (selectedWeek == calendarMonth - 1) {
+    if (selectedWeek === calendarMonth - 1) {
       setWeek(0);
     } else {
       selectedWeek = selectedWeek + 1;
@@ -117,7 +120,7 @@ const Calendar = ({ tasksCalendar }) => {
     e.preventDefault();
     let selectedWeek = week;
     const calendarMonth = calendar.length;
-    if (selectedWeek == 0) {
+    if (selectedWeek === 0) {
       setWeek(calendarMonth - 1);
     } else {
       setWeek(selectedWeek - 1);
@@ -131,7 +134,7 @@ const Calendar = ({ tasksCalendar }) => {
     let week = [];
     let dayData = {};
     let daysOfMonth = moment(`${year}-${month}`).daysInMonth();
-    while (date.getMonth() == monthIndex) {
+    while (date.getMonth() === monthIndex) {
       let dayDate = moment(`${month}/${date.getDate()}/${year}`).format(
         "DD/MM/YYYY"
       );
@@ -170,11 +173,11 @@ const Calendar = ({ tasksCalendar }) => {
 
   let renderContent = null;
 
-  if (editType == "assign") {
+  if (editType === "assign") {
     renderContent = <AssignTask task={task} onClose={closeModalHandler} />;
   }
 
-  if (editType == "status") {
+  if (editType === "status") {
     renderContent = <Status task={task} onClose={closeModalHandler} />;
   }
 
@@ -182,7 +185,7 @@ const Calendar = ({ tasksCalendar }) => {
   if (show) {
     renderModal = (
       <Modal
-        title={editType == "assign" ? "Editar Asignación" : "Nuevo Estado"}
+        title={editType === "assign" ? "Editar Asignación" : "Nuevo Estado"}
         onClose={() => {
           setShow(false);
         }}
@@ -204,8 +207,8 @@ const Calendar = ({ tasksCalendar }) => {
                 className={day.isMonth ? style.rows : style.rows_false}
               >
                 {day.tasks.map((task, index) => {
-                  return team.id_team == task.id_team &&
-                    task.date == day.day ? (
+                  return team.id_team === task.id_team &&
+                    task.date === day.day ? (
                     <CalendarTask
                       key={index}
                       index={index}

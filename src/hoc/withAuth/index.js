@@ -12,9 +12,10 @@ const withAuth = (WrappedComponent) => {
     let isSocketConnected = useSelector(
       (state) => state.auth.isSocketConnected
     );
-    isUserAuthenticated = isUserAuthenticated ? true : false;
-    isSocketConnected = isSocketConnected ? true : false;
+/*     isUserAuthenticated = isUserAuthenticated ? true : false;
+    isSocketConnected = isSocketConnected ? true : false; */
     const user = JSON.parse(sessionStorage.getItem("user"));
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const withAuth = (WrappedComponent) => {
           dispatch(actions.connectSocket(user.id));
         }
       }
-    }, [isUserAuthenticated, isSocketConnected]);
+    }, []);
 
     // if there's a loggedInUser, show the wrapped page, otherwise show a loading indicator
     //return role && role !== "guest" ? <WrappedComponent {...props} /> : <div>Loading...</div>;
