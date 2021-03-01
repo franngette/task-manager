@@ -33,3 +33,18 @@
   margin-bottom: 1rem;
   list-style: none;
 }
+
+.icon {
+  color: #2d3748;
+  stroke: white;
+  stroke-width: 25px;
+  font-size: 1.5rem;
+  transition: color .2s linear;
+  &:hover {
+    color: white;
+  }
+}
+
+.icon_active {
+  color: white;
+}

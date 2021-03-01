@@ -23,6 +23,9 @@ const Message = ({ type, message }) => {
         style = styles.success
         icon = faCheckCircle
         break
+     default:
+      style = styles.success
+      icon = faCheckCircle
   }
 
   return (
