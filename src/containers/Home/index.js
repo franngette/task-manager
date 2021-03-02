@@ -1,6 +1,6 @@
-import Layout from "../Layout/index";
-import Card from "../../components/Card/index";
+import React from "react";
 
+import Card from "../../components/Card/index";
 import { Line, Pie } from "react-chartjs-2";
 import styles from "./style.module.scss";
 
@@ -22,18 +22,8 @@ const pieData = {
   datasets: [
     {
       data: [50, 10, 30, 15],
-      backgroundColor: [
-        "rgb(34, 124, 157)",
-        "rgb(23, 195, 178)",
-        "rgb(255, 203, 119)",
-        "rgb(254, 109, 115)",
-      ],
-      hoverBackgroundColor: [
-        "rgb(29, 106, 134)",
-        "rgb(19, 164, 150)",
-        "rgb(255, 185, 71)",
-        "rgb(254, 72, 78)",
-      ],
+      backgroundColor: ["rgb(34, 124, 157)", "rgb(23, 195, 178)", "rgb(255, 203, 119)", "rgb(254, 109, 115)"],
+      hoverBackgroundColor: ["rgb(29, 106, 134)", "rgb(19, 164, 150)", "rgb(255, 185, 71)", "rgb(254, 72, 78)"],
     },
   ],
   labels: ["BAI", "FO", "ADSL", "Tel"],

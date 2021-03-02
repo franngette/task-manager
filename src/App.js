@@ -7,6 +7,9 @@ import Signin from "./containers/Signin/index";
 import withAuth from "./hoc/withAuth/index";
 import { useSelector } from "react-redux";
 import Layout from "./containers/Layout/index";
+import Client from "./containers/Client/Client";
+import ClientSubAccount from "./containers/Client/ClientSubAccount/ClientSubAccount";
+
 function App() {
   const isUserAuthenticated = useSelector((state) => state.auth.logged);
 
@@ -16,11 +19,7 @@ function App() {
         exact
         path="/"
         render={() => {
-          return isUserAuthenticated ? (
-            <Redirect to="/home" />
-          ) : (
-            <Redirect to="/" />
-          );
+          return isUserAuthenticated ? <Redirect to="/home" /> : <Redirect to="/" />;
         }}
       />
       <Switch>
@@ -28,6 +27,8 @@ function App() {
         <Layout>
           <Route path="/home" component={Home} />
           <Route path="/reclamo" component={Reclamo} />
+          <Route path="/clientSubAccount" component={ClientSubAccount} />
+          <Route path="/client" component={Client} />
           <Route path="/calendario" component={Calendario} />
           <Route path="/reclamos" component={Reclamos} />
         </Layout>

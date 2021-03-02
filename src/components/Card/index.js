@@ -7,7 +7,7 @@ const Card = ({ children, hoverCheck = false, style = "" }) => {
   }
   return (
     <div className={hoverStyle}>
-      <div>{children}</div>
+      <>{children}</>
     </div>
   );
 };
