@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getTaskTypes, getSubAccountData, getSubAccountConnections } from "../../../api/index";
-import { useHistory } from "react-router-dom";
 
 import styles from "./style.module.scss";
 import Card from "../../../components/Card/index";
@@ -19,7 +18,6 @@ const ClientSubAccount = (props) => {
   const [subAccData, setSubAccData] = useState();
   const [connectSubAcc, setConnecSubAcc] = useState([]);
 
-  let history = useHistory();
 
   const getData = async () => {
     const resTaskType = await getTaskTypes();
@@ -34,14 +32,9 @@ const ClientSubAccount = (props) => {
   };
 
   useEffect(() => {
-    console.log(props.location.state);
-    if (props.location?.state?.client_sub_account) {
-      getData();
-      subAccData?.info && getConnections();
-    } else {
-      history.push("/client");
-    }
-  }, [props.location.state]);
+    getData();
+    subAccData?.info && getConnections();
+  });
 
   return (
     <>
