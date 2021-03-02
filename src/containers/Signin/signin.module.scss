@@ -15,10 +15,14 @@
   width: 100%;
   position: relative;
 }
+.img_content_img {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
 
 .img {
-  position: absolute;
-  bottom: 20px;
+  width: 100%;
 }
 
 .input {
@@ -49,12 +53,6 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   color: var(--dark);
-}
-
-.content_button_options {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .content_logo {
@@ -101,8 +99,7 @@
   text-shadow: -6px 20px 4px #203975;
 }
 
-
- .lines {
+.lines {
   width: 100%;
   .line {
     position: absolute;
@@ -187,7 +184,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
 }
 
 .circle {
@@ -199,6 +195,11 @@
   position: fixed;
 }
 
+.content_button {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
 @keyframes logo {
   from {
     top: -100px;
@@ -230,7 +231,7 @@
     width: 0%;
     visibility: hidden;
   }
-/*   25% {
+  /*   25% {
     width: 25%;
   }
   50% {
@@ -247,7 +248,7 @@
     width: 0%;
     visibility: hidden;
   }
-/*   25% {
+  /*   25% {
     width: 25%;
   }
   50% {
@@ -258,4 +259,3 @@
     visibility: visible;
   }
 }
-

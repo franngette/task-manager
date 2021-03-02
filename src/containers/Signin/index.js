@@ -1,55 +1,65 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import styles from './signin.module.scss'
-import Button from '../../components/Button/index'
-import Input from '../../components/InputText/index'
-import Spinner from '../../components/Spinner/index'
+import styles from "./signin.module.scss";
+import Button from "../../components/Button/index";
+import Input from "../../components/InputText/index";
+import Spinner from "../../components/Spinner/index";
 
-import { faLock, faUser } from '@fortawesome/free-solid-svg-icons'
-import { getLoginUser } from '../../api/index'
+import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
+import { getLoginUser } from "../../api/index";
 
-
-import * as actions from '../../store/actions/auth'
+import * as actions from "../../store/actions/auth";
 import { useDispatch } from "react-redux";
 
 const Signin = (props) => {
-  const [user, setUser] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const userHandler = (newUser) => {
-    const nickname = newUser
-    setUser(nickname)
-  }
+    const nickname = newUser;
+    setUser(nickname);
+    if (error) {
+      setError(false);
+    }
+  };
 
   const passwordHandler = (newPassword) => {
-    const pass = newPassword
-    setPassword(pass)
-  }
+    const pass = newPassword;
+    setPassword(pass);
+    if (error) {
+      setError(false);
+    }
+  };
 
   const sumbitHandler = (e) => {
-    e.preventDefault()
-    setLoading(true)
-    getLoginUser(1, user, password)
-      .then((response) => {
-        setLoading(false)
-        if (response.error) {
-          setError(true)
-          setLoading(false)
-        } else {
-          dispatch(actions.authLogged(response))
-          dispatch(actions.connectSocket(response.id))
-          props.history.push("/home")
-        }
-      })
-      .catch((err) => {
-        setError(true)
-        setLoading(false)
-      })
-  }
+    e.preventDefault();
+    if (!error && user.length > 4 && password.length > 2) {
+      setLoading(true);
+      getLoginUser(1, user, password)
+        .then((response) => {
+          setLoading(false);
+          if (response.error) {
+            setError(true);
+            setLoading(false);
+          } else {
+            console.log("login");
+            dispatch(actions.authLogged(response));
+            dispatch(actions.connectSocket(response.id));
+            //props.history.push("/home");
+          }
+        })
+        .catch((err) => {
+          setError(true);
+          setLoading(false);
+        });
+    } else {
+      setError(true);
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -76,7 +86,9 @@ const Signin = (props) => {
             <h3 className={styles.title}>TASKS</h3>
             <h3 className={styles.title}>MANAGE</h3>
           </div> */}
-          <img className={styles.img} src="/images/login.png" alt="G2 Logo" />
+          <div className={styles.img_content_img}>
+            <img className={styles.img} src="/images/login.png" alt="G2 Logo" />
+          </div>
         </div>
       </div>
 
@@ -93,7 +105,7 @@ const Signin = (props) => {
               iconColor="#4299e1"
               //value={""}
               onChange={(e) => {
-                userHandler(e.target.value)
+                userHandler(e.target.value);
               }}
             />
           </div>
@@ -105,30 +117,25 @@ const Signin = (props) => {
               iconColor="#4299e1"
               //value={""}
               onChange={(e) => {
-                passwordHandler(e.target.value)
+                passwordHandler(e.target.value);
               }}
             />
           </div>
-          <div className={styles.content_button_options}>
-            <Button variant="outline" type="" onClick={() => {}}>
-              <p>Crear cuenta</p>
+          <div className={styles.content_button}>
+            <Button variant="blue" type="submit" onClick={() => {}}>
+              {loading ? <Spinner /> : "Ingresar"}
             </Button>
             <Button variant="outline" type="" onClick={() => {}}>
               <p>Olvido su contraseña?</p>
             </Button>
-          </div>
-          <div className={styles.content_button}>
-            <Button variant="blue" type="submit" onClick={() => {}}>
-              {loading ? <Spinner /> : 'Ingresar'}
-            </Button>
             {error && (
-              <p style={{ color: 'red' }}>Usuario y/o contraseña incorrecto.</p>
+              <p style={{ color: "red" }}>Usuario y/o contraseña incorrecto.</p>
             )}
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signin
+export default Signin;
