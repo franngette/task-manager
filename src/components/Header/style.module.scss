@@ -8,6 +8,10 @@
   position: relative;
 }
 
+.profile_container {
+  position: relative;
+}
+
 .button {
   margin: 1rem;
   height: 2rem;
@@ -16,8 +20,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  cursor: pointer;
   &:focus {
     outline: none;
+  }
+  &:active {
     box-shadow: 0px 0px 6px#4299e1;
   }
 }
@@ -28,3 +35,43 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.user_content > p {
+  border-bottom: 1px solid rgba(160, 174, 192, 0.27);
+  padding: 1rem 0rem;
+}
+
+.form_content {
+  display: flex;
+  margin: 0.5rem 0rem;
+  align-items: center;
+}
+
+.form_content > input {
+  width: 80%;
+  background: none;
+  border-radius: 30px;
+  border: 1px solid #e0e0e0;
+  padding-left: 10px;
+  height: 40px;
+  &:active {
+    color: var(--gray-text);
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.form_content_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .form_content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+} 

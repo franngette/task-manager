@@ -9,7 +9,7 @@ export const authLogged = (user) => {
   }
 }
 
-export const authLogOut = () => {
+export const authLogout = () => {
   return {
     type: actionTypes.AUTH_LOGOUT,
   }
