@@ -6,6 +6,41 @@ export async function getServices() {
   return result.data;
 }
 
+export async function getTaskTypes() {
+  const res = await instance.get("/task/type");
+  const data = await res.data;
+  return data;
+}
+
+export async function getSubAccountConnections(username, months) {
+  var json_data = {
+    username: username,
+    months: months,
+  };
+  let result = await instance.post("getSubAccountConnections", JSON.stringify(json_data));
+  return result.data;
+}
+
+export async function getSubAccountData(id_service, id_sub_account) {
+  var json_data = {
+    id_service: id_service,
+    id_sub_account: id_sub_account,
+  };
+  let result = await instance.post("getSubAccountData", JSON.stringify(json_data));
+  return result.data;
+}
+
+export async function getClients(id_service, account_name, account_number, doc_number) {
+  var json_data = {
+    id_service: id_service,
+    account_name: account_name,
+    account_number: account_number,
+    doc_number: doc_number,
+  };
+  let result = await instance.post("getClients", JSON.stringify(json_data));
+  return result.data;
+}
+
 export async function getLoginUser(username, password) {
   const json_data = {
     username,
@@ -119,9 +154,7 @@ export async function createCalendar(id_task, date, id_team, priority) {
 }
 
 export async function getOperators(id_service, id_team) {
-  const res = await instance.get(
-    `/task/operatorsAvailable/${id_service}/${id_team}`
-  );
+  const res = await instance.get(`/task/operatorsAvailable/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
@@ -144,17 +177,12 @@ export async function createTeam(id_service, id_vehicle, ids_operator) {
     id_vehicle: id_vehicle_send,
     ids_operator: ids_operators_send,
   };
-  const res = await instance.post("/task/team",  JSON.stringify(json_data));
+  const res = await instance.post("/task/team", JSON.stringify(json_data));
   const data = res.data;
   return data;
 }
 
-export async function updateTeam(
-  id_service,
-  id_team,
-  id_vehicle,
-  ids_operator
-) {
+export async function updateTeam(id_service, id_team, id_vehicle, ids_operator) {
   let id_vehicle_send = id_vehicle.id;
   let ids_operators_send = "";
   ids_operator.forEach((element) => {
@@ -172,13 +200,7 @@ export async function updateTeam(
   return data;
 }
 
-export async function updateCalendarTask(
-  id_calendar,
-  id_task,
-  date,
-  id_team,
-  priority
-) {
+export async function updateCalendarTask(id_calendar, id_task, date, id_team, priority) {
   var json_data = {
     id_calendar: id_calendar,
     id_task: id_task,

@@ -26,11 +26,7 @@ function App() {
         exact
         path="/"
         render={() => {
-          return isUserAuthenticated ? (
-            <Redirect to="/home" />
-          ) : (
-            <Redirect to="/" />
-          );
+          return isUserAuthenticated ? <Redirect to="/home" /> : <Redirect to="/" />;
         }}
       />
       <Suspense fallback={<div style={{position: 'absolute', left: '50%', top: '50%'}}><Spinner /></div>}>

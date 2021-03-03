@@ -1,0 +1,56 @@
+.client_sub {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 1rem;
+  flex-wrap: wrap;
+}
+
+.child {
+  align-items: center;
+  display: flex;
+}
+
+.ctnr_sm {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.ctnr_lg {
+  display: flex;
+  height: 40%;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+}
+
+.card_wrapper {
+  display: flex;
+  width: 100%;
+  margin: 0.25rem;
+}
+
+.cardTitle{
+  font-family: 'Roboto Bold';
+}
+
+.spinnerContainer {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.connectionsWrapper {
+  margin: 1rem;
+  height: 100%;
+}
