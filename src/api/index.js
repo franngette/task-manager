@@ -1,6 +1,12 @@
 import instance from "./axios";
 
-export async function getLoginUser(id_service, username, password) {
+
+export async function getServices() {
+  let result = await instance.get("/task/services");
+  return result.data;
+}
+
+export async function getLoginUser(username, password) {
   const json_data = {
     username,
     password,

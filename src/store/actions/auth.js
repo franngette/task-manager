@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes";
 import { io } from 'socket.io-client'
 
 export const authLogged = (user) => {
-  sessionStorage.setItem('user', JSON.stringify(user))
   return {
     type: actionTypes.AUTH_LOGGED,
     payload: user
@@ -31,5 +30,12 @@ export const connectSocket = (customClientID) => {
         dispatch(setSocketInstance(socket))
       }
     })
+  }
+}
+
+export const updatedService = (id_service) => {
+  return {
+    type: actionTypes.UPDATED_SERVICE_SELECTED,
+    payload: id_service
   }
 }

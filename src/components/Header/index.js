@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 
 import Notification from "../Notification/Notification";
@@ -6,11 +6,15 @@ import UserProfile from "./UserProfile/UserProfile";
 import Modal from "../Modal";
 import Button from "../Button/index";
 import Spinner from "../Spinner/index";
+import DropDown from "../DropDown/index";
 
 import useVisible from "../../hooks/useVisible";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { faBell, faEdit, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+
+import * as actions from "../../store/actions/index";
+import { getServices } from "../../api/index";
 
 const Header = () => {
   const countNotifications = 1;
@@ -22,7 +26,18 @@ const Header = () => {
   const [error, setError] = useState(false);
   const [errorValidation, setErrorValidation] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [email, setEmail] = useState(user.email_address);
+  const [email, setEmail] = useState(user ? user.email_address : "");
+  const [services, setServices] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const getData = async () => {
+    const servicesData = await getServices();
+    setServices(servicesData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   const menuHablder = () => {
     setIsVisible(!isVisible);
@@ -37,12 +52,17 @@ const Header = () => {
     setDisabled(!disabled);
   };
 
-  const emailHandler = (e) => {
-    const newEmail = e.target.value;
+  const emailHandler = (email) => {
+    const newEmail = email;
     setEmail(newEmail);
     if (errorValidation) {
-      setErrorValidation(false)
+      setErrorValidation(false);
     }
+  };
+
+  const updateService = (id_service) => {
+    const serviceSelected = parseInt(id_service);
+    dispatch(actions.updatedService(serviceSelected));
   };
 
   const onSumbit = (e) => {
@@ -50,26 +70,38 @@ const Header = () => {
     var pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g;
     const validated = new RegExp(pattern).test(email);
     if (!validated) {
-      setErrorValidation(true)
+      setErrorValidation(true);
     } else {
       if (errorValidation) {
-        setError(false)
+        setError(false);
       }
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-      }, 1000);      
+      }, 1000);
     }
-
   };
 
   return (
     <div ref={ref} className={style.container}>
+      <div className={style.container_services}>
+        <DropDown
+          selectedValue={user ? user.id_service : 1}
+          data={services}
+          name="services"
+          form="services"
+          id="services"
+          onChange={(e) => {
+            updateService(e.target.value);
+          }}
+        />
+      </div>
       <Notification
         icon={faBell}
         cantNotifications={countNotifications}
         iconColor={"black"}
       />
+
       <div className={style.profile_container}>
         <button
           className={style.button}
@@ -99,7 +131,7 @@ const Header = () => {
                 <input
                   value={email}
                   onChange={(e) => {
-                    emailHandler(e);
+                    emailHandler(e.target.value);
                   }}
                   disabled={disabled}
                 />
@@ -114,10 +146,8 @@ const Header = () => {
                 </Button>
               </div>
               {errorValidation && (
-                  <p style={{ color: "red" }}>
-                    El email es incorrecto!.
-                  </p>
-                )}
+                <p style={{ color: "red" }}>El email es incorrecto!.</p>
+              )}
               <div className={style.form_content_button}>
                 <Button variant="blue" type="submit" onClick={() => {}}>
                   {loading ? <Spinner size={"1.2rem"} /> : "Ingresar"}
