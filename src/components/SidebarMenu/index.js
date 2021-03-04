@@ -43,7 +43,7 @@ const SidebarMenu = () => {
       <div className={style.logoContainer}>
         <img className={style.logo} src="/images/logon.png" alt="G2 Logo" />
       </div>
-      <ul className={style.ul} style={{ width: "25px" }}>
+      <ul className={style.ul}>
         {createNavItems()}
       </ul>
     </div>

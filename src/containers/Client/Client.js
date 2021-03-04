@@ -14,8 +14,8 @@ const Client = (props) => {
     if (e === "") {
       setClientList([]);
     } else {
-      const result = await getClients(id_service, "", e, "");
-      console.log(result)
+      const result = await getClients(id_service, "", e, "", "");
+      console.log(result);
       setClientList(result);
     }
   };
@@ -25,7 +25,7 @@ const Client = (props) => {
       setClientList([]);
     } else {
       if (e.length > 3) {
-        const result = await getClients(id_service, e, "", "");
+        const result = await getClients(id_service, e, "", "", "");
         setClientList(result);
       }
     }
@@ -35,7 +35,7 @@ const Client = (props) => {
     if (e === "") {
       setClientList([]);
     } else {
-      const result = await getClients(id_service, "", "", e.replace(/[,.]\s?/g, ""));
+      const result = await getClients(id_service, "", "", e.replace(/[,.]\s?/g, "", ""));
       setClientList(result);
     }
   };

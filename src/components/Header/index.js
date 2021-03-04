@@ -22,7 +22,7 @@ const Header = () => {
   const [error, setError] = useState(false);
   const [errorValidation, setErrorValidation] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [email, setEmail] = useState(user.email_address);
+  const [email, setEmail] = useState("user.email_address");
 
   const menuHablder = () => {
     setIsVisible(!isVisible);

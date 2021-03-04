@@ -1,0 +1,25 @@
+.card_content {
+  margin: 1rem;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+.mh {
+  width: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.card_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-text);
+}
