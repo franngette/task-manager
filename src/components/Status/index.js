@@ -1,7 +1,7 @@
-import styles from './style.module.scss'
+import styles from "./style.module.scss";
 
 const Status = ({ description, name }) => {
-  return <div className={[styles.status, name].join(' ')}>{description}</div>
-}
+  return <div className={[styles.status, description].join(" ")}>{name}</div>;
+};
 
-export default Status
+export default Status;

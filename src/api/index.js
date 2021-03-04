@@ -13,7 +13,7 @@ export async function getTaskTypes() {
 }
 
 export async function getSubAccountConnections(username, months) {
-  let result = await instance.get(`/clients/sub_clients/connections/${username}/${months}`);
+  let result = await instance.get(`clients/sub_clients/connections/${username}/${months}`);
   return result.data;
 }
 
@@ -33,10 +33,9 @@ export async function getClients(id_service, account_name, account_number, doc_n
     account_name: account_name,
     account_number: account_number,
     doc_number: doc_number,
-    phone_number: phone_number
+    phone_number: phone_number,
   };
-  console.log("clients" )
-  let result = await instance.post("/clients", JSON.stringify(json_data));
+  let result = await instance.post("clients", JSON.stringify(json_data));
   return result.data;
 }
 
