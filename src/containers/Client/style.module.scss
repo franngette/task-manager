@@ -10,7 +10,6 @@
 
 .input_wrapper {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-around;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -22,4 +21,12 @@
   align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  width: 100%;
+}
+
+.error_title {
+  color: #3182ce;
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }

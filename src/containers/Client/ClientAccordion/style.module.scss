@@ -4,23 +4,60 @@
   align-items: center;
   margin: 0.5rem 0rem;
   width: 100%;
+  cursor: pointer;
 }
 
 .client_content {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
-  margin: 1rem;
+  padding: 1rem 0rem;
+}
+
+.client_content_childs {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 0.5rem 0rem;
+}
+
+.childs {
+  width: 100%;
+  margin: 0rem 0.5rem;
+}
+
+.content_child_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .child {
-  display: flex;
-  justify-content: center;
-  flex: 1;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin: 0rem 0.5rem;
 }
+
+.content {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+}
+
+.content_left {
+  @extend .content;
+  justify-content: flex-start;
+  > p {
+    margin-left: 5px;
+  }
+}
+
+.content_right {
+  @extend .content;
+  justify-content: flex-end;
+  > p {
+    margin-left: 5px;
+  }
+}
+
 
 .id {
   display: flex;
@@ -35,12 +72,20 @@
 }
 
 .client_card_child {
-  background-color: #e2e2e2;
-  padding: 0.5rem;
-  border-radius: 10px;
   width: 100%;
+  border-top: 1px solid #4299e13b;
   cursor: pointer;
   &:hover {
     background-color: var(--info-light);
   }
+}
+
+.show_accounts {
+  height: auto;
+/*   transition: height 1s ease-out; */
+}
+
+.hidden_accounts {
+  height: 0px;
+/*   transition: height 1s ease-in; */
 }
