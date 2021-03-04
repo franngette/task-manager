@@ -1,8 +1,8 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "./containers/Home/index";
 import Calendario from "./containers/Calendario/index";
-import Reclamos from "./containers/reclamos/index";
-import Reclamo from "./containers/reclamos/reclamo";
+import Reclamos from "./containers/Reclamos/index";
+import Reclamo from "./containers/Reclamos/Reclamo/Reclamo";
 import Signin from "./containers/Signin/index";
 import withAuth from "./hoc/withAuth/index";
 import { useSelector } from "react-redux";

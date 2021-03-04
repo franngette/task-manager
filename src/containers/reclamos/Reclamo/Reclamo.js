@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Card from "../../components/Card/index";
-import Status from "../../components/Status/index";
-import Spinner from "../../components/Spinner/index";
-import Layout from "../Layout/index";
+import Card from "../../../components/Card/index";
+import Status from "../../../components/Status/index";
+import Spinner from "../../../components/Spinner/index";
+import Layout from "../../Layout/index";
 
 import style from "./reclamo.module.css";
 
-import { getStatusTask, getTask } from "../../api/index";
+import { getStatusTask, getTask } from "../../../api/index";
 import { useLocation } from "react-router-dom";
 
 const Reclamo = (props) => {
@@ -18,7 +18,6 @@ const Reclamo = (props) => {
   //const servicios = { error: true };
   const incidentes = { error: true };
 
-
   let loaded = <Spinner />;
   if (task) {
     loaded = (
@@ -29,14 +28,7 @@ const Reclamo = (props) => {
           </h3>
 
           <div className={style.status_container}>
-            {task.last_state ? (
-              <Status
-                description={task.last_state_description}
-                name={task.last_state}
-              />
-            ) : (
-              ""
-            )}
+            {task.last_state ? <Status description={task.last_state_description} name={task.last_state} /> : ""}
           </div>
         </div>
         <div className={style.wrapper}>
@@ -55,11 +47,7 @@ const Reclamo = (props) => {
               <Card>
                 <div className={style.card_content}>
                   <h4 className={style.card_title}>Cuadrilla</h4>
-                  {cuadrilla.error ? (
-                    <p className={style.error_message}>No existen datos.</p>
-                  ) : (
-                    ""
-                  )}
+                  {cuadrilla.error ? <p className={style.error_message}>No existen datos.</p> : ""}
                 </div>
               </Card>
             </div>
@@ -70,11 +58,7 @@ const Reclamo = (props) => {
               <Card>
                 <div className={style.card_content}>
                   <h4 className={style.card_title}>Incidentes</h4>
-                  {incidentes.error ? (
-                    <p className={style.error_message}>No existen datos.</p>
-                  ) : (
-                    ""
-                  )}
+                  {incidentes.error ? <p className={style.error_message}>No existen datos.</p> : ""}
                 </div>
               </Card>
             </div>
@@ -82,9 +66,7 @@ const Reclamo = (props) => {
               <div className={style.content_column}>
                 <Card style={{ marginBottom: "0.5rem" }}>
                   <div className={style.card_content}>
-                    <h4 className={style.card_title}>
-                      Cuenta # {task.id_account}
-                    </h4>
+                    <h4 className={style.card_title}>Cuenta # {task.id_account}</h4>
                     {task.error ? (
                       <p className={style.error_message}>No existen datos.</p>
                     ) : (
@@ -141,11 +123,7 @@ const Reclamo = (props) => {
               <Card>
                 <div className={style.card_content}>
                   <h4 className={style.card_title}>Equipamientos</h4>
-                  {equipamientos.error ? (
-                    <p className={style.error_message}>No existen datos.</p>
-                  ) : (
-                    ""
-                  )}
+                  {equipamientos.error ? <p className={style.error_message}>No existen datos.</p> : ""}
                 </div>
               </Card>
             </div>
