@@ -25,10 +25,10 @@ export const connectSocket = (customClientID) => {
   return dispatch => {
     const socket = io('http://localhost:4000')
     socket.on('connect', () => {
-      if (socket.connected) {
+      //if (socket.connected) {
         socket.emit('storeClient', { customId: customClientID })
         dispatch(setSocketInstance(socket))
-      }
+      //}
     })
   }
 }

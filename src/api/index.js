@@ -13,31 +13,30 @@ export async function getTaskTypes() {
 }
 
 export async function getSubAccountConnections(username, months) {
-  var json_data = {
-    username: username,
-    months: months,
-  };
-  let result = await instance.post("getSubAccountConnections", JSON.stringify(json_data));
+  let result = await instance.get(`/clients/sub_clients/connections/${username}/${months}`);
   return result.data;
 }
 
 export async function getSubAccountData(id_service, id_sub_account) {
-  var json_data = {
-    id_service: id_service,
-    id_sub_account: id_sub_account,
-  };
-  let result = await instance.post("getSubAccountData", JSON.stringify(json_data));
+  let result = await instance.get(`/clients/sub_client/${id_service}/${id_sub_account}`);
   return result.data;
 }
 
-export async function getClients(id_service, account_name, account_number, doc_number) {
+export async function getClientSubAccounts(id_service, id_account) {
+  let result = await instance.get(`/clients/sub_clients/${id_service}/${id_account}`);
+  return result.data;
+}
+
+export async function getClients(id_service, account_name, account_number, doc_number, phone_number) {
   var json_data = {
     id_service: id_service,
     account_name: account_name,
     account_number: account_number,
     doc_number: doc_number,
+    phone_number: phone_number
   };
-  let result = await instance.post("getClients", JSON.stringify(json_data));
+  console.log("clients" )
+  let result = await instance.post("/clients", JSON.stringify(json_data));
   return result.data;
 }
 
