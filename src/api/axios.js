@@ -2,6 +2,8 @@ import axios from 'axios'
 import {AUTH_LOGOUT} from "../store/actions/actionTypes";
 import store from "../store/store";
 
+//baseURL: 'http://192.168.77.244:4000',
+
 const instance = axios.create({
   baseURL: 'http://localhost:4000',
   headers: {

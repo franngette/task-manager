@@ -39,7 +39,7 @@ const Signin = (props) => {
     e.preventDefault();
     if (!error && user.length > 4 && password.length > 2) {
       setLoading(true);
-      getLoginUser(1, user, password)
+      getLoginUser(user, password)
         .then((response) => {
           setLoading(false);
           if (response.error) {
@@ -128,10 +128,10 @@ const Signin = (props) => {
             <Button variant="outline" type="" onClick={() => {}}>
               <p>Olvido su contraseña?</p>
             </Button>
-            {error && (
+          </div>
+          {error && (
               <p style={{ color: "red" }}>Usuario y/o contraseña incorrecto.</p>
             )}
-          </div>
         </form>
       </div>
     </div>

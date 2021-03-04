@@ -1,43 +1,114 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+import InputText from "../../components/InputText";
+import Spinner from "../../components/Spinner/index";
+
+import ClientAccordion from "./ClientAccordion/ClientAccordion";
+
+import {
+  faAddressCard,
+  faListOl,
+  faPhone,
+  faUserCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { getClients } from "../../api/index";
-import InputText from "../../components/InputText";
-import { faAddressCard, faListOl, faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import ClientAccordion from "./ClientAccordion/ClientAccordion";
+
 import style from "./style.module.scss";
 
 const Client = (props) => {
-  const id_service = 1;
+  let timeout = null;
+  const id_service = useSelector((state) => state.auth.user.id_service);
   const [clientList, setClientList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const getData = async (
+    id_service,
+    account_name,
+    account_number,
+    doc_number,
+    phone_number
+  ) => {
+    const result = await getClients(
+      id_service,
+      account_name,
+      account_number,
+      doc_number,
+      phone_number
+    );
+    setClientList(result);
+    setLoading(false)
+  };
 
-  const onChangeInputID = async (e) => {
-    if (e === "") {
+  const onChangeInputID = async (account_number) => {
+    if (account_number === "") {
       setClientList([]);
     } else {
-      const result = await getClients(id_service, "", e, "", "");
-      console.log(result);
-      setClientList(result);
+      const search_value = account_number; // this is the search text
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        getData(id_service, "", search_value, "", "");
+      }, 500);
     }
   };
 
-  const onChangeInputName = async (e) => {
-    if (e === "") {
+  const onChangeInputName = (account_name) => {
+    if (account_name === "") {
       setClientList([]);
     } else {
-      if (e.length > 3) {
-        const result = await getClients(id_service, e, "", "", "");
-        setClientList(result);
+      if (account_name.length > 3) {
+        const search_value = account_name; // this is the search text
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          setLoading(true)
+          getData(id_service, search_value, "", "", "");
+        }, 500);
       }
     }
   };
 
-  const onChangeInputDNI = async (e) => {
-    if (e === "") {
+  const onChangeInputDNI = async (doc_number) => {
+    if (doc_number === "") {
       setClientList([]);
     } else {
-      const result = await getClients(id_service, "", "", e.replace(/[,.]\s?/g, "", ""));
-      setClientList(result);
+      if (doc_number.length > 3) {
+        const search_value = doc_number.replace(/[,.]\s?/g, ""); // this is the search text
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          getData(id_service, "", "", search_value, "");
+        }, 500);
+      }
     }
+  };
+
+  const onChangeInputPhone = async (phone_number) => {
+    if (phone_number === "") {
+      setClientList([]);
+    } else {
+      if (phone_number.length > 3) {
+        const search_value = phone_number; // this is the search text
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          getData(id_service, "", "", "", search_value);
+        }, 500);
+      }
+    }
+  };
+
+  const renderClientList = () => {
+    return clientList.length > 0 && !loading ? (
+      clientList.map((el, index) => {
+        return (
+          <div key={index}>
+            <ClientAccordion service={id_service} client={el} />
+          </div>
+        );
+      })
+    ) : (
+      <div className={style.error_title}>
+        {loading ? <Spinner size="2rem" color="#3182ce"/> : <h3>No hay resultados.</h3>}
+      </div>
+    );
   };
 
   return (
@@ -75,23 +146,18 @@ const Client = (props) => {
                 onChange={(e) => onChangeInputDNI(e.target.value)}
               />
             </div>
+            <div className={style.input_container}>
+              <InputText
+                type="text"
+                icon={faPhone}
+                iconColor="#4299e1"
+                placeHolder="Telefono..."
+                onChange={(e) => onChangeInputPhone(e.target.value)}
+              />
+            </div>
           </div>
         </div>
-        <div>
-          {clientList.length > 0 && clientList[0] !== false ? (
-            clientList.map((el, index) => {
-              return (
-                <div key={index}>
-                  <ClientAccordion client={el} />
-                </div>
-              );
-            })
-          ) : (
-            <div>
-              <h3>Realice la busqueda</h3>
-            </div>
-          )}
-        </div>
+        <div>{renderClientList()}</div>
       </div>
     </div>
   );

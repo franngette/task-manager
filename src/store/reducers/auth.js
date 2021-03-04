@@ -6,17 +6,19 @@ const initialState = {
   user: isUserAuthenticated ? isUserAuthenticated : null,
   logged: isUserAuthenticated ? true : false,
   socket: null,
-  isSocketConnected: false
+  isSocketConnected: false,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_LOGGED:
-      const user = isUserAuthenticated ? isUserAuthenticated : action.payload;
+      let newUser = action.payload
+      newUser['id_service'] = 1
+      sessionStorage.setItem('user', JSON.stringify(newUser))
       return {
         ...state,
         logged: true,
-        user: user,
+        user: newUser,
       };
     case actionTypes.AUTH_LOGOUT:
       sessionStorage.clear();
@@ -25,13 +27,22 @@ const authReducer = (state = initialState, action) => {
         user: null,
         logged: false,
         socket: null,
-        isSocketConnected: false
+        isSocketConnected: false,
       };
     case actionTypes.SET_SOCKET:
       return {
         ...state,
         socket: action.payload,
-        isSocketConnected: true
+        isSocketConnected: true,
+      };
+    case actionTypes.UPDATED_SERVICE_SELECTED:
+      let newService = action.payload;
+      let updatedUser = state.user;
+      updatedUser["id_service"] = newService;
+      sessionStorage.setItem("user", JSON.stringify(updatedUser));
+      return {
+        ...state,
+        user: updatedUser,
       };
     default:
       return state;

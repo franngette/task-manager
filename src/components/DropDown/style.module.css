@@ -2,7 +2,7 @@
   border-radius: 30px;
   border: 2px solid #e0e0e0;
   padding: 0.5rem 1rem;
-  font-size: 16px;
+  font-size: 12px;
   cursor: pointer;
   width: 100%;
   min-width: 200px;
@@ -16,8 +16,8 @@
     ),
     linear-gradient(135deg, var(--dark-blue) 50%, transparent 50%),
     radial-gradient(var(--light) 70%, transparent 72%);
-  background-position: calc(100% - 20px) calc(1em + 2px),
-    calc(100% - 15px) calc(1em + 2px), calc(100% - 0.5em) 0.5em;
+  background-position: calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 10px) calc(1em + 2px), calc(100% - 0.5em) 0.5em;
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
 }
