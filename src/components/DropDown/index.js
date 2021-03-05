@@ -31,6 +31,7 @@ DropDown.propTypes = {
   name: PropTypes.string,
   id: PropTypes.string,
   selectedValue: PropTypes.number,
+  data: PropTypes.array
 }
 
 export default DropDown

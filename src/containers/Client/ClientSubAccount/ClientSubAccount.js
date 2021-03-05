@@ -26,12 +26,11 @@ const ClientSubAccount = (props) => {
   const getSubAccTasks = async () => {
     const res = await getTasks(id_service, "", props.location.state.client_sub_account, "", "", "", "", "");
     setSubAccTasks(res);
-    console.log(subAccTasks);
   };
 
   const listOfTasks = () => {
     return subAccTasks.map((e, i) => {
-      return <TaskList index={i} task={e} onClick={(val) => taskHandler(val)} />;
+      return <TaskList key={i} task={e} onClick={(val) => taskHandler(val)} />;
     });
   };
 
@@ -170,9 +169,9 @@ const ClientSubAccount = (props) => {
                   <h4 className={styles.cardTitle}>Equipamiento</h4>
                   <div className={styles.cardContent}>
                     {subAccData?.equipment[0]?.model ? (
-                      subAccData.equipment.map((e) => {
+                      subAccData.equipment.map((e, i) => {
                         return (
-                          <div>
+                          <div key={i}>
                             <p>
                               <span className={styles.boldText}>Modelo: </span>
                               {e?.model}

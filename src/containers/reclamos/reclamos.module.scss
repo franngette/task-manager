@@ -50,6 +50,7 @@
 }
 
 .button_container {
+  margin: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,4 +74,9 @@
   &:focus {
     outline: none;
   }
+}
+
+.boldText {
+  font-family: "Roboto Bold";
+  color: var(--blue);
 }

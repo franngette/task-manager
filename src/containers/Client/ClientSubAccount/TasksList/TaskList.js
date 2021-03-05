@@ -6,9 +6,9 @@ import Status from "../../../../components/Status/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarMinus } from "@fortawesome/free-solid-svg-icons";
 
-const TaskList = ({ index, task, onClick }) => {
+const TaskList = ({ task, onClick }) => {
   return (
-    <li key={index} style={{ listStyleType: "none" }}>
+    <li style={{ listStyleType: "none" }}>
       <div style={{ margin: "0.5rem" }}>
         <Card>
           <div
