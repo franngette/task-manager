@@ -100,7 +100,7 @@ const Client = (props) => {
       clientList.map((el, index) => {
         return (
           <div key={index}>
-            <ClientAccordion service={id_service} client={el} />
+            <ClientAccordion service={id_service} client={el} {...props} />
           </div>
         );
       })

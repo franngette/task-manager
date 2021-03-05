@@ -12,7 +12,7 @@ import Status from "../../components/Status/index";
 import DropDown from "../../components/DropDown/index";
 import InputText from "../../components/InputText/index";
 
-const Reclamos = (props) => {
+const Reclamos = ({ history }) => {
   const id_service = 1;
 
   const [reclamos, setReclamos] = useState([]);
@@ -50,7 +50,7 @@ const Reclamos = (props) => {
   }, [tasksState]);
 
   const inputTaskHandler = async (task_id) => {
-    const res = await getTask(props.id_service, task_id);
+    const res = await getTask(id_service, task_id);
     setReclamos(res);
   };
 
@@ -82,11 +82,19 @@ const Reclamos = (props) => {
     e.preventDefault();
   };
 
+  const toTask = (reclamo) => {
+    console.log(reclamo);
+    let state = {
+      task: reclamo.id,
+    };
+    history.push("/reclamo", state);
+  };
+
   const createLiReclamos = (reclamos) => {
     if (reclamos[0]?.number) {
       const listReclamos = reclamos.map((reclamo, index) => {
         return (
-          <li key={index} style={{ listStyleType: "none" }}>
+          <li key={index} style={{ listStyleType: "none" }} onClick={() => toTask(reclamo)}>
             <div className={styles.card_wrapper}>
               <Card>
                 <div className={styles.card}>
@@ -99,7 +107,9 @@ const Reclamos = (props) => {
                     </div>
                     <div className={styles.card_content}>
                       <div className={styles.card_item}>
-                        <p># {reclamo.number}</p>
+                        <p>
+                          <span className={styles.boldText}># {reclamo.number} </span>
+                        </p>
                         <div className={styles.mh}>
                           <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" />
                         </div>

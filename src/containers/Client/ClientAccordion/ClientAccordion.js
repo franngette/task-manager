@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
+import style from "./style.module.scss";
 
 import Card from "../../../components/Card/index";
 import Status from "../../../components/Status/index";
-import Spinner from "../../../components/Spinner/index";
-
-import style from "./style.module.scss";
-import { useHistory } from "react-router-dom";
 
 import {
   faAddressCard,
   faBan,
-  faCalendarDay,
   faCalendarTimes,
   faMapMarkedAlt,
   faMapMarkerAlt,
@@ -21,29 +17,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { getClientSubAccounts } from "../../../api/index";
 
-const ClientAccordion = ({ service, client }) => {
+const ClientAccordion = ({ service, client, history }) => {
   const [showAccount, setShowAccount] = useState(false);
   const [subAccounts, setSubAccounts] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     setShowAccount(false);
-  }, [client])
-
+  }, [client]);
+  
   const showSubAccountHandler = async (service, client) => {
     if (!showAccount) {
       setShowAccount(true);
-      getClientSubAccounts(service, client.id_account)
-      .then((res) => {
-        const updateSubAccount = res.length > 1 ? res : [res]
-        console.log(updateSubAccount)
-        setSubAccounts(updateSubAccount)
-      })
+      getClientSubAccounts(service, client.id_account).then((res) => {
+        const updateSubAccount = res.length > 1 ? res : [res];
+        console.log(updateSubAccount);
+        setSubAccounts(updateSubAccount);
+      });
     } else {
-      setShowAccount(false)
-      setSubAccounts([])
+      setShowAccount(false);
+      setSubAccounts([]);
     }
-   
   };
 
   const toSubAcc = (item) => {
@@ -66,11 +59,7 @@ const ClientAccordion = ({ service, client }) => {
               <div className={style.child}>
                 <h4>{client.account_name}</h4>
                 <div className={style.content_left}>
-                  <FontAwesomeIcon
-                    icon={faMapMarkerAlt}
-                    size="1x"
-                    color="#4299e1"
-                  />
+                  <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" color="#4299e1" />
                   <p>{client.location}</p>
                 </div>
               </div>
@@ -82,11 +71,7 @@ const ClientAccordion = ({ service, client }) => {
                   />
                 </div>
                 <div className={style.content_right}>
-                  <FontAwesomeIcon
-                    icon={faAddressCard}
-                    size="1x"
-                    color="#17c3b2"
-                  />
+                  <FontAwesomeIcon icon={faAddressCard} size="1x" color="#17c3b2" />
                   <p>
                     {client.doc_type}: {client.doc_number}
                   </p>
@@ -99,11 +84,7 @@ const ClientAccordion = ({ service, client }) => {
             </div>
           </div>
         </div>
-        <div
-          className={`${
-            showAccount ? style.show_accounts : style.hidden_accounts
-          }`}
-        >
+        <div className={`${showAccount ? style.show_accounts : style.hidden_accounts}`}>
           {subAccounts.length > 0 &&
             subAccounts.map((item, index) => {
               return (
@@ -115,46 +96,27 @@ const ClientAccordion = ({ service, client }) => {
                   }}
                 >
                   <div className={style.client_content_childs}>
-                    <div
-                      className={style.id}
-                      style={{ opacity: item.inactive ? "0.6" : "1" }}
-                    >
+                    <div className={style.id} style={{ opacity: item.inactive ? "0.6" : "1" }}>
                       <p># {item.sub_account_id}</p>
                     </div>
                     <div className={style.childs}>
                       <div className={style.content_child_info}>
                         <div className={style.child}>
                           <div className={style.content_left}>
-                            <FontAwesomeIcon
-                              icon={faNetworkWired}
-                              size="1x"
-                              color="#4299e1"
-                            />
+                            <FontAwesomeIcon icon={faNetworkWired} size="1x" color="#4299e1" />
                             <p>{item.service_name}</p>
                           </div>
                           <div className={style.content_left}>
-                            <FontAwesomeIcon
-                              icon={faMapMarkedAlt}
-                              size="1x"
-                              color="#4299e1"
-                            />
+                            <FontAwesomeIcon icon={faMapMarkedAlt} size="1x" color="#4299e1" />
                             <p>{item.address}</p>
                           </div>
                         </div>
 
-                        <div className={style.child}  title="Baja de servicio">
+                        <div className={style.child} title="Baja de servicio">
                           {item.date_inactive ? (
                             <div className={style.content_right}>
-                              <FontAwesomeIcon
-                                icon={faCalendarTimes}
-                                size="1x"
-                                color="#4299e1"
-                              />
-                              <p>
-                                {moment(item.date_inactive).format(
-                                  "DD/MM/YYYY"
-                                )}
-                              </p>
+                              <FontAwesomeIcon icon={faCalendarTimes} size="1x" color="#4299e1" />
+                              <p>{moment(item.date_inactive).format("DD/MM/YYYY")}</p>
                               {/*                          <Status
                               name={item.inactive ? "disabled" : "enabled"}
                               description={
@@ -165,11 +127,7 @@ const ClientAccordion = ({ service, client }) => {
                           ) : null}
                           {item.description_inactive ? (
                             <div className={style.content_right}>
-                              <FontAwesomeIcon
-                                icon={faBan}
-                                size="1x"
-                                color="#4299e1"
-                              />
+                              <FontAwesomeIcon icon={faBan} size="1x" color="#4299e1" />
                               <p>{item.description_inactive}</p>
                             </div>
                           ) : null}
@@ -187,7 +145,7 @@ const ClientAccordion = ({ service, client }) => {
   return (
     <div className={style.client_card}>
       <Card>
-        <div onClick={() => showSubAccountHandler(service,client)}>{renderClient(client)}</div>
+        <div onClick={() => showSubAccountHandler(service, client)}>{renderClient(client)}</div>
       </Card>
     </div>
   );

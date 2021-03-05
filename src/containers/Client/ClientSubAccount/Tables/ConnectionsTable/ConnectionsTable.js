@@ -36,14 +36,14 @@ const TableSubAcc = ({ headers, data, style }) => {
   };
 
   const renderTh = () => {
-    return headers.map((e) => {
-      return <th>{e}</th>;
+    return headers.map((e, i) => {
+      return <th key={i}>{e}</th>;
     });
   };
   const renderData = () => {
-    return data.map((e) => {
+    return data.map((e, i) => {
       return (
-        <tr className={styles.tableRow} style={style}>
+        <tr key={i} className={styles.tableRow} style={style} ref={divRef}>
           <td className={styles.tableData}>
             <div style={{ marginBottom: "0.25rem" }}>
               <p>
@@ -102,9 +102,7 @@ const TableSubAcc = ({ headers, data, style }) => {
       <thead>
         <tr className={styles.tableHeader}>{renderTh()}</tr>
       </thead>
-      <tbody className={styles.tbody}>
-        <div ref={divRef}> {renderData()}</div>
-      </tbody>
+      <tbody className={styles.tbody}>{renderData()}</tbody>
     </table>
   );
 };

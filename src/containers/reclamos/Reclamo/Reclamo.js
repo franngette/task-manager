@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Card from "../../../components/Card/index";
 import Status from "../../../components/Status/index";
 import Spinner from "../../../components/Spinner/index";
-import Layout from "../../Layout/index";
 
 import style from "./reclamo.module.css";
 
@@ -17,6 +16,8 @@ const Reclamo = (props) => {
   const equipamientos = { error: true };
   //const servicios = { error: true };
   const incidentes = { error: true };
+
+  console.log(props.location.state.task)
 
   let loaded = <Spinner />;
   if (task) {

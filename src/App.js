@@ -13,12 +13,12 @@ import ClientSubAccount from "./containers/Client/ClientSubAccount/ClientSubAcco
 //import Calendario from "./containers/Calendario/index";
 import Signin from "./containers/Signin/index";
 import withAuth from "./hoc/withAuth/index";
-import Spinner from './components/Spinner/index'
+import Spinner from "./components/Spinner/index";
 
 const Home = lazy(() => import("./containers/Home/index"));
 const Calendario = lazy(() => import("./containers/Calendario/index"));
-const Reclamos = lazy(() => import("./containers/reclamos/index"));
-const Reclamo = lazy(() => import("./containers/reclamos/reclamo"));
+const Reclamos = lazy(() => import("./containers/Reclamos/Reclamos"));
+const Reclamo = lazy(() => import("./containers/Reclamos/Reclamo/Reclamo"));
 const Layout = lazy(() => import("./containers/Layout/index"));
 const Client = lazy(() => import("./containers/Client/Client"));
 const ClientSubAccount = lazy(() => import("./containers/Client/ClientSubAccount/ClientSubAccount"));
@@ -35,7 +35,13 @@ function App() {
           return isUserAuthenticated ? <Redirect to="/home" /> : <Redirect to="/" />;
         }}
       />
-      <Suspense fallback={<div style={{position: 'absolute', left: '50%', top: '50%'}}><Spinner /></div>}>
+      <Suspense
+        fallback={
+          <div style={{ position: "absolute", left: "50%", top: "50%" }}>
+            <Spinner />
+          </div>
+        }
+      >
         <Switch>
           <Route path="/" exact component={Signin} />
           <Layout>
