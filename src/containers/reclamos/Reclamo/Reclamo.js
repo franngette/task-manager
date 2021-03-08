@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import Card from "../../../components/Card/index";
 import Status from "../../../components/Status/index";
 import Spinner from "../../../components/Spinner/index";
+import Incident from "./Incident/Incident";
 
 import style from "./reclamo.module.scss";
 
 import {
   faAddressCard,
-  faBroadcastTower,
   faClipboardCheck,
   faExclamationCircle,
-  faFileContract,
   faHardHat,
   faMapMarkerAlt,
   faPhone,
-  faServer,
-  faUserCircle,
+  faHdd,
+  faWifi,
 } from "@fortawesome/free-solid-svg-icons";
+import { faUserCircle, faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getTask, getSubAccountData } from "../../../api/index";
@@ -31,10 +31,6 @@ const Reclamo = (props) => {
 
   const [task, setTask] = useState();
   const [subAccount, setSubAccount] = useState();
-
-  const incidentes = { error: true };
-
-  //console.log(props.location.state.task);
 
   const getData = async () => {
     const subAccounData = await getSubAccountData(id_service, id_account);
@@ -54,6 +50,16 @@ const Reclamo = (props) => {
           <FontAwesomeIcon icon={faPhone} size="1x" color="#4299e1" />
           <p className={style.phone_content}>{phone.phone_number}</p>
         </div>
+      );
+    });
+  };
+
+  const renderIncidents = (incidents) => {
+    return incidents.map((incident, index) => {
+      return (
+        <li key={index} style={{ listStyleType: "none" }}>
+          <Incident key={index} incident={incident} />
+        </li>
       );
     });
   };
@@ -94,17 +100,17 @@ const Reclamo = (props) => {
         <div className={style.wrapper_content_header}>
           <div className={style.card_container}>
             <Card>
-              <div className={style.card_content}>
-                <div className={style.card_content_title}>
-                  <div className={style.card_content_icon}>
-                    <FontAwesomeIcon
-                      icon={faExclamationCircle}
-                      size="1x"
-                      color="#c30000"
-                    />
-                  </div>
-                  <h4 className={style.card_title}>Descripcion</h4>
+              <div className={style.card_content_title}>
+                <div className={style.card_content_icon}>
+                  <FontAwesomeIcon
+                    icon={faExclamationCircle}
+                    size="1x"
+                    color="#c30000"
+                  />
                 </div>
+                <h4 className={style.card_title}>Descripcion</h4>
+              </div>
+              <div className={style.card_content}>
                 <p> {task.description}</p>
               </div>
             </Card>
@@ -112,19 +118,17 @@ const Reclamo = (props) => {
           <div className={style.card_content_header}>
             <div className={style.card_container}>
               <Card>
-                <div className={style.card_content}>
-                  <div className={style.card_content_title}>
-                    <div className={style.card_content_icon}>
-                      <FontAwesomeIcon
-                        icon={faBroadcastTower}
-                        size="1x"
-                        color="#d800ff"
-                      />
-                    </div>
-                    <h4 className={style.card_title}>Datos Tecnicos</h4>
+                <div className={style.card_content_title}>
+                  <div className={style.card_content_icon}>
+                    <FontAwesomeIcon icon={faWifi} size="1x" color="#84B5FF" />
                   </div>
+                  <h4 className={style.card_title}>Datos Tecnicos</h4>
+                </div>
+                <div className={style.card_content}>
                   {subAccount?.dslam.length === 0 ? (
-                    <p className={style.error_message}>No existen datos.</p>
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
+                    </div>
                   ) : (
                     <>
                       <p>
@@ -161,19 +165,17 @@ const Reclamo = (props) => {
             </div>
             <div className={style.card_container}>
               <Card>
-                <div className={style.card_content}>
-                  <div className={style.card_content_title}>
-                    <div className={style.card_content_icon}>
-                      <FontAwesomeIcon
-                        icon={faServer}
-                        size="1x"
-                        color="#777777"
-                      />
-                    </div>
-                    <h4 className={style.card_title}>Equipamiento</h4>
+                <div className={style.card_content_title}>
+                  <div className={style.card_content_icon}>
+                    <FontAwesomeIcon icon={faHdd} size="1x" color="#777777" />
                   </div>
-                  {task?.equipment[0].error ? (
-                    <p>No existen datos.</p>
+                  <h4 className={style.card_title}>Equipamiento</h4>
+                </div>
+                <div className={style.card_content}>
+                  {task?.equipment.error ? (
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
+                    </div>
                   ) : (
                     <>
                       <div className={style.info_content}>
@@ -207,20 +209,18 @@ const Reclamo = (props) => {
             </div>
             <div className={style.card_container}>
               <Card>
-                <div className={style.card_content}>
-                  <div className={style.card_content_title}>
-                    <div className={style.card_content_icon}>
-                      <FontAwesomeIcon
-                        icon={faFileContract}
-                        size="1x"
-                        color="#4299e1"
-                      />
-                    </div>
-
-                    <h4 className={style.card_title}>Servicios</h4>
+                <div className={style.card_content_title}>
+                  <div className={style.card_content_icon}>
+                    <FontAwesomeIcon icon={faEdit} size="1x" color="#5DCE68" />
                   </div>
+
+                  <h4 className={style.card_title}>Servicios</h4>
+                </div>
+                <div className={style.card_content}>
                   {task.error ? (
-                    <p className={style.error_message}>No existen datos.</p>
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
+                    </div>
                   ) : (
                     <div className={style.wrapper_info_content}>
                       <div className={style.info_content}>
@@ -240,21 +240,23 @@ const Reclamo = (props) => {
           <div className={style.card_container}>
             <div className={style.content_column}>
               <Card>
-                <div className={style.card_content}>
-                  <div className={style.card_content_title}>
-                    <div className={style.card_content_icon}>
-                      <FontAwesomeIcon
-                        icon={faClipboardCheck}
-                        size="1x"
-                        color="#14c522"
-                      />
-                    </div>
-                    <h4 className={style.card_title}>Incidentes</h4>
+                <div className={style.card_content_title}>
+                  <div className={style.card_content_icon}>
+                    <FontAwesomeIcon
+                      icon={faClipboardCheck}
+                      size="1x"
+                      color="#a91ec1"
+                    />
                   </div>
-                  {incidentes.error ? (
-                    <p className={style.error_message}>No existen datos.</p>
+                  <h4 className={style.card_title}>Incidentes</h4>
+                </div>
+                <div className={style.card_content}>
+                  {task.incidents.error ? (
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
+                    </div>
                   ) : (
-                    ""
+                    <ul>{renderIncidents(task.incidents)}</ul>
                   )}
                 </div>
               </Card>
@@ -265,21 +267,23 @@ const Reclamo = (props) => {
             <div className={style.card_container}>
               <div className={style.content_column}>
                 <Card>
-                  <div className={style.card_content}>
-                    <div className={style.card_content_title}>
-                      <div className={style.card_content_icon}>
-                        <FontAwesomeIcon
-                          icon={faUserCircle}
-                          size="1x"
-                          color="#ffca75"
-                        />
-                      </div>
-                      <h4 className={style.card_title}>
-                        Cuenta # {task.id_account}
-                      </h4>
+                  <div className={style.card_content_title}>
+                    <div className={style.card_content_icon}>
+                      <FontAwesomeIcon
+                        icon={faUserCircle}
+                        size="1x"
+                        color="#ffca75"
+                      />
                     </div>
+                    <h4 className={style.card_title}>
+                      Cuenta # {task.id_account}
+                    </h4>
+                  </div>
+                  <div className={style.card_content}>
                     {task.error ? (
-                      <p className={style.error_message}>No existen datos.</p>
+                      <div className={style.error_message_content}>
+                        <h4 className={style.boldText}>No existen datos.</h4>
+                      </div>
                     ) : (
                       <>
                         <div className={style.wrapper_info_content}>
@@ -352,19 +356,21 @@ const Reclamo = (props) => {
             </div>
             <div className={style.card_container}>
               <Card>
-                <div className={style.card_content}>
-                  <div className={style.card_content_title}>
-                    <div className={style.card_content_icon}>
-                      <FontAwesomeIcon
-                        icon={faHardHat}
-                        size="1x"
-                        color="#ff791a"
-                      />
-                    </div>
-                    <h4 className={style.card_title}>Cuadrilla</h4>
+                <div className={style.card_content_title}>
+                  <div className={style.card_content_icon}>
+                    <FontAwesomeIcon
+                      icon={faHardHat}
+                      size="1x"
+                      color="#ff791a"
+                    />
                   </div>
+                  <h4 className={style.card_title}>Cuadrilla</h4>
+                </div>
+                <div className={style.card_content}>
                   {task.team[0].error ? (
-                    <p className={style.error_message}>No existen datos.</p>
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
+                    </div>
                   ) : (
                     <div>
                       <Card>
