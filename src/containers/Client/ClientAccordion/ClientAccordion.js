@@ -10,8 +10,8 @@ import {
   faCalendarTimes,
   faMapMarkedAlt,
   faMapMarkerAlt,
-  faNetworkWired,
   faPhone,
+  faWifi,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
@@ -97,7 +97,7 @@ const ClientAccordion = ({ service, client, history }) => {
                       <div className={style.content_child_info}>
                         <div className={style.child}>
                           <div className={style.content_left}>
-                            <FontAwesomeIcon icon={faNetworkWired} size="1x" color="#4299e1" />
+                            <FontAwesomeIcon icon={faWifi} size="1x" color="#4299e1" />
                             <p>{item.service_name}</p>
                           </div>
                           <div className={style.content_left}>

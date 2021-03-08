@@ -31,9 +31,6 @@ const yearNow = moment().format("YYYY");
 const Calendar = ({ tasksCalendar }) => {
   const socket = useSelector((state) => state.auth.socket);
   console.log("socket", socket)
-/*   const isSocketConnected = useSelector(
-    (state) => state.auth.isSocketConnected
-  ); */
 
   const [year, setYear] = useState(yearNow);
   const [month, setMonth] = useState(monthNow);

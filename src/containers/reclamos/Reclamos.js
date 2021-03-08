@@ -11,9 +11,10 @@ import Card from "../../components/Card/index";
 import Status from "../../components/Status/index";
 import DropDown from "../../components/DropDown/index";
 import InputText from "../../components/InputText/index";
+import { useSelector } from "react-redux";
 
 const Reclamos = ({ history }) => {
-  const id_service = 1;
+  const id_service = useSelector(state => state.auth.user.id_service)
 
   const [reclamos, setReclamos] = useState([]);
   const [operators, setOperators] = useState([]);
@@ -87,7 +88,10 @@ const Reclamos = ({ history }) => {
   const toTask = (reclamo) => {
     console.log(reclamo);
     let state = {
-      task: reclamo.id,
+      id_task: reclamo.id,
+      id_account: reclamo.id_account,
+      id_service: id_service,
+      task: reclamo
     };
     history.push("/reclamo", state);
   };
@@ -113,13 +117,13 @@ const Reclamos = ({ history }) => {
                           <span className={styles.boldText}># {reclamo.number} </span>
                         </p>
                         <div className={styles.mh}>
-                          <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" />
+                          <FontAwesomeIcon icon={faMapMarkerAlt} color="#fe6d73" size="1x" />
                         </div>
                         <p>{reclamo.region_name}</p>
                       </div>
                       <div className={styles.card_item}>
                         <div className={styles.mh}>
-                          <FontAwesomeIcon className={styles.icon} icon={faCalendarMinus} size="1x" />
+                          <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
                         </div>
                         <div>
                           <p>{reclamo.created_at}</p>

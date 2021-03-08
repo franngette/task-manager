@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   faCog,
   faSignOutAlt,
-  faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import style from "./style.module.scss";
