@@ -5,18 +5,23 @@ import moment from "moment";
 import Card from "../../../components/Card/index";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
-import NewTaskModal from "../../../components/Modal/NewTaskModal/index";
+import NewTaskModal from "./Modals/NewTaskModal/index";
+import NewIssueModal from "./Modals/NewIssueModal/NewIssueModal";
 import Spinner from "../../../components/Spinner/index";
 import ConnectionsTable from "./Tables/ConnectionsTable/ConnectionsTable";
 import TaskList from "./TasksList/TaskList";
 import TaskItem from "./TasksList/TaskItem/TaskItem";
 import { getTaskTypes, getSubAccountData, getSubAccountConnections, getTasks, getTask } from "../../../api/index";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle, faEdit, faEye, faNewspaper, faBookmark } from "@fortawesome/free-regular-svg-icons";
+import { faExchangeAlt, faHdd, faWifi } from "@fortawesome/free-solid-svg-icons";
 
 const months = 2412;
 
 const ClientSubAccount = (props) => {
   const id_service = 1;
-  const [show, setShow] = useState(false);
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [showIssueModal, setShowIssueModal] = useState(false);
   const [taskTypes, setTaskTypes] = useState([]);
   const [subAccData, setSubAccData] = useState([]);
   const [connectSubAcc, setConnecSubAcc] = useState([]);
@@ -36,7 +41,8 @@ const ClientSubAccount = (props) => {
 
   const taskHandler = async (id) => {
     const res = await getTask(id_service, id);
-    setSelectedTask(res[0]);
+    console.log(res);
+    setSelectedTask(res);
   };
 
   const getData = async () => {
@@ -71,7 +77,7 @@ const ClientSubAccount = (props) => {
               </h3>
             </div>
             <div className={styles.child}>
-              <Button type="button" variant="light" onClick={() => setShow(true)}>
+              <Button type="button" variant="light" onClick={() => setShowTaskModal(true)}>
                 <p>Nuevo Reclamo</p>
               </Button>
             </div>
@@ -80,7 +86,10 @@ const ClientSubAccount = (props) => {
             <div className={styles.content}>
               <div className={styles.card_wrapper}>
                 <Card>
-                  <h4 className={styles.cardTitle}>Subcuenta: #{subAccData.info[0].id_sub_account}</h4>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faUserCircle} color="#D7B644" style={{ marginRight: "0.5rem" }} /> Subcuenta:
+                    #{subAccData.info[0].id_sub_account}
+                  </h4>
                   <div className={styles.cardContent}>
                     <p>
                       <span className={styles.boldText}>Razon social:</span> {subAccData.info[0].account_name}
@@ -111,7 +120,10 @@ const ClientSubAccount = (props) => {
               </div>
               <div className={styles.card_wrapper}>
                 <Card>
-                  <h4 className={styles.cardTitle}>Servicios</h4>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faEdit} color="#5DCE68" style={{ marginRight: "0.5rem" }} />
+                    Servicios
+                  </h4>
                   <div className={styles.cardContent}>
                     {subAccData.service.map((e, i) => (
                       <p key={i}>
@@ -126,7 +138,10 @@ const ClientSubAccount = (props) => {
             <div className={styles.content}>
               <div className={styles.card_wrapper}>
                 <Card>
-                  <h4 className={styles.cardTitle}>Datos Tecnicos</h4>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faWifi} color="#84B5FF" style={{ marginRight: "0.5rem" }} />
+                    Datos Tecnicos
+                  </h4>
                   <div className={styles.cardContent}>
                     {subAccData?.dslam.length > 0 || subAccData?.node.length > 0 ? (
                       <>
@@ -166,7 +181,10 @@ const ClientSubAccount = (props) => {
               </div>
               <div className={styles.card_wrapper}>
                 <Card>
-                  <h4 className={styles.cardTitle}>Equipamiento</h4>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faHdd} color="#656565" style={{ marginRight: "0.5rem" }} />
+                    Equipamiento
+                  </h4>
                   <div className={styles.cardContent}>
                     {subAccData?.equipment[0]?.model ? (
                       subAccData.equipment.map((e, i) => {
@@ -204,7 +222,10 @@ const ClientSubAccount = (props) => {
           <div className={styles.ctnr_lg}>
             <div className={styles.card_wrapper}>
               <Card>
-                <h4 className={styles.cardTitle}>Conexiones</h4>
+                <h4 className={styles.cardTitle}>
+                  <FontAwesomeIcon icon={faExchangeAlt} color="#D133AF" style={{ marginRight: "0.5rem" }} />
+                  Conexiones
+                </h4>
                 <div className={styles.cardContent}>
                   <div style={{ height: "100%" }}>
                     {connectSubAcc.length > 0 ? (
@@ -221,7 +242,10 @@ const ClientSubAccount = (props) => {
 
             <div className={styles.card_wrapper}>
               <Card>
-                <h4 className={styles.cardTitle}>Observaciones</h4>
+                <h4 className={styles.cardTitle}>
+                  <FontAwesomeIcon icon={faEye} color="#BE2323" style={{ marginRight: "0.5rem" }} />
+                  Observaciones
+                </h4>
                 <div className={styles.cardContent}>
                   {subAccData?.obs[0] ? (
                     subAccData.obs.map((e, i) => {
@@ -250,7 +274,10 @@ const ClientSubAccount = (props) => {
           <div className={styles.ctnr_lg}>
             <div className={styles.card_wrapper}>
               <Card>
-                <h4 className={styles.cardTitle}>Reclamos</h4>
+                <h4 className={styles.cardTitle}>
+                  <FontAwesomeIcon icon={faNewspaper} color="#2B4E93" style={{ marginRight: "0.5rem" }} />
+                  Reclamos
+                </h4>
                 <div className={styles.cardContent}>
                   {subAccTasks[0] ? (
                     <div className={styles.tbody}>{listOfTasks()}</div>
@@ -265,11 +292,14 @@ const ClientSubAccount = (props) => {
 
             <div className={styles.card_wrapper}>
               <Card>
-                <h4 className={styles.cardTitle}>Detalles</h4>
+                <h4 className={styles.cardTitle}>
+                  <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
+                  Detalles
+                </h4>
                 <div className={styles.cardContent}>
                   <div className={styles.contentCentered}>
-                    {selectedTask.id ? (
-                      <TaskItem task={selectedTask} />
+                    {selectedTask?.id ? (
+                      <TaskItem task={selectedTask} newIssue={() => setShowIssueModal(true)} />
                     ) : (
                       <h4 className={styles.boldText}>Seleccione reclamo a visualizar</h4>
                     )}
@@ -285,14 +315,20 @@ const ClientSubAccount = (props) => {
         </div>
       )}
 
-      {show && (
-        <Modal title="Nuevo Reclamo" onClose={() => setShow(false)}>
+      {showTaskModal && (
+        <Modal title="Nuevo Reclamo" onClose={() => setShowTaskModal(false)}>
           <NewTaskModal
             id={props.location.state.client_id}
             sid={props.location.state.client_sub_account}
             taskTypes={taskTypes}
-            onClose={() => setShow(false)}
+            onClose={() => setShowTaskModal(false)}
+            onSave={(el) => console.log(el)}
           />
+        </Modal>
+      )}
+      {showIssueModal && (
+        <Modal title="Nuevo Incidente" onClose={() => setShowIssueModal(false)}>
+          <NewIssueModal onClose={() => setShowIssueModal(false)} onSave={(el) => console.log(el)} />
         </Modal>
       )}
     </>

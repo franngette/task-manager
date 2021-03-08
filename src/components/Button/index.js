@@ -1,12 +1,8 @@
+import React from "react";
+import PropTypes from "prop-types";
 import style from "./style.module.scss";
 
-export default function Button({
-  type,
-  variant,
-  children,
-  onClick,
-  disabled = false,
-}) {
+const Button = ({ type = "submit", variant, children, onClick, disabled = false }) => {
   let color = style.default;
   switch (variant) {
     case "dark":
@@ -29,14 +25,18 @@ export default function Button({
   }
 
   return (
-    <button
-      disabled={disabled ? disabled : false}
-      className={color}
-      id={style.button}
-      type={type}
-      onClick={onClick}
-    >
+    <button disabled={disabled ? disabled : false} className={color} id={style.button} type={type} onClick={onClick}>
       <div className={style.button_content}>{children}</div>
     </button>
   );
-}
+};
+
+Button.propTypes = {
+  type: PropTypes.string,
+  variant: PropTypes.oneOf(["dark", "blue", "medium", "light", "outline"]),
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+export default Button;

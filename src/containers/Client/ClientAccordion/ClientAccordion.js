@@ -24,7 +24,7 @@ const ClientAccordion = ({ service, client, history }) => {
   useEffect(() => {
     setShowAccount(false);
   }, [client]);
-  
+
   const showSubAccountHandler = async (service, client) => {
     if (!showAccount) {
       setShowAccount(true);
@@ -64,12 +64,6 @@ const ClientAccordion = ({ service, client, history }) => {
                 </div>
               </div>
               <div className={style.child}>
-                <div className={style.content_right}>
-                  <Status
-                    name={client.is_active ? "enabled" : "disabled"}
-                    description={client.is_active ? "Activo" : "Inactivo"}
-                  />
-                </div>
                 <div className={style.content_right}>
                   <FontAwesomeIcon icon={faAddressCard} size="1x" color="#17c3b2" />
                   <p>
@@ -131,6 +125,12 @@ const ClientAccordion = ({ service, client, history }) => {
                               <p>{item.description_inactive}</p>
                             </div>
                           ) : null}
+                          {!item.inactive && (
+                            <Status
+                              description={item.inactive ? "disabled" : "enabled"}
+                              name={item.inactive ? "Inactivo" : "Activo"}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>

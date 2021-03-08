@@ -54,6 +54,8 @@ const Reclamos = ({ history }) => {
     setReclamos(res);
   };
 
+  console.log(reclamos)
+
   const onSave = async (test, teamDate, team, priority) => {
     const res = await createCalendar(test, teamDate, team, priority);
     setRes(res);
