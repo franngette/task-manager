@@ -1,85 +1,80 @@
-import { useEffect, useState } from 'react'
-import style from './style.module.scss'
+import React, { useEffect, useState } from "react";
+import style from "./style.module.scss";
 
-import Card from '../Card/index'
-import Button from '../Button/index'
-import DropDown from '../DropDown/index'
+import Card from "../Card/index";
+import Button from "../Button/index";
+import DropDown from "../DropDown/index";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const CrearCuadrilla = (props) => {
-  const [selectedVehicle, setselectedVehicle] = useState({})
-  const [selectedOperators, setSelectedOperators] = useState([])
+  const [selectedVehicle, setselectedVehicle] = useState({});
+  const [selectedOperators, setSelectedOperators] = useState([]);
 
   useEffect(() => {
     if (props.valueState.operators) {
-      setSelectedOperators(props.valueState.operators)
-    } else setSelectedOperators(props.valueState)
-  }, [props.valueState])
+      setSelectedOperators(props.valueState.operators);
+      console.log(props.valueState.operators);
+    } else setSelectedOperators(props.valueState);
+  }, [props.valueState, props.selectedOperators]);
 
   const handlerOperators = (e) => {
-    let found
+    let found;
     if (selectedOperators) {
-      found = selectedOperators.find(
-        (operator) => operator.id == e.target.value
-      )
+      found = selectedOperators.find((operator) => operator.id === e.target.value);
 
       if (!found) {
-        let operator = props.operators.find(
-          (operario) => operario.id == e.target.value
-        )
-        typeof e.target.value
-
-        setSelectedOperators([...selectedOperators, operator])
+        let operator = props.operators.find((operario) => operario.id === e.target.value);
+        setSelectedOperators([...selectedOperators, operator]);
       }
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
 
   const handlerVehicles = (e) => {
-    let found = props.vehicles.find((car) => car.id == e.target.value)
+    let found = props.vehicles.find((car) => car.id === e.target.value);
     if (found) {
-      setselectedVehicle(found)
+      setselectedVehicle(found);
     }
-  }
+  };
 
   const deleteOperator = (e, operator) => {
-    let found = selectedOperators.findIndex((op) => op.id === operator.id)
+    let found = selectedOperators.findIndex((op) => op.id === operator.id);
     if (found !== -1) {
-      let newOperators = selectedOperators.filter((op) => op.id !== operator.id)
-      setSelectedOperators(newOperators)
+      let newOperators = selectedOperators.filter((op) => op.id !== operator.id);
+      setSelectedOperators(newOperators);
     }
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   const sendData = async (e) => {
-    props.sendData(selectedVehicle, selectedOperators)
-    e.preventDefault()
-  }
+    props.sendData(selectedVehicle, selectedOperators);
+    e.preventDefault();
+  };
 
-  let wrapperStyle = style.wrapper
-  if (props.style.width === '0%') {
-    wrapperStyle = style.wrapper_hidden
+  let wrapperStyle = style.wrapper;
+  if (props.style.width === "0%") {
+    wrapperStyle = style.wrapper_hidden;
   }
 
   const List = (values) => {
     return values.map((value, index) => {
       return (
-        <li key={index} className={style.operator_selected}>
+        <li key={index} className={style.operator_selected} style={{ listStyleType: "none" }}>
           <Card>
             <div className={style.operator}>
               <span>{value.id}</span>
               <span>{value.name}</span>
-              <button onClick={(e) => deleteOperator(e, value)}>
-                <FontAwesomeIcon className="text-red-600" icon={faTrashAlt} />
+              <button onClick={(e) => deleteOperator(e, value)} style={{ backgroundColor: "transparent" }}>
+                <FontAwesomeIcon icon={faTrashAlt} color="red" />
               </button>
             </div>
           </Card>
         </li>
-      )
-    })
-  }
+      );
+    });
+  };
 
   return (
     <div style={props.style}>
@@ -87,11 +82,7 @@ const CrearCuadrilla = (props) => {
         <div className={wrapperStyle}>
           <div className={style.container}>
             <div className={style.header}>
-              <h3>
-                {props.valueState.id_team
-                  ? `Editar Cuadrilla # ${props.valueState.id_team}`
-                  : 'Nueva Cuadrilla'}
-              </h3>
+              <h3>{props.valueState.id_team ? `Editar Cuadrilla # ${props.valueState.id_team}` : "Nueva Cuadrilla"}</h3>
             </div>
             <form>
               <div className={style.content}>
@@ -105,7 +96,7 @@ const CrearCuadrilla = (props) => {
                   form="crear"
                   id="vehiculo"
                   onChange={(e) => {
-                    handlerVehicles(e)
+                    handlerVehicles(e);
                   }}
                 />
               </div>
@@ -139,20 +130,10 @@ const CrearCuadrilla = (props) => {
               </div>
               <div className={style.content_center}>
                 <div className={style.content_buttons}>
-                  <Button
-                    disabled={false}
-                    variant="dark"
-                    type="submit"
-                    onClick={(e) => sendData(e)}
-                  >
+                  <Button disabled={false} variant="dark" type="submit" onClick={(e) => sendData(e)}>
                     Guardar
                   </Button>
-                  <Button
-                    disabled={false}
-                    variant="outline"
-                    type="submit"
-                    onClick={props.onClose}
-                  >
+                  <Button disabled={false} variant="outline" type="submit" onClick={props.onClose}>
                     Cancelar
                   </Button>
                 </div>
@@ -162,7 +143,7 @@ const CrearCuadrilla = (props) => {
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default CrearCuadrilla
+export default CrearCuadrilla;

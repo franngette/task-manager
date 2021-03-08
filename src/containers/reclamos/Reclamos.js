@@ -55,8 +55,6 @@ const Reclamos = ({ history }) => {
     setReclamos(res);
   };
 
-  console.log(reclamos)
-
   const onSave = async (test, teamDate, team, priority) => {
     const res = await createCalendar(test, teamDate, team, priority);
     setRes(res);
@@ -100,11 +98,11 @@ const Reclamos = ({ history }) => {
     if (reclamos[0]?.number) {
       const listReclamos = reclamos.map((reclamo, index) => {
         return (
-          <li key={index} style={{ listStyleType: "none" }} onClick={() => toTask(reclamo)}>
+          <li key={index} style={{ listStyleType: "none" }} >
             <div className={styles.card_wrapper}>
               <Card>
                 <div className={styles.card}>
-                  <div className={styles.card_container}>
+                  <div className={styles.card_container} onClick={() => toTask(reclamo)}>
                     <div className={styles.card_content}>
                       <h4>{reclamo.account_name}</h4>
                       <div className={styles.card_item}>

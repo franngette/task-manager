@@ -38,7 +38,7 @@ const AsignTeam = (props) => {
   };
 
   let wrapperStyle = style.wrapper;
-  if (props.style.width === "0%" || props.style.width === "0px") {
+  if (props.style.width === "0%") {
     wrapperStyle = style.wrapper_hidden;
   }
 

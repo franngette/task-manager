@@ -22,6 +22,7 @@ const Reclamo = lazy(() => import("./containers/Reclamos/Reclamo/Reclamo"));
 const Layout = lazy(() => import("./containers/Layout/index"));
 const Client = lazy(() => import("./containers/Client/Client"));
 const ClientSubAccount = lazy(() => import("./containers/Client/ClientSubAccount/ClientSubAccount"));
+const Cuadrillas = lazy(() => import("./containers/Cuadrillas/Cuadrillas"));
 
 function App() {
   const isUserAuthenticated = useSelector((state) => state.auth.logged);
@@ -51,6 +52,7 @@ function App() {
             <Route path="/calendario" component={Calendario} />
             <Route path="/reclamos" component={Reclamos} />
             <Route path="/reclamo" component={Reclamo} />
+            <Route path="/cuadrillas" component={Cuadrillas} />
           </Layout>
         </Switch>
       </Suspense>

@@ -146,19 +146,19 @@ export async function createCalendar(id_task, date, id_team, priority) {
     id_team: id_team,
     priority: priority,
   };
-  const res = await instance.get("/task/calendar", JSON.stringify(json_data));
+  const res = await instance.post("/task/calendar", JSON.stringify(json_data));
   const data = res.data;
   return data;
 }
 
 export async function getOperators(id_service, id_team) {
-  const res = await instance.get(`/task/operatorsAvailable/${id_service}/${id_team}`);
+  const res = await instance.get(`/task/operatorsAvailables/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
 
 export async function getVehicles(id_service, id_team) {
-  const res = await instance.get(`/task/vehiclesAvailable/${id_service}/${id_team}`);
+  const res = await instance.get(`/task/vehiclesAvailables/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
