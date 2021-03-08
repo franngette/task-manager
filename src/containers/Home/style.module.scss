@@ -10,12 +10,13 @@
 }
 
 .graph {
-  width: 45%;
+  width: 600px;
 }
 
 .graphContainer {
+  width: 100%;
   padding: 3rem;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
