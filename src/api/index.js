@@ -152,13 +152,13 @@ export async function createCalendar(id_task, date, id_team, priority) {
 }
 
 export async function getOperators(id_service, id_team) {
-  const res = await instance.get(`/task/operatorsAvailables/${id_service}/${id_team}`);
+  const res = await instance.get(`/task/operators/availables/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
 
 export async function getVehicles(id_service, id_team) {
-  const res = await instance.get(`/task/vehiclesAvailables/${id_service}/${id_team}`);
+  const res = await instance.get(`/task/vehicles/availables/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
