@@ -1,5 +1,10 @@
 import instance from "./axios";
 
+export async function getTasksStatics() {
+  let result = await instance.get("/task/amount");
+  return result.data;
+}
+
 export async function createIncident(id_task, description, id_user) {
   let json_data = {
     id_task: id_task,
