@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+
 import Card from "../../../components/Card/index";
 import Status from "../../../components/Status/index";
 import Spinner from "../../../components/Spinner/index";
 import Incident from "./Incident/Incident";
-
+import Button from "../../../components/Button/index";
+import Modal from "../../../components/Modal/index";
+import NewIssueModal from "../../../components/Modal/NewIssueModal/NewIssueModal";
 import style from "./reclamo.module.scss";
-
 import {
   faAddressCard,
   faClipboardCheck,
@@ -19,8 +21,7 @@ import {
 import { faUserCircle, faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { getTask, getSubAccountData } from "../../../api/index";
-
+import { getTask, getSubAccountData, createIncident } from "../../../api/index";
 import { useSelector } from "react-redux";
 
 const Reclamo = (props) => {
@@ -28,9 +29,11 @@ const Reclamo = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
   const id_account = props.location.state.id_account;
   const id_task = props.location.state.id_task;
+  const user_id = useSelector((state) => state.auth.user.id);
 
   const [task, setTask] = useState();
   const [subAccount, setSubAccount] = useState();
+  const [showIssueModal, setShowIssueModal] = useState(false);
 
   const getData = async () => {
     const subAccounData = await getSubAccountData(id_service, id_account);
@@ -39,9 +42,6 @@ const Reclamo = (props) => {
     console.log("SUB", subAccounData, "taskDate", taskData);
     setTask(taskData);
   };
-  useEffect(() => {
-    getData();
-  }, [id_account, id_task]);
 
   const renderPhones = (phones) => {
     return phones.map((phone, index) => {
@@ -68,16 +68,19 @@ const Reclamo = (props) => {
     return teams.map((team, index) => {
       return (
         <div key={index}>
-          <img
-            className={style.img}
-            src={`${team.photo}`}
-            alt=""
-            title={team.operator_name}
-          />
+          <img className={style.img} src={`${team.photo}`} alt="" title={team.operator_name} />
         </div>
       );
     });
   };
+
+  const incidentHandler = async (description) => {
+    await createIncident(id_task, description, user_id);
+  };
+
+  useEffect(() => {
+    getData();
+  }, [id_account, id_task, incidentHandler]);
 
   let loaded = <Spinner />;
   if (task) {
@@ -87,26 +90,14 @@ const Reclamo = (props) => {
           <h3 style={{ margin: "1rem" }}>
             <b>{"Reclamo #" + task.number + " - " + task.created_at}</b>
           </h3>
-
-          {task.last_state ? (
-            <Status
-              description={task.last_state_description}
-              name={task.last_state}
-            />
-          ) : (
-            ""
-          )}
+          {task.last_state ? <Status description={task.last_state_description} name={task.last_state} /> : ""}
         </div>
         <div className={style.wrapper_content_header}>
           <div className={style.card_container}>
             <Card>
               <div className={style.card_content_title}>
                 <div className={style.card_content_icon}>
-                  <FontAwesomeIcon
-                    icon={faExclamationCircle}
-                    size="1x"
-                    color="#c30000"
-                  />
+                  <FontAwesomeIcon icon={faExclamationCircle} size="1x" color="#c30000" />
                 </div>
                 <h4 className={style.card_title}>Descripcion</h4>
               </div>
@@ -137,14 +128,8 @@ const Reclamo = (props) => {
                         ) : (
                           <span className={style.boldText}></span>
                         )}
-                        <a
-                          href={
-                            subAccount?.dslam[0]?.nas_ip ??
-                            subAccount?.node[0]?.ip
-                          }
-                        >
-                          {subAccount?.dslam[0]?.dslam ??
-                            subAccount?.node[0]?.node}
+                        <a href={subAccount?.dslam[0]?.nas_ip ?? subAccount?.node[0]?.ip}>
+                          {subAccount?.dslam[0]?.dslam ?? subAccount?.node[0]?.node}
                         </a>
                       </p>
                       <p>
@@ -153,8 +138,7 @@ const Reclamo = (props) => {
                         ) : (
                           <span className={style.boldText}></span>
                         )}
-                        {subAccount?.dslam[0]?.port_number ??
-                          subAccount?.node[0]?.band}
+                        {subAccount?.dslam[0]?.port_number ?? subAccount?.node[0]?.band}
                       </p>
                       <p>{subAccount.info[0].radius_login}</p>
                       <p>{subAccount.info[0].radius_passwd}</p>
@@ -240,15 +224,23 @@ const Reclamo = (props) => {
           <div className={style.card_container}>
             <div className={style.content_column}>
               <Card>
-                <div className={style.card_content_title}>
-                  <div className={style.card_content_icon}>
-                    <FontAwesomeIcon
-                      icon={faClipboardCheck}
-                      size="1x"
-                      color="#a91ec1"
-                    />
+                <div className={style.wrapper_info_content}>
+                  <div className={style.card_content_title}>
+                    <div className={style.card_content_icon}>
+                      <FontAwesomeIcon icon={faClipboardCheck} size="1x" color="#a91ec1" />
+                    </div>
+                    <h4 className={style.card_title}>Incidentes</h4>
                   </div>
-                  <h4 className={style.card_title}>Incidentes</h4>
+                  <div>
+                    <Button
+                      onClick={() => {
+                        setShowIssueModal(true);
+                      }}
+                      variant="light"
+                    >
+                      Nuevo Incidente
+                    </Button>
+                  </div>
                 </div>
                 <div className={style.card_content}>
                   {task.incidents.error ? (
@@ -269,15 +261,9 @@ const Reclamo = (props) => {
                 <Card>
                   <div className={style.card_content_title}>
                     <div className={style.card_content_icon}>
-                      <FontAwesomeIcon
-                        icon={faUserCircle}
-                        size="1x"
-                        color="#ffca75"
-                      />
+                      <FontAwesomeIcon icon={faUserCircle} size="1x" color="#ffca75" />
                     </div>
-                    <h4 className={style.card_title}>
-                      Cuenta # {task.id_account}
-                    </h4>
+                    <h4 className={style.card_title}>Cuenta # {task.id_account}</h4>
                   </div>
                   <div className={style.card_content}>
                     {task.error ? (
@@ -294,15 +280,9 @@ const Reclamo = (props) => {
                             </p>
                           </div>
                           <div className={style.info_content}>
-                            <FontAwesomeIcon
-                              icon={faAddressCard}
-                              size="1x"
-                              color="#17c3b2"
-                            />
+                            <FontAwesomeIcon icon={faAddressCard} size="1x" color="#17c3b2" />
                             <p>
-                              <span className={style.boldText}>
-                                N° Documento:
-                              </span>
+                              <span className={style.boldText}>N° Documento:</span>
                               {task.doc_number}
                             </p>
                           </div>
@@ -311,31 +291,21 @@ const Reclamo = (props) => {
                           <div>
                             <div className={style.info_content}>
                               <div className={style.card_content_icon}>
-                                <FontAwesomeIcon
-                                  icon={faMapMarkerAlt}
-                                  size="1x"
-                                  color="#fe6d73"
-                                />
+                                <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" color="#fe6d73" />
                               </div>
                               <p>
-                                <span className={style.boldText}>
-                                  Ubicación
-                                </span>
+                                <span className={style.boldText}>Ubicación</span>
                               </p>
                             </div>
                             <div className={style.info_content}>
                               <p>
-                                <span className={style.boldText}>
-                                  Domicilio:{" "}
-                                </span>
+                                <span className={style.boldText}>Domicilio: </span>
                                 {task.address}
                               </p>
                             </div>
                             <div className={style.info_content}>
                               <p>
-                                <span className={style.boldText}>
-                                  Localidad:{" "}
-                                </span>
+                                <span className={style.boldText}>Localidad: </span>
                                 {task.region_name}
                               </p>
                             </div>
@@ -358,11 +328,7 @@ const Reclamo = (props) => {
               <Card>
                 <div className={style.card_content_title}>
                   <div className={style.card_content_icon}>
-                    <FontAwesomeIcon
-                      icon={faHardHat}
-                      size="1x"
-                      color="#ff791a"
-                    />
+                    <FontAwesomeIcon icon={faHardHat} size="1x" color="#ff791a" />
                   </div>
                   <h4 className={style.card_title}>Cuadrilla</h4>
                 </div>
@@ -377,9 +343,7 @@ const Reclamo = (props) => {
                         <div className={style.team_content}>
                           <p> #{task.team[0].id_team}</p>
                           <p> {task.team[0].vehicle_name}</p>
-                          <div className={style.img_content}>
-                            {renderTeam(task.team)}
-                          </div>
+                          <div className={style.img_content}>{renderTeam(task.team)}</div>
                         </div>
                       </Card>
                     </div>
@@ -389,6 +353,14 @@ const Reclamo = (props) => {
             </div>
           </div>
         </div>
+        {showIssueModal && (
+          <Modal title="Nuevo Incidente" onClose={() => setShowIssueModal(false)}>
+            <NewIssueModal
+              onClose={() => setShowIssueModal(false)}
+              onSave={(description) => incidentHandler(description)}
+            />
+          </Modal>
+        )}
       </div>
     );
   }

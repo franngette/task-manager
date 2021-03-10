@@ -13,29 +13,13 @@ const Incident = ({ incident }) => {
           <div className={styles.card_item}>
             <div style={{ display: "flex" }}>
               <div className={styles.mh}>
-                <FontAwesomeIcon
-                  className={styles.icon}
-                  icon={faCalendarMinus}
-                  size="1x"
-                />
+                <FontAwesomeIcon className={styles.icon} icon={faCalendarMinus} size="1x" />
               </div>
               <p>{moment(incident.date_incident).format("DD-MM-YYYY")}</p>
             </div>
           </div>
           <div className={styles.card_item}>
             <p>{incident.description}</p>
-          </div>
-          <div className={styles.card_item}>
-            <div>
-              <p>
-                <span className={styles.boldText}> Desde:</span>{" "}
-                {incident.time_start}
-              </p>
-              <p>
-                <span className={styles.boldText}> Hasta:</span>{" "}
-                {incident.time_finish}
-              </p>
-            </div>
           </div>
         </div>
       </Card>
