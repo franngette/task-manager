@@ -1,5 +1,19 @@
 import instance from "./axios";
 
+export async function getTasksStatics() {
+  let result = await instance.get("/task/amount");
+  return result.data;
+}
+
+export async function createIncident(id_task, description, id_user) {
+  let json_data = {
+    id_task: id_task,
+    description: description,
+    id_user: id_user,
+  };
+  let result = await instance.post("/task/incident", JSON.stringify(json_data));
+  return result.data;
+}
 
 export async function updatedUserProfile(data) {
   let res = await instance.post(
@@ -173,17 +187,13 @@ export async function createCalendar(id_task, date, id_team, priority) {
 }
 
 export async function getOperators(id_service, id_team) {
-  const res = await instance.get(
-    `/task/operators/availables/${id_service}/${id_team}`
-  );
+  const res = await instance.get(`/task/operators/availables/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
 
 export async function getVehicles(id_service, id_team) {
-  const res = await instance.get(
-    `/task/vehicles/availables/${id_service}/${id_team}`
-  );
+  const res = await instance.get(`/task/vehicles/availables/${id_service}/${id_team}`);
   const data = await res.data;
   return data;
 }
