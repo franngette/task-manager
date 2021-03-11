@@ -1,5 +1,19 @@
 import instance from "./axios";
 
+export async function getTasksStatics() {
+  let result = await instance.get("/task/amount");
+  return result.data;
+}
+
+export async function createIncident(id_task, description, id_user) {
+  let json_data = {
+    id_task: id_task,
+    description: description,
+    id_user: id_user,
+  };
+  let result = await instance.post("/task/incident", JSON.stringify(json_data));
+  return result.data;
+}
 
 export async function getServices() {
   let result = await instance.get("/task/services");

@@ -6,7 +6,6 @@ import Card from "../../../components/Card/index";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
 import NewTaskModal from "./Modals/NewTaskModal/index";
-import NewIssueModal from "./Modals/NewIssueModal/NewIssueModal";
 import Spinner from "../../../components/Spinner/index";
 import ConnectionsTable from "./Tables/ConnectionsTable/ConnectionsTable";
 import TaskList from "./TasksList/TaskList";
@@ -15,13 +14,14 @@ import { getTaskTypes, getSubAccountData, getSubAccountConnections, getTasks, ge
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faEdit, faEye, faNewspaper, faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faExchangeAlt, faHdd, faWifi } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const months = 2412;
 
 const ClientSubAccount = (props) => {
-  const id_service = 1;
+  const id_service = useSelector((state) => state.auth.user.id_service);
+
   const [showTaskModal, setShowTaskModal] = useState(false);
-  const [showIssueModal, setShowIssueModal] = useState(false);
   const [taskTypes, setTaskTypes] = useState([]);
   const [subAccData, setSubAccData] = useState([]);
   const [connectSubAcc, setConnecSubAcc] = useState([]);
@@ -65,6 +65,17 @@ const ClientSubAccount = (props) => {
   useEffect(() => {
     subAccData?.info && getConnections();
   }, [subAccData]);
+
+  const toTask = (reclamo) => {
+    console.log(reclamo);
+    let state = {
+      id_task: selectedTask.id,
+      id_account: subAccData.info[0].id_sub_account,
+      id_service: id_service,
+      task: selectedTask,
+    };
+    props.history.push("/reclamo", state);
+  };
 
   return (
     <>
@@ -292,14 +303,30 @@ const ClientSubAccount = (props) => {
 
             <div className={styles.card_wrapper}>
               <Card>
-                <h4 className={styles.cardTitle}>
-                  <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
-                  Detalles
-                </h4>
+                <div className={styles.ctnr_sm}>
+                  <div>
+                    <h4 className={styles.cardTitle}>
+                      <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
+                      Detalles
+                    </h4>
+                  </div>
+                  {selectedTask?.id && (
+                    <div>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          toTask();
+                        }}
+                      >
+                        <h4>Ver</h4>
+                      </Button>
+                    </div>
+                  )}
+                </div>
                 <div className={styles.cardContent}>
                   <div className={styles.contentCentered}>
                     {selectedTask?.id ? (
-                      <TaskItem task={selectedTask} newIssue={() => setShowIssueModal(true)} />
+                      <TaskItem task={selectedTask} />
                     ) : (
                       <h4 className={styles.boldText}>Seleccione reclamo a visualizar</h4>
                     )}
@@ -324,11 +351,6 @@ const ClientSubAccount = (props) => {
             onClose={() => setShowTaskModal(false)}
             onSave={(el) => console.log(el)}
           />
-        </Modal>
-      )}
-      {showIssueModal && (
-        <Modal title="Nuevo Incidente" onClose={() => setShowIssueModal(false)}>
-          <NewIssueModal onClose={() => setShowIssueModal(false)} onSave={(el) => console.log(el)} />
         </Modal>
       )}
     </>

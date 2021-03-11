@@ -1,9 +1,17 @@
 import React from "react";
 import styles from "./style.module.scss";
 
+import Incident from "../../../../Reclamos/Reclamo/Incident/Incident";
 import Status from "../../../../../components/Status/index";
-import Button from "../../../../../components/Button";
-const TaskItem = ({ task, newIssue }) => {
+const TaskItem = ({ task }) => {
+  const renderIncidents = (incidents) => {
+    return (
+      <li style={{ listStyleType: "none" }}>
+        <Incident incident={incidents[incidents.length - 1]} />
+      </li>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -29,16 +37,12 @@ const TaskItem = ({ task, newIssue }) => {
           <span className={styles.boldText}>Descripcion:</span> {task.description}
         </p>
       </div>
-      <div className={styles.bottom}>
-        <Button
-          onClick={() => {
-            newIssue();
-          }}
-          variant="light"
-        >
-          Incidente
-        </Button>
-      </div>
+      {task.incidents && (
+        <div>
+          <span className={styles.boldText}>Ultimo incidente:</span>
+          {renderIncidents(task.incidents)}
+        </div>
+      )}
     </div>
   );
 };
