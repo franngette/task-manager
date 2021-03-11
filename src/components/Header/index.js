@@ -17,7 +17,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as actions from "../../store/actions/index";
 import { getServices, updatedUserProfile } from "../../api/index";
 
-
 const Header = () => {
   const userStorage = useSelector((state) => state.auth.user);
 
@@ -142,7 +141,11 @@ const Header = () => {
             menuHablder();
           }}
         >
-          <img className={style.img} src={user?.photo ? user.photo : "/images/notfound.png"} alt="" />
+          <img
+            className={style.img}
+            src={user?.photo ? user.photo : "/images/notfound.png"}
+            alt=""
+          />
         </button>
       </div>
       {isVisible && <UserProfile onEdit={userProfileHandler} />}
