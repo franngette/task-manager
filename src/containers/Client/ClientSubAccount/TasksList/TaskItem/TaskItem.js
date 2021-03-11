@@ -37,7 +37,7 @@ const TaskItem = ({ task }) => {
           <span className={styles.boldText}>Descripcion:</span> {task.description}
         </p>
       </div>
-      {task.incidents && (
+      {task.incidents.length > 0 && (
         <div>
           <span className={styles.boldText}>Ultimo incidente:</span>
           {renderIncidents(task.incidents)}

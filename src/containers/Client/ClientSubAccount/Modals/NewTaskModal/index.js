@@ -1,11 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import styles from "./style.module.scss";
 
 import DropDown from "../../../../../components/DropDown/index";
 import Button from "../../../../../components/Button";
-import styles from "./style.module.scss";
+import Message from "../../../../../components/Message/index";
+import { useSelector } from "react-redux";
+import { getProblems, getTaskTypes } from "../../../../../api/index";
+const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
+  const id_service = useSelector((state) => state.auth.user.id_service);
 
-const NewTaskModal = ({ id, sid, taskTypes, onClose, onSave }) => {
-  const [taskType, setTaskType] = useState();
+  const [taskType, setTaskType] = useState(1);
+  const [idProblem, setIdProblem] = useState(1);
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [taskProblems, setTaskProblems] = useState([]);
+  const [taskTypes, setTaskTypes] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const getData = async () => {
+    const resTaskProblems = await getProblems(id_service, "", serviceType, "");
+    setTaskProblems(resTaskProblems);
+    const resTaskType = await getTaskTypes();
+    setTaskTypes(resTaskType);
+  };
+
+  useEffect(() => {
+    console.log(idProblem, taskType);
+  }, [idProblem, taskType]);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const saveHandler = async () => {
+    const res = await onSave(id_service, sid, taskType, idProblem, description);
+    console.log(res);
+    if (res.error) {
+      setMessage(res.message);
+      setError(true);
+    } else {
+      setMessage(res.message);
+      setSuccess(true);
+    }
+  };
 
   return (
     <div className={styles.modal_wrapper}>
@@ -13,33 +50,41 @@ const NewTaskModal = ({ id, sid, taskTypes, onClose, onSave }) => {
         <b>Cliente # {id}</b>
       </h3>
       <h4>Subcuenta # {sid}</h4>
-      <textarea className={styles.description} placeholder="Descripcion.."></textarea>
+      <textarea
+        className={styles.description}
+        placeholder="Descripcion.."
+        onChange={(e) => {
+          setDescription(e.target.value);
+        }}
+      ></textarea>
       <div className={styles.select}>
-        <div style={{margin: '0.5rem'}}>
+        <div style={{ margin: "0.5rem" }}>
           <DropDown
             data={taskTypes}
             onChange={(e) => {
-              setTaskType(e);
+              setTaskType(e.target.value);
             }}
           />
         </div>
-        <div style={{margin: '0.5rem'}}>
+        <div style={{ margin: "0.5rem" }}>
           <DropDown
-            data={taskTypes}
+            data={taskProblems}
             onChange={(e) => {
-              setTaskType(e);
+              setIdProblem(e.target.value);
             }}
           />
         </div>
       </div>
       <div className={styles.bottom}>
-        <Button type="button" variant="blue" onClick={() => onSave("new task")}>
+        <Button type="button" variant="blue" onClick={() => saveHandler()}>
           Guardar
         </Button>
         <Button type="button" variant="outline" onClick={onClose}>
           Cancelar
         </Button>
       </div>
+      {success && <Message type="success" message={message} />}
+      {error && !success && <Message type="error" message={message} />}
     </div>
   );
 };
