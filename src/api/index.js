@@ -1,6 +1,15 @@
 import instance from "./axios";
 
 
+export async function updatedUserProfile(data) {
+  let res = await instance.post(
+    "/upload",
+    data,
+  );
+  const result = res.data;
+  return result;
+}
+
 export async function getServices() {
   let result = await instance.get("/task/services");
   return result.data;
@@ -13,21 +22,33 @@ export async function getTaskTypes() {
 }
 
 export async function getSubAccountConnections(username, months) {
-  let result = await instance.get(`clients/sub_clients/connections/${username}/${months}`);
+  let result = await instance.get(
+    `clients/sub_clients/connections/${username}/${months}`
+  );
   return result.data;
 }
 
 export async function getSubAccountData(id_service, id_sub_account) {
-  let result = await instance.get(`/clients/sub_client/${id_service}/${id_sub_account}`);
+  let result = await instance.get(
+    `/clients/sub_client/${id_service}/${id_sub_account}`
+  );
   return result.data;
 }
 
 export async function getClientSubAccounts(id_service, id_account) {
-  let result = await instance.get(`/clients/sub_clients/${id_service}/${id_account}`);
+  let result = await instance.get(
+    `/clients/sub_clients/${id_service}/${id_account}`
+  );
   return result.data;
 }
 
-export async function getClients(id_service, account_name, account_number, doc_number, phone_number) {
+export async function getClients(
+  id_service,
+  account_name,
+  account_number,
+  doc_number,
+  phone_number
+) {
   var json_data = {
     id_service: id_service,
     account_name: account_name,
@@ -152,13 +173,17 @@ export async function createCalendar(id_task, date, id_team, priority) {
 }
 
 export async function getOperators(id_service, id_team) {
-  const res = await instance.get(`/task/operators/availables/${id_service}/${id_team}`);
+  const res = await instance.get(
+    `/task/operators/availables/${id_service}/${id_team}`
+  );
   const data = await res.data;
   return data;
 }
 
 export async function getVehicles(id_service, id_team) {
-  const res = await instance.get(`/task/vehicles/availables/${id_service}/${id_team}`);
+  const res = await instance.get(
+    `/task/vehicles/availables/${id_service}/${id_team}`
+  );
   const data = await res.data;
   return data;
 }
@@ -180,7 +205,12 @@ export async function createTeam(id_service, id_vehicle, ids_operator) {
   return data;
 }
 
-export async function updateTeam(id_service, id_team, id_vehicle, ids_operator) {
+export async function updateTeam(
+  id_service,
+  id_team,
+  id_vehicle,
+  ids_operator
+) {
   let id_vehicle_send = id_vehicle.id;
   let ids_operators_send = "";
   ids_operator.forEach((element) => {
@@ -198,7 +228,13 @@ export async function updateTeam(id_service, id_team, id_vehicle, ids_operator) 
   return data;
 }
 
-export async function updateCalendarTask(id_calendar, id_task, date, id_team, priority) {
+export async function updateCalendarTask(
+  id_calendar,
+  id_task,
+  date,
+  id_team,
+  priority
+) {
   var json_data = {
     id_calendar: id_calendar,
     id_task: id_task,
