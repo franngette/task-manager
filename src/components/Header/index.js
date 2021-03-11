@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 
-import Notification from "../Notification/Notification";
+//import Notification from "../Notification/Notification";
 import UserProfile from "./UserProfile/UserProfile";
 import Modal from "../Modal";
 import Button from "../Button/index";
@@ -141,7 +141,11 @@ const Header = () => {
             menuHablder();
           }}
         >
-          <img className={style.img} src={user ? user.photo : ""} alt="" />
+          <img
+            className={style.img}
+            src={user?.photo ? user.photo : "/images/notfound.png"}
+            alt=""
+          />
         </button>
       </div>
       {isVisible && <UserProfile onEdit={userProfileHandler} />}
@@ -164,7 +168,7 @@ const Header = () => {
                       borderRadius: "50%",
                       border: "2px solid #2c5282",
                     }}
-                    src={user ? user.photo : ""}
+                    src={user?.photo ? user.photo : "/images/notfound.png"}
                     alt=""
                   />
                 </div>
