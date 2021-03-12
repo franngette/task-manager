@@ -1,43 +1,24 @@
 import React, { useState } from "react";
+import style from "./style.module.scss";
+
 import { useSelector } from "react-redux";
 
 import InputText from "../../components/InputText";
 import Spinner from "../../components/Spinner/index";
-
 import ClientAccordion from "./ClientAccordion/ClientAccordion";
-
-import {
-  faAddressCard,
-  faListOl,
-  faPhone,
-  faUserCircle,
-} from "@fortawesome/free-solid-svg-icons";
-
+import AnimationListItem from "../../components/Animations/AnimationListItem/AnimatedListItem";
+import { faAddressCard, faListOl, faPhone, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { getClients } from "../../api/index";
-
-import style from "./style.module.scss";
 
 const Client = (props) => {
   let timeout = null;
   const id_service = useSelector((state) => state.auth.user.id_service);
   const [clientList, setClientList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const getData = async (
-    id_service,
-    account_name,
-    account_number,
-    doc_number,
-    phone_number
-  ) => {
-    const result = await getClients(
-      id_service,
-      account_name,
-      account_number,
-      doc_number,
-      phone_number
-    );
+  const getData = async (id_service, account_name, account_number, doc_number, phone_number) => {
+    const result = await getClients(id_service, account_name, account_number, doc_number, phone_number);
     setClientList(result);
-    setLoading(false)
+    setLoading(false);
   };
 
   const onChangeInputID = async (account_number) => {
@@ -60,7 +41,7 @@ const Client = (props) => {
         const search_value = account_name; // this is the search text
         if (timeout) clearTimeout(timeout);
         timeout = setTimeout(() => {
-          setLoading(true)
+          setLoading(true);
           getData(id_service, search_value, "", "", "");
         }, 500);
       }
@@ -99,14 +80,14 @@ const Client = (props) => {
     return clientList.length > 0 && !loading ? (
       clientList.map((el, index) => {
         return (
-          <div key={index}>
+          <AnimationListItem index={index} key={index}>
             <ClientAccordion service={id_service} client={el} {...props} />
-          </div>
+          </AnimationListItem>
         );
       })
     ) : (
       <div className={style.error_title}>
-        {loading ? <Spinner size="2rem" color="#3182ce"/> : <h3>No hay resultados.</h3>}
+        {loading ? <Spinner size="2rem" color="#3182ce" /> : <h3>No hay resultados.</h3>}
       </div>
     );
   };

@@ -1,0 +1,52 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 2px solid #e0e0e0;
+  background-color: white;
+}
+
+.borderTop {
+  border-radius: 20px 20px 0px 0px;
+  border-bottom: 0px solid #e0e0e0;
+}
+
+.selectedOption {
+  display: flex;
+  align-items: center;
+}
+
+.optionsWrapper {
+  border-radius: 0px 0px 15px 15px;
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--light);
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  font-size: 20px;
+  min-width: 25px;
+}

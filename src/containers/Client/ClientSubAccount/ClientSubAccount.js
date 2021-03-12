@@ -11,13 +11,11 @@ import ConnectionsTable from "./Tables/ConnectionsTable/ConnectionsTable";
 import TaskList from "./TasksList/TaskList";
 import TaskItem from "./TasksList/TaskItem/TaskItem";
 import {
-  getTaskTypes,
   getSubAccountData,
   getSubAccountConnections,
   getTasks,
   getTask,
   createTask,
-  getProblems,
 } from "../../../api/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faEdit, faEye, faNewspaper, faBookmark } from "@fortawesome/free-regular-svg-icons";
