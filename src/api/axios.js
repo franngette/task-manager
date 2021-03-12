@@ -30,7 +30,7 @@ instance.interceptors.response.use(
   function (error) {
     if (error) {
       console.log(error);
-      store.dispatch({ type: AUTH_LOGOUT });
+      //store.dispatch({ type: AUTH_LOGOUT });
     }
     return Promise.reject(error);
   }

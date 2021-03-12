@@ -157,7 +157,7 @@ const Client = (props) => {
             </div>
           </div>
         </div>
-        <div>{renderClientList()}</div>
+        {renderClientList()}
       </div>
     </div>
   );

@@ -2,9 +2,23 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./reclamos.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarMinus, faMapMarkerAlt, faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarMinus,
+  faMapMarkerAlt,
+  faEllipsisV,
+  faListOl,
+} from "@fortawesome/free-solid-svg-icons";
 
-import { createCalendar, getStates, getTasks, getTeams, getTask } from "../../api/index";
+import {
+  createCalendar,
+  getStates,
+  getTasks,
+  getTeams,
+  getTask,
+  getTaskTypes,
+  getRegions,
+  getServiceTypes
+} from "../../api/index";
 
 import AsignTeam from "../../components/AsignTeam/index";
 import Card from "../../components/Card/index";
@@ -14,11 +28,14 @@ import InputText from "../../components/InputText/index";
 import { useSelector } from "react-redux";
 
 const Reclamos = ({ history }) => {
-  const id_service = useSelector(state => state.auth.user.id_service)
+  const id_service = useSelector((state) => state.auth.user.id_service);
 
   const [reclamos, setReclamos] = useState([]);
   const [operators, setOperators] = useState([]);
   const [states, setStates] = useState([]);
+  const [taskTypes, setTaskTypes] = useState([]);
+  const [serviceTypes, setServiceTypes] = useState([]);
+  const [regions, setRegions] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedReclamo, setSelectedReclamo] = useState({});
   const [res, setRes] = useState(false);
@@ -33,17 +50,43 @@ const Reclamos = ({ history }) => {
     setReclamos(response);
   };
 
-  const getData = async () => {
+  const getServiceTypesData = async () => {
+    const serviceTypes = await getServiceTypes(id_service)
+    setServiceTypes(serviceTypes)
+  }
+
+  const getTaskTypesData = async () => {
+    const taskTypes = await getTaskTypes()
+    setTaskTypes(taskTypes)
+  }
+
+  const getRegionsData = async () => {
+    const regions = await getRegions(id_service)
+    setRegions(regions)
+  }
+
+  const getStatesData = async () => {
     const taskStates = await getStates();
-    const reclamos = await getTasks(id_service, "", "", "", "", "", 1, "");
-    const operators = await getTeams(id_service);
     setStates(taskStates);
+  }
+
+  const getOperatorsData = async () => {
+    const operators = await getTeams(id_service);
     setOperators(operators);
-    setReclamos(reclamos);
+  }
+
+  const getTasksData = async () => {
+    const tasks = await getTasks(id_service, "", "", "", "", "", "", "");
+    setReclamos(tasks);
   };
 
   useEffect(() => {
-    getData();
+    //getTasksData();
+    getOperatorsData();
+    getStatesData();
+    getRegionsData();
+    getTaskTypesData();
+    getServiceTypesData()
   }, []);
 
   useEffect(() => {
@@ -89,7 +132,7 @@ const Reclamos = ({ history }) => {
       id_task: reclamo.id,
       id_account: reclamo.id_account,
       id_service: id_service,
-      task: reclamo
+      task: reclamo,
     };
     history.push("/reclamo", state);
   };
@@ -98,30 +141,47 @@ const Reclamos = ({ history }) => {
     if (reclamos[0]?.number) {
       const listReclamos = reclamos.map((reclamo, index) => {
         return (
-          <li key={index} style={{ listStyleType: "none" }} >
+          <li key={index} style={{ listStyleType: "none" }}>
             <div className={styles.card_wrapper}>
               <Card>
                 <div className={styles.card}>
-                  <div className={styles.card_container} onClick={() => toTask(reclamo)}>
+                  <div
+                    className={styles.card_container}
+                    onClick={() => toTask(reclamo)}
+                  >
                     <div className={styles.card_content}>
                       <h4>{reclamo.account_name}</h4>
                       <div className={styles.card_item}>
-                        <Status description={reclamo.last_state_description} name={reclamo.last_state} />
+                        <Status
+                          description={reclamo.last_state_description}
+                          name={reclamo.last_state}
+                        />
                       </div>
                     </div>
                     <div className={styles.card_content}>
                       <div className={styles.card_item}>
                         <p>
-                          <span className={styles.boldText}># {reclamo.number} </span>
+                          <span className={styles.boldText}>
+                            # {reclamo.number}{" "}
+                          </span>
                         </p>
                         <div className={styles.mh}>
-                          <FontAwesomeIcon icon={faMapMarkerAlt} color="#fe6d73" size="1x" />
+                          <FontAwesomeIcon
+                            icon={faMapMarkerAlt}
+                            color="#fe6d73"
+                            size="1x"
+                          />
                         </div>
                         <p>{reclamo.region_name}</p>
                       </div>
                       <div className={styles.card_item}>
                         <div className={styles.mh}>
-                          <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
+                          <FontAwesomeIcon
+                            className={styles.icon}
+                            color="#4299e1"
+                            icon={faCalendarMinus}
+                            size="1x"
+                          />
                         </div>
                         <div>
                           <p>{reclamo.created_at}</p>
@@ -130,7 +190,10 @@ const Reclamos = ({ history }) => {
                     </div>
                   </div>
                   <div className={styles.button_container}>
-                    <button className={styles.button} onClick={() => handlerReclamo(reclamo)}>
+                    <button
+                      className={styles.button}
+                      onClick={() => handlerReclamo(reclamo)}
+                    >
                       <FontAwesomeIcon icon={faEllipsisV} size="1x" />
                     </button>
                   </div>
@@ -151,18 +214,46 @@ const Reclamos = ({ history }) => {
           <b>Reclamos</b>
         </h3>
         <div className={styles.filters}>
-          <InputText
-            icon={faSearch}
-            type="text"
-            placeHolder="Buscar reclamo..."
-            onChange={(event) => inputTaskHandler(event.target.value)}
-          />
-          <DropDown data={states} onChange={(event) => setTasksState(event.target.value)} />
+          <div className={style.input_container}>
+            <InputText
+              type="number"
+              placeHolder="N° Reclamo..."
+              icon={faListOl}
+              iconColor="#fe6d73"
+              onChange={(e) => e.target.value}
+            />
+          </div>
+          <div className={style.input_container}>
+          <DropDown
+              data={taskTypes}
+              onChange={(event) => setTasksState(event.target.value)}
+            />
+          </div>
+          <div className={style.input_container}>
+          <DropDown
+              data={serviceTypes}
+              onChange={(event) => setTasksState(event.target.value)}
+            />
+          </div>
+          <div className={style.input_container}>
+          <DropDown
+              data={regions}
+              onChange={(event) => setTasksState(event.target.value)}
+            />
+          </div>
+          <div className={style.input_container}>
+            <DropDown
+              data={states}
+              onChange={(event) => setTasksState(event.target.value)}
+            />
+          </div>
         </div>
       </div>
       <main>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <ul style={{ width: "100%", marginRight: "1rem" }}>{createLiReclamos(reclamos)}</ul>
+          <ul style={{ width: "100%", marginRight: "1rem" }}>
+            {createLiReclamos(reclamos)}
+          </ul>
           <AsignTeam
             style={style}
             close={handleClose}

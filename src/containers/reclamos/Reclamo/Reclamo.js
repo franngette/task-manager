@@ -39,7 +39,6 @@ const Reclamo = (props) => {
     const subAccounData = await getSubAccountData(id_service, id_account);
     setSubAccount(subAccounData);
     const taskData = await getTask(id_service, id_task);
-    console.log("SUB", subAccounData, "taskDate", taskData);
     setTask(taskData);
   };
 

@@ -1,5 +1,16 @@
 import instance from "./axios";
 
+
+export async function getRegions(id_service) {
+  let result = await instance.get(`/regions/${id_service}`);
+  return result.data;
+}
+
+export async function getServiceTypes(id_service) {
+  let result = await instance.get(`/service/types/${id_service}`);
+  return result.data;
+}
+
 export async function getTasksStatics() {
   let result = await instance.get("/task/amount");
   return result.data;
