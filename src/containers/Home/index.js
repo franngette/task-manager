@@ -4,13 +4,6 @@ import styles from "./style.module.scss";
 import Card from "../../components/Card/index";
 import { Line, Pie } from "react-chartjs-2";
 import { getTasksStatics } from "../../api/index";
-import Selector from "../../components/Selector/Selector";
-import { faUserCircle, faEye, faBookmark } from "@fortawesome/free-regular-svg-icons";
-const array = [
-  { id: 1, name: "test1" },
-  { id: 2, name: "test2" },
-  { id: 3, name: "test3" },
-];
 
 const Home = () => {
   const [chartsData, setChartsData] = useState();
@@ -111,17 +104,6 @@ const Home = () => {
               </div>
             </div>
           </Card>
-        </div>
-        <div>
-          <Selector
-            onSelected={(e) => {
-              console.log(e);
-            }}
-            icons={[
-              { icon: faBookmark, color: "rgb(255, 203, 119)" },
-            ]}
-            data={array}
-          />
         </div>
         {/* <div className={styles.content}>
           <Card>
