@@ -23,7 +23,7 @@ const Home = () => {
     getData();
   }, []);
 
-/*   const lineData = {
+  /*   const lineData = {
     labels: ["January", "February", "March", "April", "May"],
     datasets: [
       {
@@ -33,7 +33,7 @@ const Home = () => {
         borderColor: "rgba(0,0,0,1)",
         borderWidth: 1,
         data: [65, 59, 80, 81, 56],
-      },
+      },y
     ],
   }; */
 

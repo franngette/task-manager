@@ -10,23 +10,28 @@ import Spinner from "../../../components/Spinner/index";
 import ConnectionsTable from "./Tables/ConnectionsTable/ConnectionsTable";
 import TaskList from "./TasksList/TaskList";
 import TaskItem from "./TasksList/TaskItem/TaskItem";
-import { getTaskTypes, getSubAccountData, getSubAccountConnections, getTasks, getTask } from "../../../api/index";
+import {
+  getSubAccountData,
+  getSubAccountConnections,
+  getTasks,
+  getTask,
+  createTask,
+} from "../../../api/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faEdit, faEye, faNewspaper, faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faExchangeAlt, faHdd, faWifi } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
-const months = 2412;
 
 const ClientSubAccount = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
 
   const [showTaskModal, setShowTaskModal] = useState(false);
-  const [taskTypes, setTaskTypes] = useState([]);
   const [subAccData, setSubAccData] = useState([]);
   const [connectSubAcc, setConnecSubAcc] = useState([]);
   const [selectedTask, setSelectedTask] = useState({});
   const [subAccTasks, setSubAccTasks] = useState([]);
+  const [months, setMonths] = useState(1);
 
   const getSubAccTasks = async () => {
     const res = await getTasks(id_service, "", props.location.state.client_sub_account, "", "", "", "", "");
@@ -41,15 +46,13 @@ const ClientSubAccount = (props) => {
 
   const taskHandler = async (id) => {
     const res = await getTask(id_service, id);
-    console.log(res);
+    console.log(res, id);
     setSelectedTask(res);
   };
 
   const getData = async () => {
     const resSubAcc = await getSubAccountData(id_service, props.location.state.client_sub_account);
     setSubAccData(resSubAcc);
-    const resTaskType = await getTaskTypes();
-    setTaskTypes(resTaskType);
     getSubAccTasks();
   };
 
@@ -66,8 +69,7 @@ const ClientSubAccount = (props) => {
     subAccData?.info && getConnections();
   }, [subAccData]);
 
-  const toTask = (reclamo) => {
-    console.log(reclamo);
+  const toTask = () => {
     let state = {
       id_task: selectedTask.id,
       id_account: subAccData.info[0].id_sub_account,
@@ -75,6 +77,11 @@ const ClientSubAccount = (props) => {
       task: selectedTask,
     };
     props.history.push("/reclamo", state);
+  };
+
+  const createTaskHandler = async (id_service, sid, taskType, idProblem, description) => {
+    const result = await createTask(id_service, sid, taskType, idProblem, description);
+    return result;
   };
 
   return (
@@ -347,9 +354,11 @@ const ClientSubAccount = (props) => {
           <NewTaskModal
             id={props.location.state.client_id}
             sid={props.location.state.client_sub_account}
-            taskTypes={taskTypes}
+            serviceType={subAccData?.service[0].id_service_type}
             onClose={() => setShowTaskModal(false)}
-            onSave={(el) => console.log(el)}
+            onSave={(id_service, sid, taskType, idProblem, description) =>
+              createTaskHandler(id_service, sid, taskType, idProblem, description)
+            }
           />
         </Modal>
       )}
