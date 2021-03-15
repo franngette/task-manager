@@ -34,10 +34,7 @@ export async function createIncident(id_task, description, id_user) {
 }
 
 export async function updatedUserProfile(data) {
-  let res = await instance.post(
-    "/upload",
-    data,
-  );
+  let res = await instance.post("/upload", data);
   const result = res.data;
   return result;
 }
@@ -53,34 +50,22 @@ export async function getTaskTypes() {
   return data;
 }
 
-export async function getSubAccountConnections(username, months) {
-  let result = await instance.get(
-    `clients/sub_clients/connections/${username}/${months}`
-  );
+export async function getSubAccountConnections(username, date_from, date_to) {
+  let result = await instance.get(`clients/sub_clients/connections/${username}/${date_from}/${date_to}`);
   return result.data;
 }
 
 export async function getSubAccountData(id_service, id_sub_account) {
-  let result = await instance.get(
-    `/clients/sub_client/${id_service}/${id_sub_account}`
-  );
+  let result = await instance.get(`/clients/sub_client/${id_service}/${id_sub_account}`);
   return result.data;
 }
 
 export async function getClientSubAccounts(id_service, id_account) {
-  let result = await instance.get(
-    `/clients/sub_clients/${id_service}/${id_account}`
-  );
+  let result = await instance.get(`/clients/sub_clients/${id_service}/${id_account}`);
   return result.data;
 }
 
-export async function getClients(
-  id_service,
-  account_name,
-  account_number,
-  doc_number,
-  phone_number
-) {
+export async function getClients(id_service, account_name, account_number, doc_number, phone_number) {
   var json_data = {
     id_service: id_service,
     account_name: account_name,
@@ -233,12 +218,7 @@ export async function createTeam(id_service, id_vehicle, ids_operator) {
   return data;
 }
 
-export async function updateTeam(
-  id_service,
-  id_team,
-  id_vehicle,
-  ids_operator
-) {
+export async function updateTeam(id_service, id_team, id_vehicle, ids_operator) {
   let id_vehicle_send = id_vehicle.id;
   let ids_operators_send = "";
   ids_operator.forEach((element) => {
@@ -256,13 +236,7 @@ export async function updateTeam(
   return data;
 }
 
-export async function updateCalendarTask(
-  id_calendar,
-  id_task,
-  date,
-  id_team,
-  priority
-) {
+export async function updateCalendarTask(id_calendar, id_task, date, id_team, priority) {
   var json_data = {
     id_calendar: id_calendar,
     id_task: id_task,

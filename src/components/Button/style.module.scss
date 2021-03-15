@@ -1,6 +1,5 @@
 .default {
   color: var(--light);
-  margin: 1rem;
   border-radius: 5px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   padding: 0.3rem 0.8rem;
@@ -41,11 +40,9 @@
 
 .outline {
   color: var(--light-blue);
-  font-size: 18px;
   border: 0;
   outline: none;
   padding: 0.3rem 0.8rem;
-  margin: 1rem;
   background-color: transparent;
   cursor: pointer;
   &:hover {

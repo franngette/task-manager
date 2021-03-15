@@ -10,28 +10,23 @@ import Spinner from "../../../components/Spinner/index";
 import ConnectionsTable from "./Tables/ConnectionsTable/ConnectionsTable";
 import TaskList from "./TasksList/TaskList";
 import TaskItem from "./TasksList/TaskItem/TaskItem";
-import {
-  getSubAccountData,
-  getSubAccountConnections,
-  getTasks,
-  getTask,
-  createTask,
-} from "../../../api/index";
+import { getSubAccountData, getSubAccountConnections, getTasks, getTask, createTask } from "../../../api/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faEdit, faEye, faNewspaper, faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faExchangeAlt, faHdd, faWifi } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-
+import AnimatedListItem from "../../../components/Animations/AnimatedListItem/AnimatedListItem";
+import ConnectionsModal from "./Modals/ConnectionsModal/ConnectionsModal";
 
 const ClientSubAccount = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
 
+  const [showConnecModal, setShowCoonectModal] = useState(false);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [subAccData, setSubAccData] = useState([]);
   const [connectSubAcc, setConnecSubAcc] = useState([]);
   const [selectedTask, setSelectedTask] = useState({});
   const [subAccTasks, setSubAccTasks] = useState([]);
-  const [months, setMonths] = useState(1);
 
   const getSubAccTasks = async () => {
     const res = await getTasks(id_service, "", props.location.state.client_sub_account, "", "", "", "", "");
@@ -39,9 +34,11 @@ const ClientSubAccount = (props) => {
   };
 
   const listOfTasks = () => {
-    return subAccTasks.map((e, i) => {
-      return <TaskList key={i} task={e} onClick={(val) => taskHandler(val)} />;
-    });
+    return subAccTasks.map((e, i) => (
+      <AnimatedListItem key={i} index={i}>
+        <TaskList key={i} task={e} onClick={(val) => taskHandler(val)} />
+      </AnimatedListItem>
+    ));
   };
 
   const taskHandler = async (id) => {
@@ -61,7 +58,11 @@ const ClientSubAccount = (props) => {
   }, []);
 
   const getConnections = async () => {
-    const res = await getSubAccountConnections(subAccData.info[0].radius_login, months);
+    const res = await getSubAccountConnections(
+      subAccData.info[0].radius_login,
+      moment().subtract(1, "months").format("YYYY-MM-DD"),
+      moment().format("YYYY-MM-DD")
+    );
     setConnecSubAcc(res);
   };
 
@@ -84,6 +85,23 @@ const ClientSubAccount = (props) => {
     return result;
   };
 
+  const renderObservations = () => {
+    return subAccData.obs.map((e, i) => (
+      <AnimatedListItem index={i} key={i}>
+        <li style={{ listStyleType: "none" }}>
+          <div style={{ marginBottom: "0.5rem" }}>
+            <Card>
+              <div className={styles.observationsContent}>
+                <p>{e.text}</p>
+                <h5 className={styles.boldText}>{moment(e.obs_date).format("DD/MM/YYYY")}</h5>
+              </div>
+            </Card>
+          </div>
+        </li>
+      </AnimatedListItem>
+    ));
+  };
+
   return (
     <>
       {subAccData.info ? (
@@ -95,8 +113,8 @@ const ClientSubAccount = (props) => {
               </h3>
             </div>
             <div className={styles.child}>
-              <Button type="button" variant="light" onClick={() => setShowTaskModal(true)}>
-                <p>Nuevo Reclamo</p>
+              <Button type="button" variant="outline" onClick={() => setShowTaskModal(true)}>
+                <p style={{ fontSize: "16px" }}>Nuevo Reclamo</p>
               </Button>
             </div>
           </div>
@@ -240,10 +258,17 @@ const ClientSubAccount = (props) => {
           <div className={styles.ctnr_lg}>
             <div className={styles.card_wrapper}>
               <Card>
-                <h4 className={styles.cardTitle}>
-                  <FontAwesomeIcon icon={faExchangeAlt} color="#D133AF" style={{ marginRight: "0.5rem" }} />
-                  Conexiones
-                </h4>
+                <div className={styles.innerHeader}>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faExchangeAlt} color="#D133AF" style={{ marginRight: "0.5rem" }} />
+                    Conexiones
+                  </h4>
+                  <div style={{ marginRight: "1rem", marginTop: "1rem" }}>
+                    <Button onClick={() => setShowCoonectModal(true)} type="button" variant="outline">
+                      Ver mas
+                    </Button>
+                  </div>
+                </div>
                 <div className={styles.cardContent}>
                   <div style={{ height: "100%" }}>
                     {connectSubAcc.length > 0 ? (
@@ -266,20 +291,7 @@ const ClientSubAccount = (props) => {
                 </h4>
                 <div className={styles.cardContent}>
                   {subAccData?.obs[0] ? (
-                    subAccData.obs.map((e, i) => {
-                      return (
-                        <li key={i} style={{ listStyleType: "none" }}>
-                          <div style={{ marginBottom: "0.5rem" }}>
-                            <Card>
-                              <div className={styles.observationsContent}>
-                                <p>{e.text}</p>
-                                <h5 className={styles.boldText}>{moment(e.obs_date).format("DD/MM/YYYY")}</h5>
-                              </div>
-                            </Card>
-                          </div>
-                        </li>
-                      );
-                    })
+                    renderObservations()
                   ) : (
                     <div className={styles.contentCentered}>
                       <h4 className={styles.boldText}>No hay Datos</h4>{" "}
@@ -347,6 +359,16 @@ const ClientSubAccount = (props) => {
         <div className={styles.contentCentered}>
           <Spinner color="#4299e1" size="4rem" />
         </div>
+      )}
+
+      {showConnecModal && (
+        <Modal title="Buscar Conexiones" onClose={() => setShowCoonectModal(false)}>
+          <ConnectionsModal
+            onClose={() => setShowCoonectModal(false)}
+            connectSubAcc={connectSubAcc}
+            login={subAccData.info[0].radius_login}
+          />
+        </Modal>
       )}
 
       {showTaskModal && (

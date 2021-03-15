@@ -94,3 +94,9 @@
     background: var(--light-blue);
   }
 }
+
+.innerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import InputText from "../../components/InputText";
 import Spinner from "../../components/Spinner/index";
 import ClientAccordion from "./ClientAccordion/ClientAccordion";
-import AnimationListItem from "../../components/Animations/AnimationListItem/AnimatedListItem";
+import AnimatedListItem from "../../components/Animations/AnimatedListItem/AnimatedListItem";
 import { faAddressCard, faListOl, faPhone, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { getClients } from "../../api/index";
 
@@ -80,9 +80,9 @@ const Client = (props) => {
     return clientList.length > 0 && !loading ? (
       clientList.map((el, index) => {
         return (
-          <AnimationListItem index={index} key={index}>
+          <AnimatedListItem index={index} key={index}>
             <ClientAccordion service={id_service} client={el} {...props} />
-          </AnimationListItem>
+          </AnimatedListItem>
         );
       })
     ) : (
