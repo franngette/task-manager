@@ -41,8 +41,20 @@ const Home = () => {
     datasets: [
       {
         data: chartsData?.amount_type?.map((el) => el.amount),
-        backgroundColor: ["rgb(34, 124, 157)", "rgb(23, 195, 178)", "rgb(255, 203, 119)", "rgb(254, 109, 115)"],
-        hoverBackgroundColor: ["rgb(29, 106, 134)", "rgb(19, 164, 150)", "rgb(255, 185, 71)", "rgb(254, 72, 78)"],
+        backgroundColor: [
+          "rgb(34, 124, 157)",
+          "rgb(23, 195, 178)",
+          "rgb(255, 203, 119)",
+          "rgb(254, 109, 115)",
+          "rgb(144,221,240)",
+        ],
+        hoverBackgroundColor: [
+          "rgb(29, 106, 134)",
+          "rgb(19, 164, 150)",
+          "rgb(255, 185, 71)",
+          "rgb(254, 72, 78)",
+          "rgb(111,211,235)",
+        ],
       },
     ],
     labels: chartsData?.amount_type?.map((el) => el.description_type),
@@ -52,8 +64,20 @@ const Home = () => {
     datasets: [
       {
         data: chartsData?.amount_service?.map((el) => el.amount),
-        backgroundColor: ["rgb(34, 124, 157)", "rgb(23, 195, 178)", "rgb(255, 203, 119)", "rgb(254, 109, 115)"],
-        hoverBackgroundColor: ["rgb(29, 106, 134)", "rgb(19, 164, 150)", "rgb(255, 185, 71)", "rgb(254, 72, 78)"],
+        backgroundColor: [
+          "rgb(34, 124, 157)",
+          "rgb(23, 195, 178)",
+          "rgb(255, 203, 119)",
+          "rgb(254, 109, 115)",
+          "rgb(144,221,240)",
+        ],
+        hoverBackgroundColor: [
+          "rgb(29, 106, 134)",
+          "rgb(19, 164, 150)",
+          "rgb(255, 185, 71)",
+          "rgb(254, 72, 78)",
+          "rgb(111,211,235)",
+        ],
       },
     ],
     labels: chartsData?.amount_service?.map((el) => el.description_service),
