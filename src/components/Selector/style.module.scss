@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   font-size: 12px;
+  height: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .select {
@@ -13,6 +16,7 @@
   border-radius: 20px;
   border: 2px solid #e0e0e0;
   background-color: white;
+  height: 100%;
 }
 
 .borderTop {
@@ -26,10 +30,33 @@
 }
 
 .optionsWrapper {
-  border-radius: 0px 0px 15px 15px;
   background-color: white;
   border: 2px solid #e0e0e0;
-  overflow: hidden;
+  position: absolute;
+  top: 38px;
+  right: 0;
+  left: 0;
+  max-height: 200px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: var(--dark-blue);
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--light-blue);
+  }
 }
 
 .options {

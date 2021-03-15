@@ -7,11 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { AnimatePresence } from "framer-motion";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <AnimatePresence>
+        <App />
+      </AnimatePresence>
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

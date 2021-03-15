@@ -1,6 +1,13 @@
 .filters {
   display: flex;
   margin: 1rem;
+  width: 85%;
+  justify-content: flex-end;
+}
+.input_container {
+  width: 12%;
+  min-width: 250px;
+  margin: 0rem 0.5rem;
 }
 
 .header {
@@ -80,4 +87,10 @@
 .boldText {
   font-family: "Roboto Bold";
   color: var(--blue);
+}
+
+.error_title {
+  color: #3182ce;
+  text-align: center;
+  margin-top: 100px;
 }
