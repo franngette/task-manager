@@ -14,89 +14,89 @@ import {
   getStates,
   getTasks,
   getTeams,
-  getTask,
   getTaskTypes,
   getRegions,
-  getServiceTypes
+  getServiceTypes,
 } from "../../api/index";
 
 import AsignTeam from "../../components/AsignTeam/index";
 import Card from "../../components/Card/index";
 import Status from "../../components/Status/index";
-import DropDown from "../../components/DropDown/index";
+import Selector from "../../components/Selector/Selector";
 import InputText from "../../components/InputText/index";
 import { useSelector } from "react-redux";
+import AnimationListItem from "../../components/Animations/AnimationListItem/AnimatedListItem";
 
 const Reclamos = ({ history }) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
 
   const [reclamos, setReclamos] = useState([]);
   const [operators, setOperators] = useState([]);
-  const [states, setStates] = useState([]);
-  const [taskTypes, setTaskTypes] = useState([]);
-  const [serviceTypes, setServiceTypes] = useState([]);
-  const [regions, setRegions] = useState([]);
+  const [states, setStates] = useState();
+  const [taskTypes, setTaskTypes] = useState();
+  const [serviceTypes, setServiceTypes] = useState();
+  const [regions, setRegions] = useState();
+
   const [open, setOpen] = useState(false);
+
   const [selectedReclamo, setSelectedReclamo] = useState({});
+
   const [res, setRes] = useState(false);
-  const [tasksState, setTasksState] = useState(1);
+
+  const [valuesSelected, setValuesSelected] = useState({
+    stateSelected: "",
+    regionSelected: "",
+    taskTypeSelected: "",
+    serviceTypesSelected: "",
+    numberTaskSelected: "",
+  });
+
   const [style, setStyle] = useState({
     width: "0%",
     transition: "width 1s",
   });
 
-  const refreshTasks = async () => {
-    const response = await getTasks(1, "", "", "", "", "", tasksState, "");
-    setReclamos(response);
-  };
-
-  const getServiceTypesData = async () => {
-    const serviceTypes = await getServiceTypes(id_service)
-    setServiceTypes(serviceTypes)
-  }
-
-  const getTaskTypesData = async () => {
-    const taskTypes = await getTaskTypes()
-    setTaskTypes(taskTypes)
-  }
-
-  const getRegionsData = async () => {
-    const regions = await getRegions(id_service)
-    setRegions(regions)
-  }
-
-  const getStatesData = async () => {
-    const taskStates = await getStates();
-    setStates(taskStates);
-  }
-
-  const getOperatorsData = async () => {
-    const operators = await getTeams(id_service);
-    setOperators(operators);
-  }
-
-  const getTasksData = async () => {
-    const tasks = await getTasks(id_service, "", "", "", "", "", "", "");
-    setReclamos(tasks);
+  const filterHandler = (event) => {
+    setValuesSelected({
+      ...valuesSelected,
+      [event.target.name]: event.target.value,
+    });
   };
 
   useEffect(() => {
-    //getTasksData();
-    getOperatorsData();
-    getStatesData();
-    getRegionsData();
-    getTaskTypesData();
-    getServiceTypesData()
+    getServiceTypes(id_service).then((response) => {
+      setServiceTypes(response);
+    });
+    getTaskTypes().then((response) => {
+      setTaskTypes(response);
+    });
+    getRegions(id_service).then((response) => {
+      setRegions(response);
+    });
+    getStates().then((response) => {
+      setStates(response);
+    });
+    getTeams(id_service).then((response) => {
+      setOperators(response);
+    });
   }, []);
 
   useEffect(() => {
-    refreshTasks();
-  }, [tasksState]);
-
-  const inputTaskHandler = async (task_id) => {
-    const res = await getTask(id_service, task_id);
-    setReclamos(res);
-  };
+    console.log(id_service, valuesSelected);
+    getTasks(
+      id_service,
+      valuesSelected.numberTaskSelected,
+      "",
+      "",
+      valuesSelected.taskTypeSelected,
+      valuesSelected.serviceTypesSelected,
+      valuesSelected.stateSelected,
+      valuesSelected.regionSelected
+    ).then((response) => {
+      console.log(response);
+      setReclamos(response);
+    });
+  }, [id_service, valuesSelected]);
 
   const onSave = async (test, teamDate, team, priority) => {
     const res = await createCalendar(test, teamDate, team, priority);
@@ -139,9 +139,13 @@ const Reclamos = ({ history }) => {
 
   const createLiReclamos = (reclamos) => {
     if (reclamos[0]?.number) {
-      const listReclamos = reclamos.map((reclamo, index) => {
+      return reclamos.map((reclamo, index) => {
         return (
-          <li key={index} style={{ listStyleType: "none" }}>
+          <AnimationListItem
+            index={index}
+            key={index}
+            style={{ listStyleType: "none" }}
+          >
             <div className={styles.card_wrapper}>
               <Card>
                 <div className={styles.card}>
@@ -200,10 +204,13 @@ const Reclamos = ({ history }) => {
                 </div>
               </Card>
             </div>
-          </li>
+          </AnimationListItem>
         );
       });
-      return listReclamos;
+    } else {
+      return (<div className={styles.error_title}>
+        <h3>No hay resultados.</h3>
+      </div>)
     }
   };
 
@@ -214,37 +221,44 @@ const Reclamos = ({ history }) => {
           <b>Reclamos</b>
         </h3>
         <div className={styles.filters}>
-          <div className={style.input_container}>
+          <div className={styles.input_container}>
             <InputText
               type="number"
+              name="numberTaskSelected"
               placeHolder="N° Reclamo..."
               icon={faListOl}
               iconColor="#fe6d73"
-              onChange={(e) => e.target.value}
+              onChange={(e) => {
+                filterHandler(e);
+              }}
             />
           </div>
-          <div className={style.input_container}>
-          <DropDown
+          <div className={styles.input_container}>
+            <Selector
+              nameKey="taskTypeSelected"
               data={taskTypes}
-              onChange={(event) => setTasksState(event.target.value)}
+              onSelected={filterHandler}
             />
           </div>
-          <div className={style.input_container}>
-          <DropDown
+          <div className={styles.input_container}>
+            <Selector
+              nameKey="serviceTypesSelected"
               data={serviceTypes}
-              onChange={(event) => setTasksState(event.target.value)}
+              onSelected={filterHandler}
             />
           </div>
-          <div className={style.input_container}>
-          <DropDown
+          <div className={styles.input_container}>
+            <Selector
+              nameKey="regionSelected"
               data={regions}
-              onChange={(event) => setTasksState(event.target.value)}
+              onSelected={filterHandler}
             />
           </div>
-          <div className={style.input_container}>
-            <DropDown
+          <div className={styles.input_container}>
+            <Selector
+              nameKey="stateSelected"
               data={states}
-              onChange={(event) => setTasksState(event.target.value)}
+              onSelected={filterHandler}
             />
           </div>
         </div>
