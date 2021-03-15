@@ -15,6 +15,7 @@ import Signin from "./containers/Signin/index";
 import withAuth from "./hoc/withAuth/index";
 import Spinner from "./components/Spinner/index";
 
+
 const Home = lazy(() => import("./containers/Home/index"));
 const Calendario = lazy(() => import("./containers/Calendario/index"));
 const Reclamos = lazy(() => import("./containers/Reclamos/Reclamos"));
@@ -23,6 +24,7 @@ const Layout = lazy(() => import("./containers/Layout/index"));
 const Client = lazy(() => import("./containers/Client/Client"));
 const ClientSubAccount = lazy(() => import("./containers/Client/ClientSubAccount/ClientSubAccount"));
 const Cuadrillas = lazy(() => import("./containers/Cuadrillas/Cuadrillas"));
+
 
 function App() {
   const isUserAuthenticated = useSelector((state) => state.auth.logged);

@@ -2,7 +2,7 @@ import styles from './style.module.scss'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const InputText = ({ type, onChange, placeHolder, icon, iconColor = 'rgba(45, 55, 72, 1)' }) => {
+const InputText = ({ type, name="", onChange, placeHolder, icon, iconColor = 'rgba(45, 55, 72, 1)' }) => {
   return (
     <div className={styles.content_input}>
       <FontAwesomeIcon
@@ -12,6 +12,7 @@ const InputText = ({ type, onChange, placeHolder, icon, iconColor = 'rgba(45, 55
         color={iconColor}
       />
       <input
+        name={name}
         type={type}
         className={styles.input}
         onChange={onChange}

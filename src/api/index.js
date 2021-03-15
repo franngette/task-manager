@@ -1,5 +1,16 @@
 import instance from "./axios";
 
+
+export async function getRegions(id_service) {
+  let result = await instance.get(`/regions/${id_service}`);
+  return result.data;
+}
+
+export async function getServiceTypes(id_service) {
+  let result = await instance.get(`/service/types/${id_service}`);
+  return result.data;
+}
+
 export async function getProblems(id_service, id, id_account_type_service, search) {
   let json_data = { id_service: id_service, id: id, id_account_type_service: id_account_type_service, search: search };
   let result = await instance.post("/problems", json_data);
@@ -17,6 +28,7 @@ export async function createTask(id_service, id_account, id_task_type, id_proble
   let result = await instance.post("/task", json_data);
   return result.data;
 }
+
 
 export async function getTasksStatics() {
   let result = await instance.get("/task/amount");
