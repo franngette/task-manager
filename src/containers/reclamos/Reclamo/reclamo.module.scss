@@ -13,6 +13,11 @@
   align-items: center;
 }
 
+.headerChild {
+  display: flex;
+  align-items: center;
+}
+
 .wrapper_content_header {
   display: flex;
   width: 100%;
@@ -28,7 +33,6 @@
 .wrapper_info_content {
   display: flex;
   justify-content: space-between;
-  
 }
 .card_content_header {
   display: flex;
@@ -119,5 +123,5 @@
 
 .card_title {
   font-family: "Roboto Bold";
-  color: black
+  color: black;
 }

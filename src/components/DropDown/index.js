@@ -1,16 +1,14 @@
-import style from './style.module.css'
-import PropTypes from 'prop-types'
+import style from "./style.module.css";
+import PropTypes from "prop-types";
 
 const DropDown = ({ data, form, name, id, onChange, selectedValue }) => {
-  const displayOptions = (data) => {
-    return data.map((el) => {
-      return (
-        <option value={el.id} key={el.id}>
-          {el.name}
-        </option>
-      )
-    })
-  }
+  const displayOptions = (data) =>
+    data.map((el, i) => (
+      <option value={el.id} key={el.name + i}>
+        {el.name}
+      </option>
+    ));
+
   return (
     <select
       className={style.select}
@@ -23,15 +21,15 @@ const DropDown = ({ data, form, name, id, onChange, selectedValue }) => {
     >
       {displayOptions(data)}
     </select>
-  )
-}
+  );
+};
 
 DropDown.propTypes = {
   form: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
   selectedValue: PropTypes.number,
-  data: PropTypes.array
-}
+  data: PropTypes.array,
+};
 
-export default DropDown
+export default DropDown;

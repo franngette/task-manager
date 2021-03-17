@@ -11,7 +11,7 @@ import { faAddressCard, faListOl, faPhone, faUserCircle } from "@fortawesome/fre
 import { getClients } from "../../api/index";
 
 const Client = (props) => {
-  let timeout = null;
+  let timeout;
   const id_service = useSelector((state) => state.auth.user.id_service);
   const [clientList, setClientList] = useState([]);
   const [loading, setLoading] = useState(false);

@@ -7,6 +7,8 @@ import Incident from "./Incident/Incident";
 import Button from "../../../components/Button/index";
 import Modal from "../../../components/Modal/index";
 import NewIssueModal from "../../../components/Modal/NewIssueModal/NewIssueModal";
+import CloseTaskModal from "./CloseTaskModal/CloseTaskModal";
+
 import style from "./reclamo.module.scss";
 import {
   faAddressCard,
@@ -25,7 +27,6 @@ import { getTask, getSubAccountData, createIncident } from "../../../api/index";
 import { useSelector } from "react-redux";
 
 const Reclamo = (props) => {
-  //const location = useLocation()
   const id_service = useSelector((state) => state.auth.user.id_service);
   const id_account = props.location.state.id_account;
   const id_task = props.location.state.id_task;
@@ -34,13 +35,7 @@ const Reclamo = (props) => {
   const [task, setTask] = useState();
   const [subAccount, setSubAccount] = useState();
   const [showIssueModal, setShowIssueModal] = useState(false);
-
-  const getData = async () => {
-    const subAccounData = await getSubAccountData(id_service, id_account);
-    setSubAccount(subAccounData);
-    const taskData = await getTask(id_service, id_task);
-    setTask(taskData);
-  };
+  const [showCloseModal, setShowShowModal] = useState(false);
 
   const renderPhones = (phones) => {
     return phones.map((phone, index) => {
@@ -73,23 +68,38 @@ const Reclamo = (props) => {
     });
   };
 
-  const incidentHandler = async (description) => {
-    await createIncident(id_task, description, user_id);
+  const incidentHandler = (description) => {
+    createIncident(id_task, description, user_id).then((res) => {
+      getTask(id_service, id_task).then((res) => setTask(res));
+    });
   };
 
+  const closeTaskHandler = () => {};
+
   useEffect(() => {
-    getData();
-  }, [id_account, id_task, incidentHandler]);
+    getTask(id_service, id_task).then((res) => {
+      const resultTaks = res;
+      getSubAccountData(id_service, id_account).then((res) => {
+        setTask(resultTaks);
+        setSubAccount(res);
+      });
+    });
+  }, []);
 
   let loaded = <Spinner />;
   if (task) {
     loaded = (
       <div className={style.wrapper}>
         <div className={style.header}>
-          <h3 style={{ margin: "1rem" }}>
-            <b>{"Reclamo #" + task.number + " - " + task.created_at}</b>
-          </h3>
-          {task.last_state ? <Status description={task.last_state_description} name={task.last_state} /> : ""}
+          <div className={style.headerChild}>
+            <h3 style={{ margin: "1rem" }}>
+              <b>{"Reclamo #" + task.number + " - " + task.created_at}</b>
+            </h3>
+            {task.last_state ? <Status description={task.last_state_description} name={task.last_state} /> : ""}
+          </div>
+          <Button onClick={() => setShowShowModal(true)} variant="outline">
+            <p style={{ fontSize: "18px" }}>Cerrar reclamo</p>
+          </Button>
         </div>
         <div className={style.wrapper_content_header}>
           <div className={style.card_container}>
@@ -115,7 +125,7 @@ const Reclamo = (props) => {
                   <h4 className={style.card_title}>Datos Tecnicos</h4>
                 </div>
                 <div className={style.card_content}>
-                  {subAccount?.dslam.length === 0 ? (
+                  {!subAccount?.dslam ? (
                     <div className={style.error_message_content}>
                       <h4 className={style.boldText}>No existen datos.</h4>
                     </div>
@@ -235,7 +245,7 @@ const Reclamo = (props) => {
                       onClick={() => {
                         setShowIssueModal(true);
                       }}
-                      variant="light"
+                      variant="outline"
                     >
                       Nuevo Incidente
                     </Button>
@@ -354,10 +364,12 @@ const Reclamo = (props) => {
         </div>
         {showIssueModal && (
           <Modal title="Nuevo Incidente" onClose={() => setShowIssueModal(false)}>
-            <NewIssueModal
-              onClose={() => setShowIssueModal(false)}
-              onSave={(description) => incidentHandler(description)}
-            />
+            <NewIssueModal onClose={() => setShowIssueModal(false)} onSave={incidentHandler} />
+          </Modal>
+        )}
+        {showCloseModal && (
+          <Modal title="Cerrar reclamo" onClose={() => setShowShowModal(false)}>
+            <CloseTaskModal onClose={() => setShowShowModal(false)} onSave={closeTaskHandler} />
           </Modal>
         )}
       </div>
