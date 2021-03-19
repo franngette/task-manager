@@ -1,0 +1,74 @@
+.modal_wrapper {
+  display: flex;
+  min-height: 500px;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0rem 2rem;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.contentRow {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.contentCentered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.description {
+  background: #ffffff;
+  padding: 1rem;
+  width: 100%;
+  min-height: 250px;
+  resize: none;
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  &:focus {
+    outline: none !important;
+  }
+}
+
+.gridContainer {
+  display: grid;
+  padding: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gridContainerHeader {
+  @extend .gridContainer;
+  background-color: #4299e1;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.gridItem {
+  display: grid;
+  justify-content: center;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
