@@ -23,7 +23,6 @@ const withAuth = (WrappedComponent) => {
         history.push("/");
       } else {
         if (!isSocketConnected) {
-          console.log("reconnect")
           dispatch(actions.connectSocket(user.id));
         }
       }

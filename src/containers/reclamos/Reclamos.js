@@ -85,7 +85,6 @@ const Reclamos = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    console.log(id_service, valuesSelected);
     getTasks(
       id_service,
       valuesSelected.numberTaskSelected,
@@ -96,7 +95,6 @@ const Reclamos = ({ history }) => {
       valuesSelected.stateSelected,
       valuesSelected.regionSelected
     ).then((response) => {
-      console.log(response);
       setReclamos(response);
     });
   }, [id_service, valuesSelected]);
@@ -130,7 +128,6 @@ const Reclamos = ({ history }) => {
   };
 
   const toTask = (reclamo) => {
-    console.log(reclamo);
     let state = {
       id_task: reclamo.id,
       id_account: reclamo.id_account,

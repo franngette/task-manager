@@ -9,11 +9,6 @@
   flex-direction: column;
   align-items: center;
 }
-.wrapper_hidden {
-  @extend .wrapper;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
 
 .container {
   width: 90%;
@@ -53,9 +48,13 @@
 }
 
 .content_message {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
+  text-align: center;
+  & .error > p {
+    color: var(--warning-medium);
+  }
+  & .success > p{
+    color: var(--success-light);
+  }
 }
 
 .content_buttons {
@@ -67,5 +66,13 @@
     flex-wrap: wrap;
   }
 }
+
+.input_container {
+  width: 12%;
+  min-width: 250px;
+  margin: 0rem 0.5rem;
+}
+
+
 
 

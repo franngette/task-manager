@@ -213,37 +213,31 @@ export async function getVehicles(id_service, id_team) {
   return data;
 }
 
-export async function createTeam(id_service, id_vehicle, ids_operator) {
-  let id_vehicle_send = id_vehicle.id;
-  let ids_operators_send = "";
-  ids_operator.forEach((element) => {
-    ids_operators_send += element.id + ",";
-  });
-  ids_operators_send = ids_operators_send.slice(0, -1);
+export async function createTeam(id_service, vehicle, operators) {
   var json_data = {
     id_service: id_service,
-    id_vehicle: id_vehicle_send,
-    ids_operator: ids_operators_send,
+    vehicle: vehicle,
+    operators: operators,
   };
   const res = await instance.post("/task/team", JSON.stringify(json_data));
   const data = res.data;
   return data;
 }
 
-export async function updateTeam(id_service, id_team, id_vehicle, ids_operator) {
-  let id_vehicle_send = id_vehicle.id;
-  let ids_operators_send = "";
-  ids_operator.forEach((element) => {
-    ids_operators_send += element.id + ",";
-  });
-  ids_operators_send = ids_operators_send.slice(0, -1);
+export async function updateTeam(id_service, id_team, vehicle, operators) {
   var json_data = {
     id_service: id_service,
     id_team: id_team,
-    id_vehicle: id_vehicle_send,
-    ids_operator: ids_operators_send,
+    vehicle: vehicle,
+    operators: operators,
   };
   const res = await instance.put("/task/team", JSON.stringify(json_data));
+  const data = res.data;
+  return data;
+}
+
+export async function closeTeam(id_service, id_team) {
+  const res = await instance.delete(`/task/team/${id_service}/${id_team}`);
   const data = res.data;
   return data;
 }

@@ -43,7 +43,6 @@ const ClientSubAccount = (props) => {
 
   const taskHandler = async (id) => {
     const res = await getTask(id_service, id);
-    console.log(res, id);
     setSelectedTask(res);
   };
 
