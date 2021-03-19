@@ -26,15 +26,11 @@ const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
   };
 
   useEffect(() => {
-    console.log(idProblem, taskType);
-  }, [idProblem, taskType]);
-  useEffect(() => {
     getData();
   }, []);
 
   const saveHandler = async () => {
     const res = await onSave(id_service, sid, taskType, idProblem, description);
-    console.log(res);
     if (res.error) {
       setMessage(res.message);
       setError(true);

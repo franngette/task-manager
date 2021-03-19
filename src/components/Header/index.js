@@ -77,7 +77,6 @@ const Header = () => {
 
   const uploadImageHandler = (e) => {
     const image = e.target.files;
-    console.log(image);
     if (image.length > 0) {
       setImage(image);
     } else {
@@ -114,16 +113,18 @@ const Header = () => {
   return (
     <div ref={ref} className={style.container}>
       <div className={style.container_services}>
-        <DropDown
-          selectedValue={user ? user.id_service : 1}
-          data={services}
-          name="services"
-          form="services"
-          id="services"
-          onChange={(e) => {
-            updateService(e.target.value);
-          }}
-        />
+        {user && (
+          <DropDown
+            selectedValue={user.id_service}
+            data={services}
+            name="services"
+            form="services"
+            id="services"
+            onChange={(e) => {
+              updateService(e.target.value);
+            }}
+          />
+        )}
       </div>
       {/*       <Notification
         icon={faBell}

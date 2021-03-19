@@ -30,7 +30,6 @@ const ClientAccordion = ({ service, client, history }) => {
       setShowAccount(true);
       getClientSubAccounts(service, client.id_account).then((res) => {
         const updateSubAccount = res.length > 1 ? res : [res];
-        console.log(updateSubAccount);
         setSubAccounts(updateSubAccount);
       });
     } else {

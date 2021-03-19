@@ -46,7 +46,6 @@ const Signin = (props) => {
             setError(true);
             setLoading(false);
           } else {
-            console.log("login");
             dispatch(actions.authLogged(response));
             dispatch(actions.connectSocket(response.id));
             //props.history.push("/home");
