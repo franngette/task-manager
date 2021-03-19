@@ -24,13 +24,14 @@ const ClientSubAccount = (props) => {
   const [showConnecModal, setShowCoonectModal] = useState(false);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [subAccData, setSubAccData] = useState([]);
-  const [connectSubAcc, setConnecSubAcc] = useState([]);
+  const [connectSubAcc, setConnecSubAcc] = useState();
   const [selectedTask, setSelectedTask] = useState({});
   const [subAccTasks, setSubAccTasks] = useState([]);
 
   const getSubAccTasks = async () => {
-    const res = await getTasks(id_service, "", props.location.state.client_sub_account, "", "", "", "", "");
-    setSubAccTasks(res);
+    getTasks(id_service, "", props.location.state.client_sub_account, "", "", "", "", "").then((res) =>
+      setSubAccTasks(res)
+    );
   };
 
   const listOfTasks = () => {
@@ -42,28 +43,22 @@ const ClientSubAccount = (props) => {
   };
 
   const taskHandler = async (id) => {
-    const res = await getTask(id_service, id);
-    console.log(res, id);
-    setSelectedTask(res);
+    getTask(id_service, id).then((res) => setSelectedTask(res));
   };
 
   const getData = async () => {
-    const resSubAcc = await getSubAccountData(id_service, props.location.state.client_sub_account);
-    setSubAccData(resSubAcc);
+    getSubAccountData(id_service, props.location.state.client_sub_account).then((res) => setSubAccData(res));
     getSubAccTasks();
   };
+
+  console.log(connectSubAcc);
 
   useEffect(() => {
     props.location.state.client_sub_account ? getData() : props.history.goBack();
   }, []);
 
   const getConnections = async () => {
-    const res = await getSubAccountConnections(
-      subAccData.info[0].radius_login,
-      moment().subtract(1, "months").format("YYYY-MM-DD"),
-      moment().format("YYYY-MM-DD")
-    );
-    setConnecSubAcc(res);
+    getSubAccountConnections(subAccData.info[0].radius_login, "", "").then((res) => setConnecSubAcc(res));
   };
 
   useEffect(() => {
@@ -81,7 +76,8 @@ const ClientSubAccount = (props) => {
   };
 
   const createTaskHandler = async (id_service, sid, taskType, idProblem, description) => {
-    const result = await createTask(id_service, sid, taskType, idProblem, description);
+    let result;
+    createTask(id_service, sid, taskType, idProblem, description).then((res) => (result = res));
     return result;
   };
 
@@ -182,7 +178,7 @@ const ClientSubAccount = (props) => {
                     {subAccData?.dslam.length > 0 || subAccData?.node.length > 0 ? (
                       <>
                         <p>
-                          {subAccData?.dslam[0] > 0 ? (
+                          {subAccData?.dslam[0] ? (
                             <span className={styles.boldText}>DSLAM: </span>
                           ) : (
                             <span className={styles.boldText}>Nodo: </span>
@@ -271,8 +267,14 @@ const ClientSubAccount = (props) => {
                 </div>
                 <div className={styles.cardContent}>
                   <div style={{ height: "100%" }}>
-                    {connectSubAcc.length > 0 ? (
-                      <ConnectionsTable headers={["Tiempo de sesion", "IP", "Ancho de banda"]} data={connectSubAcc} />
+                    {connectSubAcc ? (
+                      connectSubAcc.length > 0 ? (
+                        <ConnectionsTable headers={["Tiempo de sesion", "IP", "Ancho de banda"]} data={connectSubAcc} />
+                      ) : (
+                        <div className={styles.contentCentered}>
+                          <h4 className={styles.boldText}>No hay datos</h4>
+                        </div>
+                      )
                     ) : (
                       <div className={styles.contentCentered}>
                         <Spinner color="#4299e1" size="2rem" />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import style from "./reclamo.module.scss";
 
 import Card from "../../../components/Card/index";
 import Status from "../../../components/Status/index";
@@ -8,8 +9,6 @@ import Button from "../../../components/Button/index";
 import Modal from "../../../components/Modal/index";
 import NewIssueModal from "../../../components/Modal/NewIssueModal/NewIssueModal";
 import CloseTaskModal from "./CloseTaskModal/CloseTaskModal";
-
-import style from "./reclamo.module.scss";
 import {
   faAddressCard,
   faClipboardCheck,
@@ -38,14 +37,12 @@ const Reclamo = (props) => {
   const [showCloseModal, setShowShowModal] = useState(false);
 
   const renderPhones = (phones) => {
-    return phones.map((phone, index) => {
-      return (
-        <div className={style.info_content} key={index}>
-          <FontAwesomeIcon icon={faPhone} size="1x" color="#4299e1" />
-          <p className={style.phone_content}>{phone.phone_number}</p>
-        </div>
-      );
-    });
+    return phones.map((phone, index) => (
+      <div className={style.info_content} key={index}>
+        <FontAwesomeIcon icon={faPhone} size="1x" color="#4299e1" />
+        <p className={style.phone_content}>{phone.phone_number}</p>
+      </div>
+    ));
   };
 
   const renderIncidents = (incidents) => {
@@ -57,6 +54,8 @@ const Reclamo = (props) => {
       );
     });
   };
+
+  console.log('test')
 
   const renderTeam = (teams) => {
     return teams.map((team, index) => {
@@ -111,7 +110,7 @@ const Reclamo = (props) => {
                 <h4 className={style.card_title}>Descripcion</h4>
               </div>
               <div className={style.card_content}>
-                <p> {task.description}</p>
+                {task.description ? <p> {task.description}</p> : <p>Sin descripcion</p>}
               </div>
             </Card>
           </div>
@@ -132,10 +131,10 @@ const Reclamo = (props) => {
                   ) : (
                     <>
                       <p>
-                        {subAccount?.dslam[0].length > 0 ? (
-                          <span className={style.boldText}></span>
+                        {subAccount?.dslam[0] ? (
+                          <span className={style.boldText}>DSLAM: </span>
                         ) : (
-                          <span className={style.boldText}></span>
+                          <span className={style.boldText}>Nodo: </span>
                         )}
                         <a href={subAccount?.dslam[0]?.nas_ip ?? subAccount?.node[0]?.ip}>
                           {subAccount?.dslam[0]?.dslam ?? subAccount?.node[0]?.node}
@@ -145,12 +144,18 @@ const Reclamo = (props) => {
                         {subAccount?.dslam[0] ? (
                           <span className={style.boldText}>Port: </span>
                         ) : (
-                          <span className={style.boldText}></span>
+                          <span className={style.boldText}>Nodo: </span>
                         )}
                         {subAccount?.dslam[0]?.port_number ?? subAccount?.node[0]?.band}
                       </p>
-                      <p>{subAccount.info[0].radius_login}</p>
-                      <p>{subAccount.info[0].radius_passwd}</p>
+                      <p>
+                        <span className={style.boldText}>Login: </span>
+                        {subAccount.info[0].radius_login}
+                      </p>
+                      <p>
+                        <span className={style.boldText}>Password: </span>
+                        {subAccount.info[0].radius_passwd}
+                      </p>
                     </>
                   )}
                 </div>
@@ -165,7 +170,7 @@ const Reclamo = (props) => {
                   <h4 className={style.card_title}>Equipamiento</h4>
                 </div>
                 <div className={style.card_content}>
-                  {task?.equipment.error ? (
+                  {task?.equipment ? (
                     <div className={style.error_message_content}>
                       <h4 className={style.boldText}>No existen datos.</h4>
                     </div>
@@ -218,7 +223,7 @@ const Reclamo = (props) => {
                     <div className={style.wrapper_info_content}>
                       <div className={style.info_content}>
                         <p>
-                          <span className={style.boldText}>Servicio:</span>
+                          <span className={style.boldText}>Servicio: </span>
                           {task.service_type_name} / {task.service_name}
                         </p>
                       </div>
@@ -240,7 +245,7 @@ const Reclamo = (props) => {
                     </div>
                     <h4 className={style.card_title}>Incidentes</h4>
                   </div>
-                  <div>
+                  <div className={style.card_content_icon}>
                     <Button
                       onClick={() => {
                         setShowIssueModal(true);
@@ -325,7 +330,7 @@ const Reclamo = (props) => {
                               </p>
                             </div>
                           </div>
-                          {renderPhones(task.phone)}
+                          <div>{renderPhones(task.phone)}</div>
                         </div>
                       </>
                     )}
@@ -342,11 +347,7 @@ const Reclamo = (props) => {
                   <h4 className={style.card_title}>Cuadrilla</h4>
                 </div>
                 <div className={style.card_content}>
-                  {task.team[0].error ? (
-                    <div className={style.error_message_content}>
-                      <h4 className={style.boldText}>No existen datos.</h4>
-                    </div>
-                  ) : (
+                  {task.team[0] ? (
                     <div>
                       <Card>
                         <div className={style.team_content}>
@@ -355,6 +356,10 @@ const Reclamo = (props) => {
                           <div className={style.img_content}>{renderTeam(task.team)}</div>
                         </div>
                       </Card>
+                    </div>
+                  ) : (
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
                     </div>
                   )}
                 </div>

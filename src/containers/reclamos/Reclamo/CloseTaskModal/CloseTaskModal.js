@@ -75,6 +75,8 @@ const CloseTask = ({ onClose, onSave }) => {
 
   const arrOperators = [];
 
+  console.log(teams)
+
   const operatorHandler = () => {
     teams.forEach((el) => {
       let id = el.id_team;

@@ -1,6 +1,5 @@
 import instance from "./axios";
 
-
 export async function getRegions(id_service) {
   let result = await instance.get(`/regions/${id_service}`);
   return result.data;
@@ -28,7 +27,6 @@ export async function createTask(id_service, id_account, id_task_type, id_proble
   let result = await instance.post("/task", json_data);
   return result.data;
 }
-
 
 export async function getTasksStatics() {
   let result = await instance.get("/task/amount");
@@ -63,7 +61,8 @@ export async function getTaskTypes() {
 }
 
 export async function getSubAccountConnections(username, date_from, date_to) {
-  let result = await instance.get(`clients/sub_clients/connections/${username}/${date_from}/${date_to}`);
+  const date = date_from || date_to !== "" ? `${date_from}/${date_to}` : "";
+  let result = await instance.get(`/clients/sub_clients/connections/${username}/${date}`);
   return result.data;
 }
 

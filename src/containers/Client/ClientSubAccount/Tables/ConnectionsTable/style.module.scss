@@ -71,3 +71,9 @@
   font-family: "Roboto Bold";
   color: var(--blue);
 }
+
+.cardContent {
+  height: 100%;
+  margin: 0.5rem 1rem;
+  overflow: auto;
+}

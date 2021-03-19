@@ -140,6 +140,7 @@ const Reclamos = ({ history }) => {
     history.push("/reclamo", state);
   };
 
+  console.log(reclamos)
   const createLiReclamos = (reclamos) => {
     if (reclamos[0]?.number) {
       return reclamos.map((reclamo, index) => {
