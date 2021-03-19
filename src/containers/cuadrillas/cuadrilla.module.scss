@@ -11,35 +11,12 @@
   width: 100%;
 }
 
-.container {
-  width: 100%;
+.modal_close {
+  width: 0%;
 }
 
-.content_header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.content_input {
-  display: flex;
-  background: #ffffff;
-  border-radius: 30px;
-  min-width: 300px;
-  width: 25%;
-  padding: 0.5em 0rem;
-  margin: 0rem 1rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-
-.input {
-  outline: none;
-  color: var(--gray-text);
-}
-
-.icon {
-  color: var(--dark-blue);
-  margin: 0rem 0.5rem;
-  min-width: 0.5rem;
-  width: 10%;
+.modal_open {
+  width: 40%;
+  transition: width 1s;
+  margin-left: 0.5rem;
 }

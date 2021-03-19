@@ -30,7 +30,6 @@ const yearNow = moment().format("YYYY");
 
 const Calendar = ({ tasksCalendar }) => {
   const socket = useSelector((state) => state.auth.socket);
-  console.log("socket", socket)
 
   const [year, setYear] = useState(yearNow);
   const [month, setMonth] = useState(monthNow);
@@ -46,7 +45,6 @@ const Calendar = ({ tasksCalendar }) => {
 
   useEffect(() => {
     socket.on("calendar", (socket) => {
-      console.log("sockete");
       getCalendar(id_service, dateSelected).then((res) => {
         const newTasks = res;
         let calendar = getDaysArray(newTasks, year, month);
@@ -68,7 +66,6 @@ const Calendar = ({ tasksCalendar }) => {
   };
 
   useEffect(() => {
-    console.log("use")
     let calendar = getDaysArray(tasks, year, month);
     setCalendar(calendar);
     getData();
