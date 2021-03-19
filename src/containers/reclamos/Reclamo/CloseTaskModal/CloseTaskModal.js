@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
+import PropTypes from "prop-types";
 
 import InputText from "../../../../components/InputText/index";
 import DropDown from "../../../../components/DropDown/index";
@@ -29,22 +30,26 @@ const teamMaterials = [
 const CloseTask = ({ onClose, onSave }) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
 
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [response, setResponse] = useState();
   const [teams, setTeams] = useState([]);
-  const [materials, setMaterials] = useState([]);
-  const [selectedOperators, setSelectedOperators] = useState("");
+
 
   const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState("");
-
-  const onSaveHandler = (description) => {
+  const [selectedOperators, setSelectedOperators] = useState("");
+  const [description, setDescription] = useState("");
+  
+  const onSaveHandler = () => {
     if (description.length < 4) {
-      setError(true);
+      setResponse({ error: true, message: "Caracteres insuficientes en descripcion" });
+      setTimeout(() => {
+        setResponse();
+      }, 6000);
     } else {
-      onSave(description, selectedMaterials, selectedOperators);
-      setSuccess(true);
+      onSave(description, selectedMaterials, selectedOperators).then((res) => {
+        setResponse(res);
+      });
     }
   };
 
@@ -56,7 +61,10 @@ const CloseTask = ({ onClose, onSave }) => {
       };
       setSelectedMaterials((selectedMaterials) => [...selectedMaterials, newOb]);
     } else {
-      setError(true);
+      setResponse({ error: true, message: "Ingrese cantidad" });
+      setTimeout(() => {
+        setResponse();
+      }, 6000);
     }
   };
 
@@ -85,13 +93,18 @@ const CloseTask = ({ onClose, onSave }) => {
 
   const renderMaterialList = () => {
     return selectedMaterials.map((el, i) => (
-      <li style={{ listStyleType: "none", marginBottom: "0.25rem" }} key={i}>
+      <li style={{ listStyleType: "none" }} key={i}>
         <Card>
           <div className={styles.gridContainer}>
             <p className={styles.gridItem}>{teamMaterials.find((e) => e.id == el.material).name}</p>
             <p className={styles.gridItem}>{el.quantity}</p>
             <div className={styles.gridItem}>
-              <FontAwesomeIcon icon={faTrash} onClick={() => removeItemHandler(el)} color="red" style={{ cursor: "pointer" }}/>
+              <FontAwesomeIcon
+                icon={faTrash}
+                onClick={() => removeItemHandler(el)}
+                color="red"
+                style={{ cursor: "pointer" }}
+              />
             </div>
           </div>
         </Card>
@@ -121,7 +134,7 @@ const CloseTask = ({ onClose, onSave }) => {
             </div>
             <div className={styles.contentCentered}>
               <h5>Cantidad</h5>
-              <InputText data={materials} type="number" onChange={(e) => setSelectedQuantity(e.target.value)} />
+              <InputText type="number" onChange={(e) => setSelectedQuantity(e.target.value)} />
             </div>
             <div className={styles.contentCentered}>
               <Button variant="outline" onClick={() => materialHandler()}>
@@ -146,7 +159,11 @@ const CloseTask = ({ onClose, onSave }) => {
         </div>
         <div className={styles.content}>
           <h4>Tarea realizada:</h4>
-          <textarea placeholder="Descripcion..." className={styles.description} />
+          <textarea
+            placeholder="Descripcion..."
+            className={styles.description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
       </div>
       <div className={styles.bottom}>
@@ -157,10 +174,14 @@ const CloseTask = ({ onClose, onSave }) => {
           Cancelar
         </Button>
       </div>
-      {success && <Message type="success" message="Incidente cargado" />}
-      {error && !success && <Message type="error" message="Caracteres insuficientes" />}
+      {response && <Message type={response.error ? "error" : "success"} message={response.message} />}
     </div>
   );
+};
+
+CloseTask.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 export default CloseTask;
