@@ -117,7 +117,7 @@ const Home = () => {
                     maintainAspectRatio: true,
                     title: {
                       display: true,
-                      text: "Tarea pendiente",
+                      text: "Tareas pendientes",
                       fontSize: 20,
                     },
                     legend: {

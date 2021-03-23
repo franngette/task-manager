@@ -33,7 +33,7 @@ const ClientSubAccount = (props) => {
     );
   };
 
-  const listOfTasks = () => {
+  const renderTasks = () => {
     return subAccTasks.map((e, i) => (
       <AnimatedListItem key={i} index={i}>
         <TaskList key={i} task={e} onClick={(val) => taskHandler(val)} />
@@ -50,8 +50,6 @@ const ClientSubAccount = (props) => {
     getSubAccountData(id_service, props.location.state.client_sub_account).then((res) => setSubAccData(res));
     getSubAccTasks();
   };
-
-  console.log(connectSubAcc);
 
   useEffect(() => {
     props.location.state.client_sub_account ? getData() : props.history.goBack();
@@ -306,7 +304,7 @@ const ClientSubAccount = (props) => {
                 </h4>
                 <div className={styles.cardContent}>
                   {subAccTasks[0] ? (
-                    <div className={styles.tbody}>{listOfTasks()}</div>
+                    <div className={styles.tbody}>{renderTasks()}</div>
                   ) : (
                     <div className={styles.contentCentered}>
                       <Spinner color="#4299e1" size="2rem" />
@@ -318,15 +316,13 @@ const ClientSubAccount = (props) => {
 
             <div className={styles.card_wrapper}>
               <Card>
-                <div className={styles.ctnr_sm}>
-                  <div>
-                    <h4 className={styles.cardTitle}>
-                      <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
-                      Detalles
-                    </h4>
-                  </div>
+                <div className={styles.innerHeader}>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
+                    Detalles
+                  </h4>
                   {selectedTask?.id && (
-                    <div>
+                    <div style={{ marginTop: "1rem", marginRight: "1rem" }}>
                       <Button
                         variant="outline"
                         onClick={() => {
