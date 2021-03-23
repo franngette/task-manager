@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import styles from "./style.module.scss";
 
-import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleDown, faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
 
@@ -47,11 +46,11 @@ const TableSubAcc = ({ headers, data, style }) => {
         <td className={styles.tableData}>
           <div style={{ marginBottom: "0.25rem" }}>
             <p>
-              <span className={styles.boldText}> Desde:</span> {moment(e.time_start).format("DD/MM/YYYY HH:mm:ss")}
+              <span className={styles.boldText}> Desde:</span> {new Date(e.time_start).toLocaleString().toString()}
             </p>
             <p>
               <span className={styles.boldText}> Hasta:</span>{" "}
-              {e.time_stop ? moment(e.time_stop).format("DD/MM/YYYY HH:mm:ss") : "Activo"}{" "}
+              {e.time_stop ? new Date(e.time_stop).toLocaleString().toString() : "Activo"}{" "}
             </p>
           </div>
           {e.seconds && (

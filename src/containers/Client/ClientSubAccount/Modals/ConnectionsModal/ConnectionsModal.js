@@ -5,14 +5,13 @@ import ConnectionsTable from "../../Tables/ConnectionsTable/ConnectionsTable";
 import Spinner from "../../../../../components/Spinner/index";
 import Button from "../../../../../components/Button/index";
 import CalendarButton from "../../../../../components/CalendarButton/index";
-import moment from "moment";
 import { getSubAccountConnections } from "../../../../../api/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const ConnectionsModal = ({ connectSubAcc, onClose, login }) => {
-  const [dateFrom, setDateFrom] = useState(moment().subtract(1, "months").format("YYYY-MM-DD"));
-  const [dateTo, setDateTo] = useState(moment().format("YYYY-MM-DD"));
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [tableData, setTableData] = useState(connectSubAcc);
 
   const getConnections = () => {
@@ -69,7 +68,7 @@ const ConnectionsModal = ({ connectSubAcc, onClose, login }) => {
       </div>
       <div className={styles.bottom}>
         <Button type="button" variant="outline" onClick={onClose}>
-          <p style={{fontSize: '18px'}}>Cerrar</p>
+          <p style={{ fontSize: "18px" }}>Cerrar</p>
         </Button>
       </div>
     </div>

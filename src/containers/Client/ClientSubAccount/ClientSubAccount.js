@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 
-import moment from "moment";
 import Card from "../../../components/Card/index";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
@@ -84,7 +83,7 @@ const ClientSubAccount = (props) => {
             <Card>
               <div className={styles.observationsContent}>
                 <p>{e.text}</p>
-                <h5 className={styles.boldText}>{moment(e.obs_date).format("DD/MM/YYYY")}</h5>
+                <h5 className={styles.boldText}>{new Date(e.obs_date).toLocaleDateString().toString()}</h5>
               </div>
             </Card>
           </div>
@@ -155,7 +154,7 @@ const ClientSubAccount = (props) => {
                     {subAccData.service.map((e, i) => (
                       <p key={i}>
                         <span className={styles.boldText}>Servicio: </span>
-                        {e.service} desde {moment(e.date_from).format("DD-MM-YYYY")}
+                        {e.service} desde {new Date(e.date_from).toLocaleDateString().toString()}
                       </p>
                     ))}
                   </div>

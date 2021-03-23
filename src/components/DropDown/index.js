@@ -4,7 +4,6 @@ import { Fragment } from "react";
 
 const DropDown = ({ data, form, name, id, onChange, selectedValue = 0 }) => {
   const newData = [{ id: 0, name: "Seleccione..." }, ...data];
-  console.log(selectedValue);
   const displayOptions = (data) => {
     return data.map((el, index) => {
       return (

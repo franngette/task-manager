@@ -3,7 +3,6 @@ import Card from "../../../../components/Card/index";
 import styles from "./style.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarMinus } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 
 const Incident = ({ incident }) => {
   return (
@@ -15,7 +14,7 @@ const Incident = ({ incident }) => {
               <div className={styles.mh}>
                 <FontAwesomeIcon className={styles.icon} icon={faCalendarMinus} size="1x" />
               </div>
-              <p>{moment(incident.date_incident).format("DD-MM-YYYY")}</p>
+              <p>{new Date(incident.date_incident).toLocaleDateString().toString()}</p>
             </div>
           </div>
           <div className={styles.card_item}>
