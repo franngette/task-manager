@@ -55,8 +55,6 @@ const Reclamo = (props) => {
     });
   };
 
-  console.log('test')
-
   const renderTeam = (teams) => {
     return teams.map((team, index) => {
       return (

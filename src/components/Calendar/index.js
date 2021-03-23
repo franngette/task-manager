@@ -3,14 +3,9 @@ import { useEffect, useState } from "react";
 import style from "./style.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight,
-  faHardHat,
-  faQuestionCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight, faHardHat, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import 'moment/locale/es';
+import "moment/locale/es";
 
 import Button from "../Button/index";
 import CalendarTask from "../CalendarTask/index";
@@ -25,8 +20,8 @@ import { useSelector } from "react-redux";
 
 const id_service = 1;
 
-const monthNow = moment().format("MM");
-const yearNow = moment().format("YYYY");
+const monthNow = "0" + (new Date().getMonth() + 1);
+const yearNow = new Date().getFullYear() + "";
 
 const Calendar = ({ tasksCalendar }) => {
   const socket = useSelector((state) => state.auth.socket);
@@ -87,7 +82,7 @@ const Calendar = ({ tasksCalendar }) => {
     display: "grid",
     gridTemplateRows: `repeat(${teams.length}, minmax(300px, auto))`,
   };
-  
+
   const dateHandler = (date) => {
     const updateDateSelected = date.toString();
     setDateSelected(updateDateSelected);
@@ -130,9 +125,7 @@ const Calendar = ({ tasksCalendar }) => {
     let dayData = {};
     let daysOfMonth = moment(`${year}-${month}`).daysInMonth();
     while (date.getMonth() === monthIndex) {
-      let dayDate = moment(`${month}/${date.getDate()}/${year}`).format(
-        "DD/MM/YYYY"
-      );
+      let dayDate = moment(`${month}/${date.getDate()}/${year}`).format("DD/MM/YYYY");
       let tasksOfDay = tasks.filter((task) => {
         return task.date === dayDate;
       });
@@ -197,19 +190,10 @@ const Calendar = ({ tasksCalendar }) => {
         <div key={index} style={column}>
           {teams.map((team, i) => {
             return (
-              <div
-                key={i}
-                className={day.isMonth ? style.rows : style.rows_false}
-              >
+              <div key={i} className={day.isMonth ? style.rows : style.rows_false}>
                 {day.tasks.map((task, index) => {
-                  return team.id_team === task.id_team &&
-                    task.date === day.day ? (
-                    <CalendarTask
-                      key={index}
-                      index={index}
-                      task={task}
-                      onEdit={editHandler}
-                    />
+                  return team.id_team === task.id_team && task.date === day.day ? (
+                    <CalendarTask key={index} index={index} task={task} onEdit={editHandler} />
                   ) : (
                     ""
                   );
@@ -268,10 +252,7 @@ const Calendar = ({ tasksCalendar }) => {
     return states.map((state, index) => {
       return (
         <div key={index} className={style.info}>
-          <div
-            className={[style.status_color, state.description].join(" ")}
-          ></div>{" "}
-          {state.name}
+          <div className={[style.status_color, state.description].join(" ")}></div> {state.name}
         </div>
       );
     });
@@ -303,10 +284,7 @@ const Calendar = ({ tasksCalendar }) => {
           <Button onClick={(e) => nextWeek(e)} variant="outline" type="">
             <FontAwesomeIcon icon={faChevronRight} size="1x" color="#4299e1" />
           </Button>
-          <button
-            onClick={(e) => setStatusInfo(!statusInfo)}
-            className={style.outline}
-          >
+          <button onClick={(e) => setStatusInfo(!statusInfo)} className={style.outline}>
             <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
           </button>
           {statusInfo && (

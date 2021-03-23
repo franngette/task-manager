@@ -137,7 +137,7 @@ const Cuadrillas = () => {
       </div>
       <div className={styles.wrapper}>
         <ListTeams data={teams} sendData={handleEditTeam} />
-        <div className={`${open ? styles.modal_open : styles.modal_close}`}>
+        <div className={open ? styles.modal_open : styles.modal_close}>
           {open && (
             <WorkTeam
               onClose={handlerClose}
@@ -153,5 +153,6 @@ const Cuadrillas = () => {
     </>
   );
 };
+
 
 export default Cuadrillas;

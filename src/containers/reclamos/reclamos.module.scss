@@ -18,6 +18,14 @@
   flex-wrap: wrap;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-right: 1rem;
+  justify-content: center;
+}
+
 .card {
   display: flex;
   width: 100%;
@@ -93,4 +101,15 @@
   color: #3182ce;
   text-align: center;
   margin-top: 100px;
+}
+
+.modal_close {
+  width: 0%;
+}
+
+.modal_open {
+  width: 40%;
+  height: 100%;
+  transition: width 1s;
+  margin-left: 0.5rem;
 }

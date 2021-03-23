@@ -4,15 +4,7 @@ import styles from "./reclamos.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarMinus, faMapMarkerAlt, faEllipsisV, faListOl } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  createCalendar,
-  getStates,
-  getTasks,
-  getTeams,
-  getTaskTypes,
-  getRegions,
-  getServiceTypes,
-} from "../../api/index";
+import { createCalendar, getTasks, getTeams, getFilters } from "../../api/index";
 
 import AsignTeam from "../../components/AsignTeam/index";
 import Card from "../../components/Card/index";
@@ -21,6 +13,7 @@ import Selector from "../../components/Selector/Selector";
 import InputText from "../../components/InputText/index";
 import { useSelector } from "react-redux";
 import AnimationListItem from "../../components/Animations/AnimatedListItem/AnimatedListItem";
+import Button from "../../components/Button";
 
 const Reclamos = ({ history }) => {
   let timeout = null;
@@ -28,15 +21,16 @@ const Reclamos = ({ history }) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
   const [reclamos, setReclamos] = useState([]);
   const [operators, setOperators] = useState([]);
-  const [states, setStates] = useState();
-  const [taskTypes, setTaskTypes] = useState();
-  const [serviceTypes, setServiceTypes] = useState();
-  const [regions, setRegions] = useState();
+  const [filtersData, setFiltersData] = useState({
+    task_type: [],
+    service_types: [],
+    regions: [],
+    states: [],
+  });
+  const [counter, setCounter] = useState(9);
 
   const [open, setOpen] = useState(false);
-
   const [selectedReclamo, setSelectedReclamo] = useState({});
-
   const [res, setRes] = useState(false);
 
   const [valuesSelected, setValuesSelected] = useState({
@@ -45,11 +39,6 @@ const Reclamos = ({ history }) => {
     taskTypeSelected: "",
     serviceTypesSelected: "",
     numberTaskSelected: "",
-  });
-
-  const [style, setStyle] = useState({
-    width: "0%",
-    transition: "width 1s",
   });
 
   const filterHandler = (event) => {
@@ -67,22 +56,9 @@ const Reclamos = ({ history }) => {
   };
 
   useEffect(() => {
-    getServiceTypes(id_service).then((response) => {
-      setServiceTypes(response);
-    });
-    getTaskTypes().then((response) => {
-      setTaskTypes(response);
-    });
-    getRegions(id_service).then((response) => {
-      setRegions(response);
-    });
-    getStates().then((response) => {
-      setStates(response);
-    });
-    getTeams(id_service).then((response) => {
-      setOperators(response);
-    });
-  }, []);
+    getFilters(id_service).then((res, filtersData) => setFiltersData({ ...filtersData, ...res }));
+    getTeams(id_service).then((res) => setOperators(res));
+  }, [id_service]);
 
   useEffect(() => {
     getTasks(
@@ -99,30 +75,21 @@ const Reclamos = ({ history }) => {
     });
   }, [id_service, valuesSelected]);
 
-  const onSave = async (test, teamDate, team, priority) => {
-    const res = await createCalendar(test, teamDate, team, priority);
-    setRes(res);
-    return res;
+  const onSave = (test, teamDate, team, priority) => {
+    let response;
+    createCalendar(test, teamDate, team, priority).then((res) => (response = res));
+    setRes(response);
+    return response;
   };
 
   const handlerReclamo = (reclamo) => {
     setSelectedReclamo(reclamo);
     if (!open) {
-      const styles = {
-        width: "40%",
-        transition: "width 1s",
-      };
-      setStyle(styles);
       setOpen(true);
     }
   };
 
   const handleClose = (e) => {
-    const styles = {
-      width: "0%",
-      transition: "width 1s",
-    };
-    setStyle(styles);
     setOpen(false);
     e.preventDefault();
   };
@@ -136,11 +103,15 @@ const Reclamos = ({ history }) => {
     };
     history.push("/reclamo", state);
   };
-
-  console.log(reclamos)
   const createLiReclamos = (reclamos) => {
+    /*     let arr = reclamos.slice(0, 2);
+         for (let i = 0; i <= 1; i++) {
+      reclamos.slice(reclamos[i]);
+    } 
+    console.log([...reclamos[0], ...reclamos[1]]); */
     if (reclamos[0]?.number) {
-      return reclamos.map((reclamo, index) => {
+      return reclamos.slice(0, counter).map((reclamo, index) => {
+        let date = new Date(reclamo.created_at).toLocaleString();
         return (
           <AnimationListItem index={index} key={index} style={{ listStyleType: "none" }}>
             <div className={styles.card_wrapper}>
@@ -168,7 +139,7 @@ const Reclamos = ({ history }) => {
                           <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
                         </div>
                         <div>
-                          <p>{reclamo.created_at}</p>
+                          <p>{date}</p>
                         </div>
                       </div>
                     </div>
@@ -213,30 +184,32 @@ const Reclamos = ({ history }) => {
             />
           </div>
           <div className={styles.input_container}>
-            <Selector nameKey="taskTypeSelected" data={taskTypes} onSelected={filterHandler} />
+            <Selector nameKey="taskTypeSelected" data={filtersData.task_type} onSelected={filterHandler} />
           </div>
           <div className={styles.input_container}>
-            <Selector nameKey="serviceTypesSelected" data={serviceTypes} onSelected={filterHandler} />
+            <Selector nameKey="serviceTypesSelected" data={filtersData.service_types} onSelected={filterHandler} />
           </div>
           <div className={styles.input_container}>
-            <Selector nameKey="regionSelected" data={regions} onSelected={filterHandler} />
+            <Selector nameKey="regionSelected" data={filtersData.regions} onSelected={filterHandler} />
           </div>
           <div className={styles.input_container}>
-            <Selector nameKey="stateSelected" data={states} onSelected={filterHandler} />
+            <Selector nameKey="stateSelected" data={filtersData.states} onSelected={filterHandler} />
           </div>
         </div>
       </div>
-      <main>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <ul style={{ width: "100%", marginRight: "1rem" }}>{createLiReclamos(reclamos)}</ul>
-          <AsignTeam
-            style={style}
-            close={handleClose}
-            data={selectedReclamo}
-            operators={operators}
-            onsave={onSave}
-            res={res}
-          />
+      <main style={{ display: "flex" }}>
+        <div className={styles.wrapper}>
+          <ul>{createLiReclamos(reclamos)}</ul>
+          {reclamos.length > counter && (
+            <Button variant="outline" onClick={() => setCounter((counter) => counter * 2)}>
+              <h4 className={styles.boldText}>Ver mas</h4>
+            </Button>
+          )}
+        </div>
+        <div className={open ? styles.modal_open : styles.modal_close}>
+          {open && (
+            <AsignTeam close={handleClose} data={selectedReclamo} operators={operators} onsave={onSave} res={res} />
+          )}
         </div>
       </main>
     </>

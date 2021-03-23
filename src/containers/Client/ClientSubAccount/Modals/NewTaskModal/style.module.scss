@@ -20,6 +20,11 @@
   }
 }
 
+.boldText {
+  font-family: "Roboto Bold";
+  color: var(--blue);
+}
+
 .select {
   margin-top: 1rem;
   display: flex;
@@ -30,7 +35,7 @@
 .bottom {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   background-color: white;
   margin-top: 1rem;

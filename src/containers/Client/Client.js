@@ -15,6 +15,7 @@ const Client = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
   const [clientList, setClientList] = useState([]);
   const [loading, setLoading] = useState(false);
+  
   const getData = async (id_service, account_name, account_number, doc_number, phone_number) => {
     const result = await getClients(id_service, account_name, account_number, doc_number, phone_number);
     setClientList(result);

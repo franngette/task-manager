@@ -76,12 +76,6 @@ const ClientSubAccount = (props) => {
     props.history.push("/reclamo", state);
   };
 
-  const createTaskHandler = async (id_service, sid, taskType, idProblem, description) => {
-    let result;
-    createTask(id_service, sid, taskType, idProblem, description).then((res) => (result = res));
-    return result;
-  };
-
   const renderObservations = () => {
     return subAccData.obs.map((e, i) => (
       <AnimatedListItem index={i} key={i}>
@@ -382,7 +376,7 @@ const ClientSubAccount = (props) => {
             serviceType={subAccData?.service[0].id_service_type}
             onClose={() => setShowTaskModal(false)}
             onSave={(id_service, sid, taskType, idProblem, description) =>
-              createTaskHandler(id_service, sid, taskType, idProblem, description)
+              createTask(id_service, sid, taskType, idProblem, description)
             }
           />
         </Modal>
