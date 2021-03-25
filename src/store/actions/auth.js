@@ -33,6 +33,19 @@ export const connectSocket = (customClientID) => {
   }
 }
 
+const refreshMessage = (value) => {
+  return {
+    type: actionTypes.SET_SOCKET_REFRESH,
+    payload: value
+  }
+}
+
+export const eventSocketRefresh = (refresh) => {
+  return dispatch => {
+    dispatch(refreshMessage(refresh))
+  }
+}
+
 export const updatedService = (id_service) => {
   return {
     type: actionTypes.UPDATED_SERVICE_SELECTED,

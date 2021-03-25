@@ -10,6 +10,7 @@ import { getLoginUser } from "../../api/index";
 
 import * as actions from "../../store/actions/auth";
 import { useDispatch } from "react-redux";
+import {connectSocket} from '../../webSocket/webSocket'
 
 const Signin = (props) => {
   const [user, setUser] = useState("");
@@ -47,7 +48,8 @@ const Signin = (props) => {
             setLoading(false);
           } else {
             dispatch(actions.authLogged(response));
-            dispatch(actions.connectSocket(response.id));
+            //dispatch(actions.connectSocket(response.id));
+            connectSocket(response.id)
             //props.history.push("/home");
           }
         })

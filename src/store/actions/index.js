@@ -2,5 +2,7 @@ export {
   authLogged,
   authLogout,
   connectSocket,
-  updatedService
+  setSocketInstance,
+  updatedService,
+  eventSocketRefresh
 } from "./auth"

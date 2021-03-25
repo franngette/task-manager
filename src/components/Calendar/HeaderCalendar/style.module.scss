@@ -1,0 +1,54 @@
+.header_options {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0.5rem;
+}
+
+.header_buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapperCalendarButton {
+  min-width: 200px;
+}
+
+.info_option {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 120px;
+  position: fixed;
+  top: 150px;
+  z-index: 1;
+}
+
+.options_menu {
+  position: absolute;
+  border-left: 12px solid transparent;
+  border-right: 10px solid #fff;
+  border-top: 16px solid transparent;
+  right: 20px;
+  top: -13px;
+  border-radius: 50%;
+  transform: rotate(45deg);
+}
+
+.info {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 12px;
+  position: relative;
+}
+
+.status_color {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 6px;
+}
