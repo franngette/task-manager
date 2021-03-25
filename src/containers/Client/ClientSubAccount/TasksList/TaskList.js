@@ -27,7 +27,7 @@ const TaskList = ({ task, onClick }) => {
                 <FontAwesomeIcon className={styles.icon} icon={faCalendarMinus} size="1x" />
               </div>
               <div>
-                <p>{task.created_at}</p>
+                <p>{new Date(task.created_at).toLocaleString().toString()}</p>
               </div>
             </div>
             <div className={styles.card_item}>

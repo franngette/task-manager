@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import styles from "./style.module.scss";
 
-import Button from "../../Button/index";
-import Message from "../../Message/index";
+import Button from "../../../../components/Button/index";
+import Message from "../../../../components/Message/index";
 
 const NewIssueModal = ({ onClose, onSave }) => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState();
 
-  const onSaveHandler = (description) => {
+  const onSaveHandler = async (description) => {
     if (description.length < 4) {
       setError(true);
+      setMessage("Caracteres insuficientes");
     } else {
-      onSave(description);
-      setSuccess(true);
+      const res = await onSave(description);
+      res.error ? setError(true) : setError(false);
+      setMessage(res.message);
+      setTimeout(() => {
+        setMessage();
+      }, 6000);
     }
   };
 
@@ -33,8 +38,7 @@ const NewIssueModal = ({ onClose, onSave }) => {
           Cancelar
         </Button>
       </div>
-      {success && <Message type="success" message="Incidente cargado" />}
-      {error && !success && <Message type="error" message="Caracteres insuficientes" />}
+      {message && <Message type={error ? "error" : "success"} message={message} />}
     </div>
   );
 };

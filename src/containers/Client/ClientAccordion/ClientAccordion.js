@@ -14,7 +14,6 @@ import {
   faWifi,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import moment from "moment";
 import { getClientSubAccounts } from "../../../api/index";
 
 const ClientAccordion = ({ service, client, history }) => {
@@ -80,6 +79,7 @@ const ClientAccordion = ({ service, client, history }) => {
         <div className={`${showAccount ? style.show_accounts : style.hidden_accounts}`}>
           {subAccounts.length > 0 &&
             subAccounts.map((item, index) => {
+              let dateInactive = new Date(item.date_inactive).toLocaleDateString();
               return (
                 <div
                   className={style.client_card_child}
@@ -109,7 +109,7 @@ const ClientAccordion = ({ service, client, history }) => {
                           {item.date_inactive ? (
                             <div className={style.content_right}>
                               <FontAwesomeIcon icon={faCalendarTimes} size="1x" color="#4299e1" />
-                              <p>{moment(item.date_inactive).format("DD/MM/YYYY")}</p>
+                              <p>{dateInactive}</p>
                               {/*                          <Status
                               name={item.inactive ? "disabled" : "enabled"}
                               description={

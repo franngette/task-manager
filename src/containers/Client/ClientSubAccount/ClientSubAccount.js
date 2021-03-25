@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 
-import moment from "moment";
 import Card from "../../../components/Card/index";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
@@ -34,7 +33,7 @@ const ClientSubAccount = (props) => {
     );
   };
 
-  const listOfTasks = () => {
+  const renderTasks = () => {
     return subAccTasks.map((e, i) => (
       <AnimatedListItem key={i} index={i}>
         <TaskList key={i} task={e} onClick={(val) => taskHandler(val)} />
@@ -51,8 +50,6 @@ const ClientSubAccount = (props) => {
     getSubAccountData(id_service, props.location.state.client_sub_account).then((res) => setSubAccData(res));
     getSubAccTasks();
   };
-
-  console.log(connectSubAcc);
 
   useEffect(() => {
     props.location.state.client_sub_account ? getData() : props.history.goBack();
@@ -76,12 +73,6 @@ const ClientSubAccount = (props) => {
     props.history.push("/reclamo", state);
   };
 
-  const createTaskHandler = async (id_service, sid, taskType, idProblem, description) => {
-    let result;
-    createTask(id_service, sid, taskType, idProblem, description).then((res) => (result = res));
-    return result;
-  };
-
   const renderObservations = () => {
     return subAccData.obs.map((e, i) => (
       <AnimatedListItem index={i} key={i}>
@@ -90,7 +81,7 @@ const ClientSubAccount = (props) => {
             <Card>
               <div className={styles.observationsContent}>
                 <p>{e.text}</p>
-                <h5 className={styles.boldText}>{moment(e.obs_date).format("DD/MM/YYYY")}</h5>
+                <h5 className={styles.boldText}>{new Date(e.obs_date).toLocaleDateString().toString()}</h5>
               </div>
             </Card>
           </div>
@@ -161,7 +152,7 @@ const ClientSubAccount = (props) => {
                     {subAccData.service.map((e, i) => (
                       <p key={i}>
                         <span className={styles.boldText}>Servicio: </span>
-                        {e.service} desde {moment(e.date_from).format("DD-MM-YYYY")}
+                        {e.service} desde {new Date(e.date_from).toLocaleDateString().toString()}
                       </p>
                     ))}
                   </div>
@@ -313,7 +304,7 @@ const ClientSubAccount = (props) => {
                 </h4>
                 <div className={styles.cardContent}>
                   {subAccTasks[0] ? (
-                    <div className={styles.tbody}>{listOfTasks()}</div>
+                    <div className={styles.tbody}>{renderTasks()}</div>
                   ) : (
                     <div className={styles.contentCentered}>
                       <Spinner color="#4299e1" size="2rem" />
@@ -325,15 +316,13 @@ const ClientSubAccount = (props) => {
 
             <div className={styles.card_wrapper}>
               <Card>
-                <div className={styles.ctnr_sm}>
-                  <div>
-                    <h4 className={styles.cardTitle}>
-                      <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
-                      Detalles
-                    </h4>
-                  </div>
+                <div className={styles.innerHeader}>
+                  <h4 className={styles.cardTitle}>
+                    <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
+                    Detalles
+                  </h4>
                   {selectedTask?.id && (
-                    <div>
+                    <div style={{ marginTop: "1rem", marginRight: "1rem" }}>
                       <Button
                         variant="outline"
                         onClick={() => {
@@ -382,7 +371,7 @@ const ClientSubAccount = (props) => {
             serviceType={subAccData?.service[0].id_service_type}
             onClose={() => setShowTaskModal(false)}
             onSave={(id_service, sid, taskType, idProblem, description) =>
-              createTaskHandler(id_service, sid, taskType, idProblem, description)
+              createTask(id_service, sid, taskType, idProblem, description)
             }
           />
         </Modal>

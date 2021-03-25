@@ -61,19 +61,10 @@ const Calendar = ({ calendar, week, teams }) => {
         <div key={index} style={column}>
           {teams.map((team, i) => {
             return (
-              <div
-                key={i}
-                className={day.isMonth ? style.rows : style.rows_false}
-              >
+              <div key={i} className={day.isMonth ? style.rows : style.rows_false}>
                 {day.tasks.map((task, index) => {
-                  return team.id_team === task.id_team &&
-                    task.date === day.day ? (
-                    <CalendarTask
-                      key={index}
-                      index={index}
-                      task={task}
-                      onEdit={editHandler}
-                    />
+                  return team.id_team === task.id_team && task.date === day.day ? (
+                    <CalendarTask key={index} index={index} task={task} onEdit={editHandler} />
                   ) : (
                     ""
                   );

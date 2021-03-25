@@ -108,12 +108,6 @@ export async function getCalendar(id_service, from_date = "") {
 }
 
 // DEJAR UNA DE LAS DOS
-export async function getStates() {
-  const res = await instance.get(`/task/status`);
-  const data = await res.data;
-  return data;
-}
-
 export async function getStatus() {
   const res = await instance.get(`/task/status`);
   const data = await res.data;
@@ -181,6 +175,11 @@ export async function createStatusTask(id_calendar, id_status) {
   const data = await res.data
   return data
 } */
+
+export async function getFilters(id_service) {
+  let result = await instance.get(`/tasks/filters/${id_service}`);
+  return result.data;
+}
 
 export async function getTeams(id_service) {
   const res = await instance.get(`/task/teams/${id_service}/false`);

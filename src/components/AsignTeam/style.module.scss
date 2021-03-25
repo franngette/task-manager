@@ -37,6 +37,12 @@
   justify-content: center;
 }
 
+.bottom {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
 .boldText {
   font-family: "Roboto Bold";
   color: var(--blue);

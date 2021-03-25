@@ -4,6 +4,8 @@ import styles from "./style.module.scss";
 import Incident from "../../../../Reclamos/Reclamo/Incident/Incident";
 import Status from "../../../../../components/Status/index";
 const TaskItem = ({ task }) => {
+  console.log(task);
+
   const renderIncidents = (incidents) => {
     return (
       <li style={{ listStyleType: "none" }}>
@@ -20,24 +22,25 @@ const TaskItem = ({ task }) => {
         </h4>
         <Status description={task.last_state_description} name={task.last_state} />
       </div>
-      <div className={styles.header}>
-        {task.team[0]?.id_team && (
-          <h5>
-            <span className={styles.boldText}>Cuadrilla asignada: </span>
-            {task.team[0].id_team + ". "}
-            {task.team.map((e) => e.operator_name + " - ")}
-          </h5>
-        )}
+      <div>
+        <h4>
+          <span className={styles.boldText}>Cuadrilla asignada: </span>
+          {task.team[0]?.id_team
+            ? task.team[0].id_team + ". " + task.team.map((e) => e.operator_name + " - ")
+            : "Sin operarios asignados"}
+        </h4>
       </div>
       <div>
         <p>
           <span className={styles.boldText}>Fecha:</span> {task.created_at}
         </p>
-        <p>
-          <span className={styles.boldText}>Descripcion:</span> {task.description}
-        </p>
+        {task.description && (
+          <p>
+            <span className={styles.boldText}>Descripcion:</span> {task.description}
+          </p>
+        )}
       </div>
-      {task.incidents.length > 0 && (
+      {task.incidents[0] && (
         <div>
           <span className={styles.boldText}>Ultimo incidente:</span>
           {renderIncidents(task.incidents)}

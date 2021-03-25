@@ -21,26 +21,20 @@ const AsignTeam = (props) => {
   const sendData = async (e) => {
     e.preventDefault();
     setLoading(true);
-    let res = await props.onsave(props.data.id, teamDate, team, priority);
-    if (res) {
-      setLoading(false);
-      setShowMessage(true);
-    }
-    if (res.error) {
-      setError(true);
-      setMessage(res.message);
-    } else {
-      setMessage(res.message);
-    }
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 5000);
+    props
+      .onsave(props.data.id, teamDate, team, priority)
+      .then((res) => {
+        setLoading(false);
+        setShowMessage(true);
+        setMessage(res.message);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setShowMessage(true);
+        setError(true);
+        setMessage(err.message);
+      });
   };
-
-  let wrapperStyle = style.wrapper;
-  if (props.style.width === "0%") {
-    wrapperStyle = style.wrapper_hidden;
-  }
 
   const arrOperators = [];
 
@@ -57,102 +51,112 @@ const AsignTeam = (props) => {
       arrOperators.push(newOp);
     });
   };
-  operatorHandler();
 
+  const date = new Date(props.data.created_at).toLocaleString();
+  
+  operatorHandler();
   return (
-    <div style={props.style}>
-      <Card>
-        <div className={wrapperStyle}>
-          <div className={style.container}>
-            <div className={style.header}>
-              <h3>
-                <span className={style.boldText}>{"Reclamo #" + props.data.number}</span>
-                <p>{props.data.created_at}</p>
-              </h3>
-            </div>
+    <Card>
+      <div className={style.wrapper}>
+        <div className={style.container}>
+          <div className={style.header}>
+            <h3>
+              <span className={style.boldText}>{"Reclamo #" + props.data.number}</span>
+              <p>{date}</p>
+            </h3>
+          </div>
+          <div className={style.content}>
+            <h4>
+              <span className={style.boldText}>Subcuenta:</span> #{props.data.id_account} - {props.data.account_name}
+            </h4>
+          </div>
+          <div className={style.content}>
+            <h4>
+              <span className={style.boldText}>Region:</span> {props.data.region ? props.data.region : "Sin Region"}
+            </h4>
+          </div>
+          {props.data.task_description && (
             <div className={style.content}>
               <h4>
-                <span className={style.boldText}>Subcuenta:</span> #{props.data.id_account} - {props.data.account_name}
+                <span className={style.boldText}>Descripcion:</span> {props.data.task_description}
               </h4>
             </div>
+          )}
+          {props.data.description && (
             <div className={style.content}>
-              <h4><span className={style.boldText}>Region:</span> {props.data.region ? props.data.region : "Sin Region"}</h4>
+              <h4>
+                <span className={style.boldText}>Descripcion: </span>
+              </h4>
+              <p>{props.data.description}</p>
             </div>
-            {props.data.problem && (
-              <div className={style.content}>
-                <h4><span className={style.boldText}>Problema:</span> {props.data.problem}</h4>
-              </div>
-            )}
-            {props.data.description && (
-              <div className={style.content}>
-                <h4><span className={style.boldText}>Descripcion: </span></h4>
-                <p>{props.data.description}</p>
-              </div>
-            )}
-            <form
-              onSubmit={(e) => {
-                sendData(e);
-              }}
-            >
-              <div className={style.content}>
-                <label htmlFor="cuadrilla">
-                  <h4><span className={style.boldText}>Cuadrilla</span></h4>
-                </label>
-                <DropDown
-                  selectedValue={props.data.id_team}
-                  data={arrOperators}
-                  name="cuadrilla"
-                  form="asignar"
-                  id="cuadrilla"
-                  onChange={(event) => setTeam(event.target.value)}
-                />
-              </div>
-              <div className={style.content}>
-                <label htmlFor="fecha">
-                  <h4><span className={style.boldText}>Fecha</span></h4>
-                </label>
-                <CalendarButton
-                  type={"date"}
-                  id="fecha"
-                  value={teamDate}
-                  name="cuadrillaDate"
-                  onChange={(event) => setTeamDate(event.target.value)}
-                />
-              </div>
-              <div className={style.content}>
-                <CheckBox
-                  label="Prioridad"
-                  name="prioridad"
-                  onChange={() => {
-                    setPriority((priority) => !priority);
-                  }}
-                  check={priority}
-                  disabled={false}
-                />
-              </div>
-              <div className={style.contentCenter}>
-                <Button variant="dark" type="submit" onClick={() => {}}>
-                  {loading ? <Spinner /> : "Guardar"}
-                </Button>
-                <Button
-                  variant="outline"
-                  type="submit"
-                  onClick={(e) => {
-                    setError(false);
-                    props.close(e);
-                  }}
-                >
-                  Cancelar
-                </Button>
-              </div>
-              <div className={style.contentCenter}>
-                {showMessage && <Message type={error ? "error" : "info"} message={message} />}
-              </div>
-            </form>
-          </div>
+          )}
+          <form
+            onSubmit={(e) => {
+              sendData(e);
+            }}
+          >
+            <div className={style.content}>
+              <label htmlFor="cuadrilla">
+                <h4>
+                  <span className={style.boldText}>Cuadrilla</span>
+                </h4>
+              </label>
+              <DropDown
+                selectedValue={props.data.id_team}
+                data={arrOperators}
+                name="cuadrilla"
+                form="asignar"
+                id="cuadrilla"
+                onChange={(event) => setTeam(event.target.value)}
+              />
+            </div>
+            <div className={style.content}>
+              <label htmlFor="fecha">
+                <h4>
+                  <span className={style.boldText}>Fecha</span>
+                </h4>
+              </label>
+              <CalendarButton
+                type={"date"}
+                id="fecha"
+                value={teamDate}
+                name="cuadrillaDate"
+                onChange={(event) => setTeamDate(event.target.value)}
+              />
+            </div>
+            <div className={style.content}>
+              <CheckBox
+                label="Prioridad"
+                name="prioridad"
+                onChange={() => {
+                  setPriority((priority) => !priority);
+                }}
+                check={priority}
+                disabled={false}
+              />
+            </div>
+            <div className={style.bottom}>
+              <Button variant="dark" type="submit" onClick={() => {}}>
+                {loading ? <Spinner /> : "Guardar"}
+              </Button>
+              <Button
+                variant="outline"
+                type="submit"
+                onClick={(e) => {
+                  setError(false);
+                  props.close(e);
+                }}
+              >
+                Cancelar
+              </Button>
+            </div>
+            <div className={style.contentCenter}>
+              {showMessage && <Message type={error ? "error" : "info"} message={message} />}
+            </div>
+          </form>
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 };
 

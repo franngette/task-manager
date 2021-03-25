@@ -6,53 +6,58 @@ import Button from "../../../../../components/Button";
 import Message from "../../../../../components/Message/index";
 import { useSelector } from "react-redux";
 import { getProblems, getTaskTypes } from "../../../../../api/index";
+
 const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
+  let timeout;
 
   const [taskType, setTaskType] = useState(1);
   const [idProblem, setIdProblem] = useState(1);
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [taskProblems, setTaskProblems] = useState([]);
   const [taskTypes, setTaskTypes] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState();
 
-  const getData = async () => {
-    const resTaskProblems = await getProblems(id_service, "", serviceType, "");
-    setTaskProblems(resTaskProblems);
-    const resTaskType = await getTaskTypes();
-    setTaskTypes(resTaskType);
+  const textHandler = (e) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      setDescription(e.target.value);
+    }, 500);
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    getTaskTypes().then((res) => setTaskTypes(res));
+    getProblems(id_service, "", serviceType, "").then((res) => setTaskProblems(res));
+  }, [id_service, serviceType]);
 
   const saveHandler = async () => {
-    const res = await onSave(id_service, sid, taskType, idProblem, description);
-    if (res.error) {
-      setMessage(res.message);
-      setError(true);
-    } else {
-      setMessage(res.message);
-      setSuccess(true);
-    }
+    onSave(id_service, sid, taskType, idProblem, description)
+      .then((res) => {
+        setMessage(res.message);
+        console.log(res)
+        res.error ? setError(true) : setError(false);
+      })
+      .catch((err) => {
+        setMessage(err.message);
+        setError(true);
+      });
+    setTimeout(() => {
+      setMessage();
+    }, 6000);
   };
 
   return (
     <div className={styles.modal_wrapper}>
       <h3>
-        <b>Cliente # {id}</b>
+        <b>
+          <span className={styles.boldText}>Cliente</span> #{id}
+        </b>
       </h3>
-      <h4>Subcuenta # {sid}</h4>
-      <textarea
-        className={styles.description}
-        placeholder="Descripcion.."
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
-      ></textarea>
+      <h4>
+        <span className={styles.boldText}>Subcuenta</span> #{sid}
+      </h4>
+      <textarea className={styles.description} placeholder="Descripcion.." onChange={(e) => textHandler(e)}></textarea>
       <div className={styles.select}>
         <div style={{ margin: "0.5rem" }}>
           <DropDown
@@ -79,8 +84,7 @@ const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
           Cancelar
         </Button>
       </div>
-      {success && <Message type="success" message={message} />}
-      {error && !success && <Message type="error" message={message} />}
+      {message && <Message type={error ? "error" : "success"} message={message} />}
     </div>
   );
 };

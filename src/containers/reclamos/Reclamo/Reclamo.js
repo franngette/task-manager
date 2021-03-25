@@ -7,7 +7,7 @@ import Spinner from "../../../components/Spinner/index";
 import Incident from "./Incident/Incident";
 import Button from "../../../components/Button/index";
 import Modal from "../../../components/Modal/index";
-import NewIssueModal from "../../../components/Modal/NewIssueModal/NewIssueModal";
+import NewIssueModal from "./NewIssueModal/NewIssueModal";
 import CloseTaskModal from "./CloseTaskModal/CloseTaskModal";
 import {
   faAddressCard,
@@ -55,8 +55,6 @@ const Reclamo = (props) => {
     });
   };
 
-  console.log('test')
-
   const renderTeam = (teams) => {
     return teams.map((team, index) => {
       return (
@@ -68,8 +66,11 @@ const Reclamo = (props) => {
   };
 
   const incidentHandler = (description) => {
-    createIncident(id_task, description, user_id).then((res) => {
-      getTask(id_service, id_task).then((res) => setTask(res));
+    return createIncident(id_task, description, user_id).then((res) => {
+      getTask(id_service, id_task).then((res) => {
+        setTask(res);
+      });
+      return res;
     });
   };
 
@@ -257,7 +258,7 @@ const Reclamo = (props) => {
                   </div>
                 </div>
                 <div className={style.card_content}>
-                  {task.incidents.error ? (
+                  {task.incidents.length > 0 ? (
                     <div className={style.error_message_content}>
                       <h4 className={style.boldText}>No existen datos.</h4>
                     </div>
@@ -369,7 +370,10 @@ const Reclamo = (props) => {
         </div>
         {showIssueModal && (
           <Modal title="Nuevo Incidente" onClose={() => setShowIssueModal(false)}>
-            <NewIssueModal onClose={() => setShowIssueModal(false)} onSave={incidentHandler} />
+            <NewIssueModal
+              onClose={() => setShowIssueModal(false)}
+              onSave={(description) => incidentHandler(description)}
+            />
           </Modal>
         )}
         {showCloseModal && (
