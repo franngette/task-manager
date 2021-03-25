@@ -7,14 +7,15 @@ const initialState = {
   logged: isUserAuthenticated ? true : false,
   socket: null,
   isSocketConnected: false,
+  isSocketRefresh: 0
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_LOGGED:
-      let newUser = action.payload
-      newUser['id_service'] = 1
-      sessionStorage.setItem('user', JSON.stringify(newUser))
+      let newUser = action.payload;
+      newUser["id_service"] = 1;
+      sessionStorage.setItem("user", JSON.stringify(newUser));
       return {
         ...state,
         logged: true,
@@ -34,6 +35,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         socket: action.payload,
         isSocketConnected: true,
+      };
+    case actionTypes.SET_SOCKET_REFRESH:
+      return {
+        ...state,
+        isSocketRefresh: action.payload,
       };
     case actionTypes.UPDATED_SERVICE_SELECTED:
       let newService = action.payload;

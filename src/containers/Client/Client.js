@@ -22,7 +22,7 @@ const Client = (props) => {
     setLoading(false);
   };
 
-  const onChangeInputID = async (account_number) => {
+  const onChangeInputID =  (account_number) => {
     if (account_number === "") {
       setClientList([]);
     } else {
@@ -49,7 +49,7 @@ const Client = (props) => {
     }
   };
 
-  const onChangeInputDNI = async (doc_number) => {
+  const onChangeInputDNI =  (doc_number) => {
     if (doc_number === "") {
       setClientList([]);
     } else {
@@ -63,7 +63,7 @@ const Client = (props) => {
     }
   };
 
-  const onChangeInputPhone = async (phone_number) => {
+  const onChangeInputPhone =  (phone_number) => {
     if (phone_number === "") {
       setClientList([]);
     } else {
