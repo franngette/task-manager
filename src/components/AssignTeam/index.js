@@ -9,7 +9,7 @@ import CheckBox from "../Checkbox/index";
 import Spinner from "../Spinner/index";
 import Message from "../Message/index";
 
-const AsignTeam = ({ onClose, data, operators, onSave }) => {
+const AssignTeam = ({ onClose, data, operators, onSave }) => {
   const [teamDate, setTeamDate] = useState(
     new Date().toISOString().slice(0, 10)
   );
@@ -165,4 +165,4 @@ const AsignTeam = ({ onClose, data, operators, onSave }) => {
   );
 };
 
-export default AsignTeam;
+export default AssignTeam;
