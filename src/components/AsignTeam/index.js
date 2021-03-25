@@ -9,37 +9,37 @@ import CheckBox from "../Checkbox/index";
 import Spinner from "../Spinner/index";
 import Message from "../Message/index";
 
-const AsignTeam = (props) => {
-  const [teamDate, setTeamDate] = useState(new Date().toISOString().slice(0, 10));
-  const [priority, setPriority] = useState(props.data.priority ? props.data.priority : false);
+const AsignTeam = ({ onClose, data, operators, onSave }) => {
+  const [teamDate, setTeamDate] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [priority, setPriority] = useState(
+    data.priority ? data.priority : false
+  );
   const [team, setTeam] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const date = new Date(data.created_at).toLocaleString();
 
   const sendData = async (e) => {
     e.preventDefault();
     setLoading(true);
-    props
-      .onsave(props.data.id, teamDate, team, priority)
-      .then((res) => {
-        setLoading(false);
-        setShowMessage(true);
-        setMessage(res.message);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setShowMessage(true);
-        setError(true);
-        setMessage(err.message);
-      });
+    onSave(data.id, teamDate, team, priority).then((res) => {
+      res.error ? setError(true) : setError(false);
+      setMessage(res.message);
+      setLoading(false);
+    })
+    setTimeout(() => {
+      setMessage();
+      setError(false);
+    }, 5000);
   };
 
   const arrOperators = [];
 
   const operatorHandler = () => {
-    props.operators.forEach((el) => {
+    operators.forEach((el) => {
       let id = el.id_team;
       let op = el.operators.map((j) => {
         return j.name;
@@ -52,8 +52,6 @@ const AsignTeam = (props) => {
     });
   };
 
-  const date = new Date(props.data.created_at).toLocaleString();
-  
   operatorHandler();
   return (
     <Card>
@@ -61,33 +59,38 @@ const AsignTeam = (props) => {
         <div className={style.container}>
           <div className={style.header}>
             <h3>
-              <span className={style.boldText}>{"Reclamo #" + props.data.number}</span>
+              <span className={style.boldText}>
+                {"Reclamo #" + data.number}
+              </span>
               <p>{date}</p>
             </h3>
           </div>
           <div className={style.content}>
             <h4>
-              <span className={style.boldText}>Subcuenta:</span> #{props.data.id_account} - {props.data.account_name}
+              <span className={style.boldText}>Subcuenta:</span> #
+              {data.id_account} - {data.account_name}
             </h4>
           </div>
           <div className={style.content}>
             <h4>
-              <span className={style.boldText}>Region:</span> {props.data.region ? props.data.region : "Sin Region"}
+              <span className={style.boldText}>Region:</span>{" "}
+              {data.region ? data.region : "Sin Region"}
             </h4>
           </div>
-          {props.data.task_description && (
+          {data.task_description && (
             <div className={style.content}>
               <h4>
-                <span className={style.boldText}>Descripcion:</span> {props.data.task_description}
+                <span className={style.boldText}>Descripcion:</span>{" "}
+                {data.task_description}
               </h4>
             </div>
           )}
-          {props.data.description && (
+          {data.description && (
             <div className={style.content}>
               <h4>
                 <span className={style.boldText}>Descripcion: </span>
               </h4>
-              <p>{props.data.description}</p>
+              <p>{data.description}</p>
             </div>
           )}
           <form
@@ -102,7 +105,7 @@ const AsignTeam = (props) => {
                 </h4>
               </label>
               <DropDown
-                selectedValue={props.data.id_team}
+                selectedValue={data.id_team}
                 data={arrOperators}
                 name="cuadrilla"
                 form="asignar"
@@ -144,14 +147,16 @@ const AsignTeam = (props) => {
                 type="submit"
                 onClick={(e) => {
                   setError(false);
-                  props.close(e);
+                  onClose(e);
                 }}
               >
                 Cancelar
               </Button>
             </div>
             <div className={style.contentCenter}>
-              {showMessage && <Message type={error ? "error" : "info"} message={message} />}
+              {message && (
+                <Message type={error ? "error" : "info"} message={message} />
+              )}
             </div>
           </form>
         </div>
