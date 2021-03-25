@@ -16,7 +16,7 @@ import {
   getFilters,
 } from "../../api/index";
 
-import AsignTeam from "../../components/AsignTeam/index";
+import AssignTeam from "../../components/AssignTeam/index";
 import Card from "../../components/Card/index";
 import Status from "../../components/Status/index";
 import Selector from "../../components/Selector/Selector";
@@ -273,7 +273,7 @@ const Reclamos = ({ history }) => {
         <div className={open ? styles.modal_open : styles.modal_close}>
           {open && (
             <div style={{position: "sticky", top:"0"}}>
-              <AsignTeam
+              <AssignTeam
                 onClose={handleClose}
                 data={selectedReclamo}
                 operators={operators}
