@@ -98,7 +98,7 @@ const CloseTask = ({ onClose, onSave }) => {
       <li style={{ listStyleType: "none" }} key={i}>
         <Card>
           <div className={styles.gridContainer}>
-            <p className={styles.gridItem}>{teamMaterials.find((e) => e.id == el.material).name}</p>
+            <p className={styles.gridItem}>{teamMaterials.find((e) => e.id === el.material).name}</p>
             <p className={styles.gridItem}>{el.quantity}</p>
             <div className={styles.gridItem}>
               <FontAwesomeIcon

@@ -4,7 +4,6 @@ import style from "./style.module.scss";
 import { useSelector } from "react-redux";
 import Calendar from "../../components/Calendar/index";
 import HeaderCalendar from "../../components/Calendar/HeaderCalendar/HeaderCalendar";
-import Spinner from "../../components/Spinner";
 
 import moment from "moment";
 import { getCalendar, getTeams } from "../../api/index";
@@ -26,6 +25,7 @@ const Calendario = () => {
     const dateSelected = year + "-" + month;
     getCalendar(id_service, dateSelected).then((res) => {
       const tasks = res;
+      console.log(res)
       const calendar = getDaysArray(tasks, year, month);
       setCalendar(calendar);
     });

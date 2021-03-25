@@ -2,25 +2,21 @@ import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 
 import Card from "../../components/Card/index";
-import { Line, Pie } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { getTasksStatics } from "../../api/index";
 
 const Home = () => {
   const [chartsData, setChartsData] = useState();
 
-  const getData = async () => {
-    const res = await getTasksStatics();
-    setChartsData(res);
-  };
 
-  const chartDataByService = () => {
+/*   const chartDataByService = () => {
     const result = chartsData?.amount_service?.map((el) => el.description_service);
     return result;
   };
-
+ */
   useEffect(() => {
-    chartDataByService();
-    getData();
+    //chartDataByService();
+    getTasksStatics().then((res) =>   setChartsData(res));
   }, []);
 
   /*   const lineData = {

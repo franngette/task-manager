@@ -16,7 +16,6 @@ const withAuth = (WrappedComponent) => {
     const user = JSON.parse(sessionStorage.getItem("user"));
 
     useEffect(() => {
-      console.log("render wt")
       if (!isUserAuthenticated) {
         dispatch(actions.authLogout());
         history.push("/");
