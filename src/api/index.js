@@ -84,7 +84,7 @@ export async function getClients(id_service, account_name, account_number, doc_n
     doc_number: doc_number,
     phone_number: phone_number,
   };
-  let result = await instance.post("clients", JSON.stringify(json_data));
+  let result = await instance.post("/clients", JSON.stringify(json_data));
   return result.data;
 }
 
