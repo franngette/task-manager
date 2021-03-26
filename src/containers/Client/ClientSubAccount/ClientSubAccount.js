@@ -9,10 +9,26 @@ import Spinner from "../../../components/Spinner/index";
 import ConnectionsTable from "./Tables/ConnectionsTable/ConnectionsTable";
 import TaskList from "./TasksList/TaskList";
 import TaskItem from "./TasksList/TaskItem/TaskItem";
-import { getSubAccountData, getSubAccountConnections, getTasks, getTask, createTask } from "../../../api/index";
+import {
+  getSubAccountData,
+  getSubAccountConnections,
+  getTasks,
+  getTask,
+  createTask,
+} from "../../../api/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faEdit, faEye, faNewspaper, faBookmark } from "@fortawesome/free-regular-svg-icons";
-import { faExchangeAlt, faHdd, faWifi } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserCircle,
+  faEdit,
+  faEye,
+  faNewspaper,
+  faBookmark,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+  faExchangeAlt,
+  faHdd,
+  faWifi,
+} from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import AnimatedListItem from "../../../components/Animations/AnimatedListItem/AnimatedListItem";
 import ConnectionsModal from "./Modals/ConnectionsModal/ConnectionsModal";
@@ -27,12 +43,6 @@ const ClientSubAccount = (props) => {
   const [selectedTask, setSelectedTask] = useState({});
   const [subAccTasks, setSubAccTasks] = useState([]);
 
-  const getSubAccTasks = async () => {
-    getTasks(id_service, "", props.location.state.client_sub_account, "", "", "", "", "").then((res) =>
-      setSubAccTasks(res)
-    );
-  };
-
   const renderTasks = () => {
     return subAccTasks.map((e, i) => (
       <AnimatedListItem key={i} index={i}>
@@ -46,21 +56,34 @@ const ClientSubAccount = (props) => {
     setSelectedTask(res);
   };
 
-  const getData = async () => {
-    getSubAccountData(id_service, props.location.state.client_sub_account).then((res) => setSubAccData(res));
-    getSubAccTasks();
-  };
+  useEffect(() => {
+    if (props.location.state.client_sub_account) {
+      getSubAccountData(
+        id_service,
+        props.location.state.client_sub_account
+      ).then((res) => setSubAccData(res));
+      getTasks(
+        id_service,
+        "",
+        props.location.state.client_sub_account,
+        "",
+        "",
+        "",
+        "",
+        ""
+      ).then((res) => setSubAccTasks(res));
+    } else {
+      props.history.goBack();
+    }
+  }, [id_service, props]);
 
   useEffect(() => {
-    props.location.state.client_sub_account ? getData() : props.history.goBack();
-  }, []);
-
-  const getConnections = async () => {
-    getSubAccountConnections(subAccData.info[0].radius_login, "", "").then((res) => setConnecSubAcc(res));
-  };
-
-  useEffect(() => {
-    subAccData?.info && getConnections();
+    subAccData?.info &&
+      getSubAccountConnections(
+        subAccData.info[0].radius_login,
+        "",
+        ""
+      ).then((res) => setConnecSubAcc(res));
   }, [subAccData]);
 
   const toTask = () => {
@@ -81,7 +104,9 @@ const ClientSubAccount = (props) => {
             <Card>
               <div className={styles.observationsContent}>
                 <p>{e.text}</p>
-                <h5 className={styles.boldText}>{new Date(e.obs_date).toLocaleDateString().toString()}</h5>
+                <h5 className={styles.boldText}>
+                  {new Date(e.obs_date).toLocaleDateString().toString()}
+                </h5>
               </div>
             </Card>
           </div>
@@ -101,7 +126,11 @@ const ClientSubAccount = (props) => {
               </h3>
             </div>
             <div className={styles.child}>
-              <Button type="button" variant="outline" onClick={() => setShowTaskModal(true)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowTaskModal(true)}
+              >
                 <p style={{ fontSize: "16px" }}>Nuevo Reclamo</p>
               </Button>
             </div>
@@ -111,16 +140,22 @@ const ClientSubAccount = (props) => {
               <div className={styles.card_wrapper}>
                 <Card>
                   <h4 className={styles.cardTitle}>
-                    <FontAwesomeIcon icon={faUserCircle} color="#D7B644" style={{ marginRight: "0.5rem" }} /> Subcuenta:
-                    #{subAccData.info[0].id_sub_account}
+                    <FontAwesomeIcon
+                      icon={faUserCircle}
+                      color="#D7B644"
+                      style={{ marginRight: "0.5rem" }}
+                    />{" "}
+                    Subcuenta: #{subAccData.info[0].id_sub_account}
                   </h4>
                   <div className={styles.cardContent}>
                     <p>
-                      <span className={styles.boldText}>Razon social:</span> {subAccData.info[0].account_name}
+                      <span className={styles.boldText}>Razon social:</span>{" "}
+                      {subAccData.info[0].account_name}
                     </p>
                     <p>
                       <span className={styles.boldText}>Domicilio: </span>
-                      {subAccData.info[0].address}, {subAccData.info[0].region_name}
+                      {subAccData.info[0].address},{" "}
+                      {subAccData.info[0].region_name}
                     </p>
                     <p>
                       <span className={styles.boldText}>DNI: </span>
@@ -129,7 +164,9 @@ const ClientSubAccount = (props) => {
                     {subAccData?.phones.length > 0 ? (
                       subAccData.phones.map((e, i) => (
                         <p key={i}>
-                          <span className={styles.boldText}>Contacto {i + 1}: </span>
+                          <span className={styles.boldText}>
+                            Contacto {i + 1}:{" "}
+                          </span>
                           {e.phone_number}
                         </p>
                       ))
@@ -145,14 +182,19 @@ const ClientSubAccount = (props) => {
               <div className={styles.card_wrapper}>
                 <Card>
                   <h4 className={styles.cardTitle}>
-                    <FontAwesomeIcon icon={faEdit} color="#5DCE68" style={{ marginRight: "0.5rem" }} />
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      color="#5DCE68"
+                      style={{ marginRight: "0.5rem" }}
+                    />
                     Servicios
                   </h4>
                   <div className={styles.cardContent}>
                     {subAccData.service.map((e, i) => (
                       <p key={i}>
                         <span className={styles.boldText}>Servicio: </span>
-                        {e.service} desde {new Date(e.date_from).toLocaleDateString().toString()}
+                        {e.service} desde{" "}
+                        {new Date(e.date_from).toLocaleDateString().toString()}
                       </p>
                     ))}
                   </div>
@@ -163,11 +205,16 @@ const ClientSubAccount = (props) => {
               <div className={styles.card_wrapper}>
                 <Card>
                   <h4 className={styles.cardTitle}>
-                    <FontAwesomeIcon icon={faWifi} color="#84B5FF" style={{ marginRight: "0.5rem" }} />
+                    <FontAwesomeIcon
+                      icon={faWifi}
+                      color="#84B5FF"
+                      style={{ marginRight: "0.5rem" }}
+                    />
                     Datos Tecnicos
                   </h4>
                   <div className={styles.cardContent}>
-                    {subAccData?.dslam.length > 0 || subAccData?.node.length > 0 ? (
+                    {subAccData?.dslam.length > 0 ||
+                    subAccData?.node.length > 0 ? (
                       <>
                         <p>
                           {subAccData?.dslam[0] ? (
@@ -175,8 +222,14 @@ const ClientSubAccount = (props) => {
                           ) : (
                             <span className={styles.boldText}>Nodo: </span>
                           )}
-                          <a href={subAccData?.dslam[0]?.nas_ip ?? subAccData?.node[0]?.ip}>
-                            {subAccData?.dslam[0]?.dslam ?? subAccData?.node[0]?.node}
+                          <a
+                            href={
+                              subAccData?.dslam[0]?.nas_ip ??
+                              subAccData?.node[0]?.ip
+                            }
+                          >
+                            {subAccData?.dslam[0]?.dslam ??
+                              subAccData?.node[0]?.node}
                           </a>
                         </p>
                         <p>
@@ -185,7 +238,8 @@ const ClientSubAccount = (props) => {
                           ) : (
                             <span className={styles.boldText}>Banda: </span>
                           )}
-                          {subAccData?.dslam[0]?.port_number ?? subAccData?.node[0]?.band}
+                          {subAccData?.dslam[0]?.port_number ??
+                            subAccData?.node[0]?.band}
                         </p>
                       </>
                     ) : (
@@ -206,7 +260,11 @@ const ClientSubAccount = (props) => {
               <div className={styles.card_wrapper}>
                 <Card>
                   <h4 className={styles.cardTitle}>
-                    <FontAwesomeIcon icon={faHdd} color="#656565" style={{ marginRight: "0.5rem" }} />
+                    <FontAwesomeIcon
+                      icon={faHdd}
+                      color="#656565"
+                      style={{ marginRight: "0.5rem" }}
+                    />
                     Equipamiento
                   </h4>
                   <div className={styles.cardContent}>
@@ -248,11 +306,19 @@ const ClientSubAccount = (props) => {
               <Card>
                 <div className={styles.innerHeader}>
                   <h4 className={styles.cardTitle}>
-                    <FontAwesomeIcon icon={faExchangeAlt} color="#D133AF" style={{ marginRight: "0.5rem" }} />
+                    <FontAwesomeIcon
+                      icon={faExchangeAlt}
+                      color="#D133AF"
+                      style={{ marginRight: "0.5rem" }}
+                    />
                     Conexiones
                   </h4>
                   <div style={{ marginRight: "1rem", marginTop: "1rem" }}>
-                    <Button onClick={() => setShowCoonectModal(true)} type="button" variant="outline">
+                    <Button
+                      onClick={() => setShowCoonectModal(true)}
+                      type="button"
+                      variant="outline"
+                    >
                       Ver mas
                     </Button>
                   </div>
@@ -261,7 +327,10 @@ const ClientSubAccount = (props) => {
                   <div style={{ height: "100%" }}>
                     {connectSubAcc ? (
                       connectSubAcc.length > 0 ? (
-                        <ConnectionsTable headers={["Tiempo de sesion", "IP", "Ancho de banda"]} data={connectSubAcc} />
+                        <ConnectionsTable
+                          headers={["Tiempo de sesion", "IP", "Ancho de banda"]}
+                          data={connectSubAcc}
+                        />
                       ) : (
                         <div className={styles.contentCentered}>
                           <h4 className={styles.boldText}>No hay datos</h4>
@@ -280,7 +349,11 @@ const ClientSubAccount = (props) => {
             <div className={styles.card_wrapper}>
               <Card>
                 <h4 className={styles.cardTitle}>
-                  <FontAwesomeIcon icon={faEye} color="#BE2323" style={{ marginRight: "0.5rem" }} />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    color="#BE2323"
+                    style={{ marginRight: "0.5rem" }}
+                  />
                   Observaciones
                 </h4>
                 <div className={styles.cardContent}>
@@ -299,7 +372,11 @@ const ClientSubAccount = (props) => {
             <div className={styles.card_wrapper}>
               <Card>
                 <h4 className={styles.cardTitle}>
-                  <FontAwesomeIcon icon={faNewspaper} color="#2B4E93" style={{ marginRight: "0.5rem" }} />
+                  <FontAwesomeIcon
+                    icon={faNewspaper}
+                    color="#2B4E93"
+                    style={{ marginRight: "0.5rem" }}
+                  />
                   Reclamos
                 </h4>
                 <div className={styles.cardContent}>
@@ -318,7 +395,11 @@ const ClientSubAccount = (props) => {
               <Card>
                 <div className={styles.innerHeader}>
                   <h4 className={styles.cardTitle}>
-                    <FontAwesomeIcon icon={faBookmark} color="#60ECFF" style={{ marginRight: "0.5rem" }} />
+                    <FontAwesomeIcon
+                      icon={faBookmark}
+                      color="#60ECFF"
+                      style={{ marginRight: "0.5rem" }}
+                    />
                     Detalles
                   </h4>
                   {selectedTask?.id && (
@@ -339,7 +420,9 @@ const ClientSubAccount = (props) => {
                     {selectedTask?.id ? (
                       <TaskItem task={selectedTask} />
                     ) : (
-                      <h4 className={styles.boldText}>Seleccione reclamo a visualizar</h4>
+                      <h4 className={styles.boldText}>
+                        Seleccione reclamo a visualizar
+                      </h4>
                     )}
                   </div>
                 </div>
@@ -354,7 +437,10 @@ const ClientSubAccount = (props) => {
       )}
 
       {showConnecModal && (
-        <Modal title="Buscar Conexiones" onClose={() => setShowCoonectModal(false)}>
+        <Modal
+          title="Buscar Conexiones"
+          onClose={() => setShowCoonectModal(false)}
+        >
           <ConnectionsModal
             onClose={() => setShowCoonectModal(false)}
             connectSubAcc={connectSubAcc}

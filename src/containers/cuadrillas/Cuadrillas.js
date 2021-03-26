@@ -118,7 +118,7 @@ const Cuadrillas = () => {
     getTeams(id_service).then((res) => {
       setTeams(res);
     });
-  }, []);
+  }, [id_service]);
 
   return (
     <>

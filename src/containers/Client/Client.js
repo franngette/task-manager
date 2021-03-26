@@ -15,67 +15,43 @@ const Client = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
   const [clientList, setClientList] = useState([]);
   const [loading, setLoading] = useState(false);
-  
-  const getData = async (id_service, account_name, account_number, doc_number, phone_number) => {
-    const result = await getClients(id_service, account_name, account_number, doc_number, phone_number);
-    setClientList(result);
-    setLoading(false);
+  const [error , setError] = useState(false);
+
+  const getData = async ({id_service, account_name, account_number, doc_number, phone_number}) => {
+    setError(false)
+    setLoading(true);
+    getClients(id_service, account_name, account_number, doc_number, phone_number)
+    .then((res) => {
+      if (res.error) {
+        setClientList([]);
+        setError(true)
+      } else {
+        setClientList(res);
+      }
+      setLoading(false);
+    })
   };
 
-  const onChangeInputID = async (account_number) => {
-    if (account_number === "") {
+  const InputsHandler = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    let params = {
+      id_service,
+      account_number: "",
+      account_name: "",
+      doc_number: "",
+      phone_number: "",
+    }
+    params[name] = value;
+    if (value === "") {
       setClientList([]);
     } else {
-      const search_value = account_number; // this is the search text
       if (timeout) clearTimeout(timeout);
       timeout = setTimeout(() => {
-        getData(id_service, "", search_value, "", "");
+        getData(params);
       }, 500);
     }
-  };
-
-  const onChangeInputName = (account_name) => {
-    if (account_name === "") {
-      setClientList([]);
-    } else {
-      if (account_name.length > 3) {
-        const search_value = account_name; // this is the search text
-        if (timeout) clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          setLoading(true);
-          getData(id_service, search_value, "", "", "");
-        }, 500);
-      }
-    }
-  };
-
-  const onChangeInputDNI = async (doc_number) => {
-    if (doc_number === "") {
-      setClientList([]);
-    } else {
-      if (doc_number.length > 3) {
-        const search_value = doc_number.replace(/[,.]\s?/g, ""); // this is the search text
-        if (timeout) clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          getData(id_service, "", "", search_value, "");
-        }, 500);
-      }
-    }
-  };
-
-  const onChangeInputPhone = async (phone_number) => {
-    if (phone_number === "") {
-      setClientList([]);
-    } else {
-      if (phone_number.length > 3) {
-        const search_value = phone_number; // this is the search text
-        if (timeout) clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          getData(id_service, "", "", "", search_value);
-        }, 500);
-      }
-    }
-  };
+  }
 
   const renderClientList = () => {
     return clientList.length > 0 && !loading ? (
@@ -88,7 +64,7 @@ const Client = (props) => {
       })
     ) : (
       <div className={style.error_title}>
-        {loading ? <Spinner size="2rem" color="#3182ce" /> : <h3>No hay resultados.</h3>}
+        {loading ? <Spinner size="2rem" color="#3182ce" /> : error ? <h3>No hay resultados.</h3> : null}
       </div>
     );
   };
@@ -104,37 +80,41 @@ const Client = (props) => {
             <div className={style.input_container}>
               <InputText
                 type="number"
+                name="account_number"
                 placeHolder="N Cliente..."
                 icon={faListOl}
                 iconColor="#fe6d73"
-                onChange={(e) => onChangeInputID(e.target.value)}
+                onChange={(e) => InputsHandler(e)}
               />
             </div>
             <div className={style.input_container}>
               <InputText
                 type="text"
+                name="account_name"
                 icon={faUserCircle}
                 iconColor="#ffcb77"
                 placeHolder="Nombre..."
-                onChange={(e) => onChangeInputName(e.target.value)}
+                onChange={(e) => InputsHandler(e)}
               />
             </div>
             <div className={style.input_container}>
               <InputText
                 type="text"
+                name="doc_number"
                 icon={faAddressCard}
                 iconColor="#17c3b2"
                 placeHolder="DNI..."
-                onChange={(e) => onChangeInputDNI(e.target.value)}
+                onChange={(e) => InputsHandler(e)}
               />
             </div>
             <div className={style.input_container}>
               <InputText
                 type="text"
+                name="phone_number"
                 icon={faPhone}
                 iconColor="#4299e1"
                 placeHolder="Telefono..."
-                onChange={(e) => onChangeInputPhone(e.target.value)}
+                onChange={(e) => InputsHandler(e)}
               />
             </div>
           </div>

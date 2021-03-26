@@ -1,6 +1,5 @@
 import style from "./style.module.css";
 import PropTypes from "prop-types";
-import { Fragment } from "react";
 
 const DropDown = ({ data, form, name, id, onChange, selectedValue = 0 }) => {
   const newData = [{ id: 0, name: "Seleccione..." }, ...data];
@@ -11,23 +10,6 @@ const DropDown = ({ data, form, name, id, onChange, selectedValue = 0 }) => {
           {el.name ? el.name : "No hay datos"}
         </option>
       );
-      /* index === 0 ? (
-        <Fragment key={el.name+index}>
-          <option value={0} disabled>
-            {"Seleccione..."}
-          </option>
-          <option
-            value={el.id}
-            key={el.name+el.id}
-          >
-            {el.name ? el.name : "No hay datos"}
-          </option>
-        </Fragment>
-      ) : ( 
-        <option value={el.id} key={el.name+el.id}>
-          {el.name ? el.name : "No hay datos"}
-        </option>
-      );*/
     });
   };
   return (

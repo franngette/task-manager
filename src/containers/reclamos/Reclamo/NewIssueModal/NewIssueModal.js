@@ -19,7 +19,7 @@ const NewIssueModal = ({ onClose, onSave }) => {
       setMessage(res.message);
       setTimeout(() => {
         setMessage();
-      }, 6000);
+      }, 5000);
     }
   };
 

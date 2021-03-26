@@ -84,7 +84,7 @@ const Reclamo = (props) => {
         setSubAccount(res);
       });
     });
-  }, []);
+  }, [id_service, id_task, id_account]);
 
   let loaded = <Spinner />;
   if (task) {
