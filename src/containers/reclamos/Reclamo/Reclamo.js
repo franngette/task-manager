@@ -258,7 +258,7 @@ const Reclamo = (props) => {
                   </div>
                 </div>
                 <div className={style.card_content}>
-                  {task.incidents.length > 0 ? (
+                  {task.incidents ? (
                     <div className={style.error_message_content}>
                       <h4 className={style.boldText}>No existen datos.</h4>
                     </div>
