@@ -9,6 +9,8 @@ import Spinner from '../../Spinner/index'
 import { createStatusTask, getStatus } from '../../../api/index'
 
 const Status = ({ task, onClose }) => {
+  console.log('asgasg')
+
   const [stateSelected, setStateSelected] = useState()
   const [states, setStates] = useState()
   const [loading, setLoading] = useState(false)

@@ -16,6 +16,11 @@ import AssignTask from "./AssignTask/index";
 const Calendar = ({ calendar, week, teams }) => {
   const [task, setTask] = useState({});
   const [show, setShow] = useState(false);
+  const [scrollPos, setScrollPos] = useState(0);
+
+  const scrollHandler = (e) => {
+    setScrollPos(e.target.scrollTop);
+  };
 
   const content = {
     display: "grid",
@@ -64,16 +69,13 @@ const Calendar = ({ calendar, week, teams }) => {
               <div
                 key={i}
                 className={day.isMonth ? style.rows : style.rows_false}
+                onScroll={(e) => {
+                  scrollHandler(e);
+                }}
               >
                 {day.tasks.map((task, index) => {
-                  return team.id_team === task.id_team &&
-                    task.date === day.day ? (
-                    <CalendarTask
-                      key={index}
-                      index={index}
-                      task={task}
-                      onEdit={editHandler}
-                    />
+                  return team.id_team === task.id_team && task.date === day.day ? (
+                    <CalendarTask key={index} index={index} task={task} onEdit={editHandler} scrollPos={scrollPos} />
                   ) : (
                     ""
                   );
@@ -132,11 +134,7 @@ const Calendar = ({ calendar, week, teams }) => {
     <div>
       {show && (
         <Modal
-          title={
-            task.action_type && task.action_type === "assign"
-              ? "Editar Asignación"
-              : "Nuevo Estado"
-          }
+          title={task.action_type && task.action_type === "assign" ? "Editar Asignación" : "Nuevo Estado"}
           onClose={() => {
             setShow(false);
           }}

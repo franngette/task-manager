@@ -1,24 +1,26 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Card from "../Card/index";
 import style from "./style.module.scss";
 import useVisible from "../../hooks/useVisible";
 import { Link } from "react-router-dom";
 
-import {
-  faEllipsisV,
-  faEye,
-  faMapMarkerAlt,
-  faTasks,
-  faCalendarAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faEye, faMapMarkerAlt, faTasks, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const CalendarTask = ({ index, task, onEdit }) => {
+const CalendarTask = ({ index, task, onEdit, scrollPos }) => {
+  const [pos, setPost] = useState();
+  const [parentScroll, setParentScroll] = useState(0);
   const { ref, isVisible, setIsVisible } = useVisible(false);
 
+  const elementRef = useRef(null);
+  useEffect(() => {
+    setPost(elementRef.current.getBoundingClientRect());
+    setParentScroll(scrollPos);
+  }, [task, scrollPos]);
+
   return (
-    <div key={index} className={style.card_container}>
+    <div key={index} className={style.card_container} ref={elementRef} onScroll={() => console.log("scroll")}>
       <Card key={index} style={task.last_state}>
         <div className={style.task}>
           <div className={style.task_content}>
@@ -31,31 +33,36 @@ const CalendarTask = ({ index, task, onEdit }) => {
                 : "Sin Titular"}
             </p>
             <div className={style.content_icon}>
-              <FontAwesomeIcon
-                icon={faMapMarkerAlt}
-                size="1x"
-                className={style.icon}
-              />
+              <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" className={style.icon} />
               <p>{task.region ? task.region : "Sin Region"}</p>
             </div>
           </div>
           <div className={style.content_icon}>
             {isVisible && (
-              <div ref={ref} className={style.options_menu_container}>
+              <div
+                ref={ref}
+                style={{
+                  display: "flex",
+                  position: "absolute",
+                  top: pos.top + pos.height - parentScroll,
+                  left: pos.left,
+                  zIndex: "1",
+                }}
+              >
                 <div className={style.options_menu}></div>
                 <Card>
                   <div className={style.options}>
-                    <Link to={{ pathname: "/reclamo", state: { task: task } }}>
-                      <button
-                        className={
-                          style.option
-                        } /* onClick={() => {nextHandler(task)}} */
-                      >
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          size="1x"
-                          className={style.icon}
-                        />
+                    <Link
+                      to={{
+                        pathname: "/reclamo",
+                        state: {
+                          id_task: task.id_task,
+                          id_account: task.id_account,
+                        },
+                      }}
+                    >
+                      <button className={style.option} /* onClick={() => {nextHandler(task)}} */>
+                        <FontAwesomeIcon icon={faEye} size="1x" className={style.icon} />
                         <p>Ver</p>
                       </button>
                     </Link>
@@ -67,11 +74,7 @@ const CalendarTask = ({ index, task, onEdit }) => {
                           setIsVisible(false);
                         }}
                       >
-                        <FontAwesomeIcon
-                          icon={faCalendarAlt}
-                          size="1x"
-                          className={style.icon}
-                        />
+                        <FontAwesomeIcon icon={faCalendarAlt} size="1x" className={style.icon} />
                         <p>Editar Asignación</p>
                       </button>
                     </div>
@@ -82,22 +85,14 @@ const CalendarTask = ({ index, task, onEdit }) => {
                         setIsVisible(false);
                       }}
                     >
-                      <FontAwesomeIcon
-                        icon={faTasks}
-                        size="1x"
-                        className={style.icon}
-                      />
+                      <FontAwesomeIcon icon={faTasks} size="1x" className={style.icon} />
                       <p>Nuevo estado</p>
                     </button>
                   </div>
                 </Card>
               </div>
             )}
-            <button
-              id={index}
-              className={style.options_button}
-              onClick={() => setIsVisible(!isVisible)}
-            >
+            <button id={index} className={style.options_button} onClick={() => setIsVisible(!isVisible)}>
               <FontAwesomeIcon icon={faEllipsisV} size="1x" />
             </button>
           </div>

@@ -31,12 +31,16 @@ const NewIssueModal = ({ onClose, onSave }) => {
         onChange={(e) => setDescription(e.target.value)}
       ></textarea>
       <div className={styles.bottom}>
-        <Button type="button" variant="blue" onClick={() => onSaveHandler(description)}>
-          Guardar
-        </Button>
-        <Button type="button" variant="outline" onClick={onClose}>
-          Cancelar
-        </Button>
+        <div style={{ marginInline: "1rem" }}>
+          <Button type="button" variant="blue" onClick={() => onSaveHandler(description)}>
+            Guardar
+          </Button>
+        </div>
+        <div style={{ marginInline: "1rem" }}>
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancelar
+          </Button>
+        </div>
       </div>
       {message && <Message type={error ? "error" : "success"} message={message} />}
     </div>

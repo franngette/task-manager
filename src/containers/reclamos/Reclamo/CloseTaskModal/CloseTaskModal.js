@@ -6,7 +6,7 @@ import InputText from "../../../../components/InputText/index";
 import DropDown from "../../../../components/DropDown/index";
 import Button from "../../../../components/Button/index";
 import Message from "../../../../components/Message/index";
-import { getTeams } from "../../../../api/index";
+import { getTeams, closeTask } from "../../../../api/index";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -29,17 +29,17 @@ const teamMaterials = [
 
 const CloseTask = ({ onClose, onSave }) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
+  const arrOperators = [];
 
   const [response, setResponse] = useState();
   const [teams, setTeams] = useState([]);
-
 
   const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState("");
   const [selectedOperators, setSelectedOperators] = useState("");
   const [description, setDescription] = useState("");
-  
+
   const onSaveHandler = () => {
     if (description.length < 4) {
       setResponse({ error: true, message: "Caracteres insuficientes en descripcion" });
@@ -47,8 +47,12 @@ const CloseTask = ({ onClose, onSave }) => {
         setResponse();
       }, 6000);
     } else {
-      onSave(description, selectedMaterials, selectedOperators).then((res) => {
+      onSave(description).then((res) => {
         setResponse(res);
+        setTimeout(() => {
+          setResponse();
+          onClose();
+        }, 6000);
       });
     }
   };
@@ -73,10 +77,6 @@ const CloseTask = ({ onClose, onSave }) => {
     setSelectedMaterials(newArray);
   };
 
-  const arrOperators = [];
-
-  console.log(teams)
-
   const operatorHandler = () => {
     teams.forEach((el) => {
       let id = el.id_team;
@@ -91,14 +91,12 @@ const CloseTask = ({ onClose, onSave }) => {
     });
   };
 
-  operatorHandler();
-
   const renderMaterialList = () => {
     return selectedMaterials.map((el, i) => (
       <li style={{ listStyleType: "none" }} key={i}>
         <Card>
           <div className={styles.gridContainer}>
-            <p className={styles.gridItem}>{teamMaterials.find((e) => e.id === el.material).name}</p>
+            <p className={styles.gridItem}>{teamMaterials.find((e) => e.id == el.material).name}</p>
             <p className={styles.gridItem}>{el.quantity}</p>
             <div className={styles.gridItem}>
               <FontAwesomeIcon
@@ -118,6 +116,7 @@ const CloseTask = ({ onClose, onSave }) => {
     getTeams(id_service).then((res) => {
       setTeams(res);
     });
+    operatorHandler();
   }, [id_service]);
 
   return (
@@ -169,12 +168,16 @@ const CloseTask = ({ onClose, onSave }) => {
         </div>
       </div>
       <div className={styles.bottom}>
-        <Button type="button" variant="blue" onClick={() => onSaveHandler()}>
-          Guardar
-        </Button>
-        <Button type="button" variant="outline" onClick={onClose}>
-          Cancelar
-        </Button>
+        <div style={{ marginInline: "1rem" }}>
+          <Button type="button" variant="blue" onClick={() => onSaveHandler()}>
+            Guardar
+          </Button>
+        </div>
+        <div style={{ marginInline: "1rem" }}>
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancelar
+          </Button>
+        </div>
       </div>
       {response && <Message type={response.error ? "error" : "success"} message={response.message} />}
     </div>

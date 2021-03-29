@@ -77,7 +77,7 @@ export async function getClientSubAccounts(id_service, id_account) {
 }
 
 export async function getClients(id_service, account_name, account_number, doc_number, phone_number) {
-  var json_data = {
+  const json_data = {
     id_service: id_service,
     account_name: account_name,
     account_number: account_number,
@@ -124,7 +124,7 @@ export async function getTasks(
   ids_state,
   ids_region
 ) {
-  var json_data = {
+  const json_data = {
     id_service: id_service,
     task_number: task_number,
     account_number: account_number,
@@ -176,6 +176,17 @@ export async function createStatusTask(id_calendar, id_status) {
   return data
 } */
 
+export async function closeTask(id_task, id_user, id_calendar, description) {
+  const json_data = {
+    id_task: id_task,
+    id_user: id_user,
+    id_calendar: id_calendar,
+    description: description,
+  };
+  let result = await instance.post(`/task/close`, JSON.stringify(json_data));
+  return result.data;
+}
+
 export async function getFilters(id_service) {
   let result = await instance.get(`/tasks/filters/${id_service}`);
   return result.data;
@@ -188,7 +199,7 @@ export async function getTeams(id_service) {
 }
 
 export async function createCalendar(id_task, date, id_team, priority) {
-  var json_data = {
+  const json_data = {
     id_task: id_task,
     date: date,
     id_team: id_team,
@@ -212,7 +223,7 @@ export async function getVehicles(id_service, id_team) {
 }
 
 export async function createTeam(id_service, vehicle, operators) {
-  var json_data = {
+  const json_data = {
     id_service: id_service,
     vehicle: vehicle,
     operators: operators,
@@ -223,7 +234,7 @@ export async function createTeam(id_service, vehicle, operators) {
 }
 
 export async function updateTeam(id_service, id_team, vehicle, operators) {
-  var json_data = {
+  const json_data = {
     id_service: id_service,
     id_team: id_team,
     vehicle: vehicle,
@@ -241,7 +252,7 @@ export async function closeTeam(id_service, id_team) {
 }
 
 export async function updateCalendarTask(id_calendar, id_task, date, id_team, priority) {
-  var json_data = {
+  const json_data = {
     id_calendar: id_calendar,
     id_task: id_task,
     date: date,

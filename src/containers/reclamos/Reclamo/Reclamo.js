@@ -22,7 +22,7 @@ import {
 import { faUserCircle, faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { getTask, getSubAccountData, createIncident } from "../../../api/index";
+import { getTask, getSubAccountData, createIncident, closeTask } from "../../../api/index";
 import { useSelector } from "react-redux";
 
 const Reclamo = (props) => {
@@ -30,7 +30,6 @@ const Reclamo = (props) => {
   const id_account = props.location.state.id_account;
   const id_task = props.location.state.id_task;
   const user_id = useSelector((state) => state.auth.user.id);
-
   const [task, setTask] = useState();
   const [subAccount, setSubAccount] = useState();
   const [showIssueModal, setShowIssueModal] = useState(false);
@@ -74,7 +73,13 @@ const Reclamo = (props) => {
     });
   };
 
-  const closeTaskHandler = () => {};
+  const closeTaskHandler = (description) => {
+    getTask(id_service, id_task).then((res) => {
+      const resultTaks = res;
+      setTask(resultTaks);
+    });
+    return closeTask(id_task, user_id, task.id_calendar, description);
+  };
 
   useEffect(() => {
     getTask(id_service, id_task).then((res) => {
@@ -86,7 +91,13 @@ const Reclamo = (props) => {
     });
   }, [id_service, id_task, id_account]);
 
-  let loaded = <Spinner />;
+  console.log(subAccount);
+
+  let loaded = (
+    <div className={style.contentCentered}>
+      <Spinner color="#4299e1" size="4rem" />
+    </div>
+  );
   if (task) {
     loaded = (
       <div className={style.wrapper}>
@@ -97,9 +108,11 @@ const Reclamo = (props) => {
             </h3>
             {task.last_state ? <Status description={task.last_state_description} name={task.last_state} /> : ""}
           </div>
-          <Button onClick={() => setShowShowModal(true)} variant="outline">
-            <p style={{ fontSize: "18px" }}>Cerrar reclamo</p>
-          </Button>
+          {task.is_active ? (
+            <Button onClick={() => setShowShowModal(true)} variant="outline">
+              <p style={{ fontSize: "18px" }}>Cerrar reclamo</p>
+            </Button>
+          ) : null}
         </div>
         <div className={style.wrapper_content_header}>
           <div className={style.card_container}>
@@ -132,23 +145,17 @@ const Reclamo = (props) => {
                   ) : (
                     <>
                       <p>
-                        {subAccount?.dslam[0] ? (
-                          <span className={style.boldText}>DSLAM: </span>
-                        ) : (
-                          <span className={style.boldText}>Nodo: </span>
-                        )}
+                        {subAccount?.dslam[0]?.dslam && <span className={style.boldText}>DSLAM: </span>}
+                        {subAccount?.node[0]?.node && <span className={style.boldText}>Nodo: </span>}
                         <a href={subAccount?.dslam[0]?.nas_ip ?? subAccount?.node[0]?.ip}>
                           {subAccount?.dslam[0]?.dslam ?? subAccount?.node[0]?.node}
                         </a>
                       </p>
-                      <p>
-                        {subAccount?.dslam[0] ? (
-                          <span className={style.boldText}>Port: </span>
-                        ) : (
-                          <span className={style.boldText}>Nodo: </span>
-                        )}
-                        {subAccount?.dslam[0]?.port_number ?? subAccount?.node[0]?.band}
-                      </p>
+                      {subAccount?.dslam[0]?.dslam || subAccount?.node[0]?.node ? null : (
+                        <p>
+                          <span className={style.boldText}>DSLAM/Nodo: </span> Sin datos
+                        </p>
+                      )}
                       <p>
                         <span className={style.boldText}>Login: </span>
                         {subAccount.info[0].radius_login}
@@ -246,24 +253,26 @@ const Reclamo = (props) => {
                     </div>
                     <h4 className={style.card_title}>Incidentes</h4>
                   </div>
-                  <div className={style.card_content_icon}>
-                    <Button
-                      onClick={() => {
-                        setShowIssueModal(true);
-                      }}
-                      variant="outline"
-                    >
-                      Nuevo Incidente
-                    </Button>
-                  </div>
+                  {task.is_active ? (
+                    <div className={style.card_content_icon}>
+                      <Button
+                        onClick={() => {
+                          setShowIssueModal(true);
+                        }}
+                        variant="outline"
+                      >
+                        Nuevo Incidente
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
                 <div className={style.card_content}>
-                  {task.incidents ? (
+                  {task.incidents[0] ? (
+                    <ul>{renderIncidents(task.incidents)}</ul>
+                  ) : (
                     <div className={style.error_message_content}>
                       <h4 className={style.boldText}>No existen datos.</h4>
                     </div>
-                  ) : (
-                    <ul>{renderIncidents(task.incidents)}</ul>
                   )}
                 </div>
               </Card>

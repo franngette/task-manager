@@ -26,7 +26,6 @@ $breakpoint-lg: 1360px;
 
 .card_container {
   margin: 0.3rem 0.2rem;
-  position: relative;
 }
 
 .task {
@@ -76,8 +75,6 @@ $breakpoint-lg: 1360px;
 .options_menu_container {
   position: absolute;
   display: flex;
-  top: 60px;
-  right: 0px;
   z-index: 1;
   @include media(lg) {
     top: 108px;
