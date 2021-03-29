@@ -9,7 +9,7 @@ import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-import CalendarButton from "../../CalendarButton/index";
+import CalendarButton from "../CalendarButton/index";
 import Button from "../../Button/index";
 import { getStatus } from "../../../api/index";
 

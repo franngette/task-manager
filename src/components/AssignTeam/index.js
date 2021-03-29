@@ -4,7 +4,7 @@ import style from "./style.module.scss";
 import Card from "../Card/index";
 import Button from "../Button/index";
 import DropDown from "../DropDown/index";
-import CalendarButton from "../CalendarButton/index";
+import CalendarButton from "../../components/Calendar/CalendarButton/index";
 import CheckBox from "../Checkbox/index";
 import Spinner from "../Spinner/index";
 import Message from "../Message/index";

@@ -1,27 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import Card from "../Card/index";
+import Card from "../../Card/index";
 import style from "./style.module.scss";
-import useVisible from "../../hooks/useVisible";
+import useVisible from "../../../hooks/useVisible";
 import { Link } from "react-router-dom";
 
 import { faEllipsisV, faEye, faMapMarkerAlt, faTasks, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const CalendarTask = ({ index, task, onEdit, scrollPos }) => {
+const CalendarTask = ({ task, onEdit, parentPos }) => {
   const [pos, setPost] = useState();
-  const [parentScroll, setParentScroll] = useState(0);
   const { ref, isVisible, setIsVisible } = useVisible(false);
-
   const elementRef = useRef(null);
+
   useEffect(() => {
     setPost(elementRef.current.getBoundingClientRect());
-    setParentScroll(scrollPos);
-  }, [task, scrollPos]);
-
+  }, [task]);
   return (
-    <div key={index} className={style.card_container} ref={elementRef} onScroll={() => console.log("scroll")}>
-      <Card key={index} style={task.last_state}>
+    <div className={style.card_container} ref={elementRef}>
+      <Card style={task.last_state}>
         <div className={style.task}>
           <div className={style.task_content}>
             <p>
@@ -44,8 +41,8 @@ const CalendarTask = ({ index, task, onEdit, scrollPos }) => {
                 style={{
                   display: "flex",
                   position: "absolute",
-                  top: pos.top + pos.height - parentScroll,
-                  left: pos.left,
+                  top: pos.top - parentPos.top + pos.height - 100, //-100 for AnimatedListItem Component
+                  right: 10,
                   zIndex: "1",
                 }}
               >
@@ -92,7 +89,7 @@ const CalendarTask = ({ index, task, onEdit, scrollPos }) => {
                 </Card>
               </div>
             )}
-            <button id={index} className={style.options_button} onClick={() => setIsVisible(!isVisible)}>
+            <button className={style.options_button} onClick={() => setIsVisible(!isVisible)}>
               <FontAwesomeIcon icon={faEllipsisV} size="1x" />
             </button>
           </div>

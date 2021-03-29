@@ -7,24 +7,18 @@ import { faHardHat } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import "moment/locale/es";
 
-import CalendarTask from "../CalendarTask/index";
 import Modal from "../Modal/index";
-
+import CalendarRow from "./CalendarRow/CalendarRow";
 import Status from "./Status/index";
 import AssignTask from "./AssignTask/index";
 
 const Calendar = ({ calendar, week, teams }) => {
   const [task, setTask] = useState({});
   const [show, setShow] = useState(false);
-  const [scrollPos, setScrollPos] = useState(0);
-
-  const scrollHandler = (e) => {
-    setScrollPos(e.target.scrollTop);
-  };
 
   const content = {
     display: "grid",
-    gridTemplateRows: `repeat(${teams.length}, minmax(300px, auto))`,
+    gridTemplateRows: `repeat(${teams.length}))`,
     background: "#2c5282",
     marginRigth: "5px",
     width: "75px",
@@ -34,9 +28,10 @@ const Calendar = ({ calendar, week, teams }) => {
 
   const column = {
     width: "100%",
+    position: "relative",
     background: "aliceblue",
     display: "grid",
-    gridTemplateRows: `repeat(${teams.length}, minmax(300px, auto))`,
+    gridTemplateRows: `repeat(${teams.length})`,
   };
 
   const editHandler = (task, type) => {
@@ -65,23 +60,7 @@ const Calendar = ({ calendar, week, teams }) => {
       return (
         <div key={index} style={column}>
           {teams.map((team, i) => {
-            return (
-              <div
-                key={i}
-                className={day.isMonth ? style.rows : style.rows_false}
-                onScroll={(e) => {
-                  scrollHandler(e);
-                }}
-              >
-                {day.tasks.map((task, index) => {
-                  return team.id_team === task.id_team && task.date === day.day ? (
-                    <CalendarTask key={index} index={index} task={task} onEdit={editHandler} scrollPos={scrollPos} />
-                  ) : (
-                    ""
-                  );
-                })}
-              </div>
-            );
+            return <CalendarRow key={i} team={team} day={day} editHandler={editHandler} />;
           })}
         </div>
       );

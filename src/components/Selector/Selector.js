@@ -16,7 +16,7 @@ const Selector = ({ nameKey, onSelected, icons, data }) => {
   useEffect(() => {
     setValueName("Todos");
     setNewData(arrData);
-  }, [data]);
+  }, [data, arrData]);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true)

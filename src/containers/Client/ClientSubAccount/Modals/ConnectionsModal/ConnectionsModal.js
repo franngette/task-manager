@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import ConnectionsTable from "../../Tables/ConnectionsTable/ConnectionsTable";
 import Spinner from "../../../../../components/Spinner/index";
 import Button from "../../../../../components/Button/index";
-import CalendarButton from "../../../../../components/CalendarButton/index";
+import CalendarButton from "../../../../../components/Calendar/CalendarButton/index";
 import { getSubAccountConnections } from "../../../../../api/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +19,7 @@ const ConnectionsModal = ({ connectSubAcc, onClose, login }) => {
   };
 
   useEffect(() => {
-    getConnections();
+    getSubAccountConnections(login, dateFrom, dateTo).then((res) => setTableData(res));
   }, []);
 
   return (

@@ -6,7 +6,7 @@ import InputText from "../../../../components/InputText/index";
 import DropDown from "../../../../components/DropDown/index";
 import Button from "../../../../components/Button/index";
 import Message from "../../../../components/Message/index";
-import { getTeams, closeTask } from "../../../../api/index";
+import { getTeams } from "../../../../api/index";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -29,7 +29,6 @@ const teamMaterials = [
 
 const CloseTask = ({ onClose, onSave }) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
-  const arrOperators = [];
 
   const [response, setResponse] = useState();
   const [teams, setTeams] = useState([]);
@@ -37,8 +36,9 @@ const CloseTask = ({ onClose, onSave }) => {
   const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState("");
-  const [selectedOperators, setSelectedOperators] = useState("");
+  //const [selectedOperators, setSelectedOperators] = useState("");
   const [description, setDescription] = useState("");
+  const [arrOperators, setArrOperators] = useState([]);
 
   const onSaveHandler = () => {
     if (description.length < 4) {
@@ -77,26 +77,12 @@ const CloseTask = ({ onClose, onSave }) => {
     setSelectedMaterials(newArray);
   };
 
-  const operatorHandler = () => {
-    teams.forEach((el) => {
-      let id = el.id_team;
-      let op = el.operators.map((j) => {
-        return j.name;
-      });
-      const newOp = {
-        id: id,
-        name: op.toString().replace(",", " - "),
-      };
-      arrOperators.push(newOp);
-    });
-  };
-
   const renderMaterialList = () => {
     return selectedMaterials.map((el, i) => (
       <li style={{ listStyleType: "none" }} key={i}>
         <Card>
           <div className={styles.gridContainer}>
-            <p className={styles.gridItem}>{teamMaterials.find((e) => e.id == el.material).name}</p>
+            <p className={styles.gridItem}>{teamMaterials.find((e) => e.id.toString() === el.material).name}</p>
             <p className={styles.gridItem}>{el.quantity}</p>
             <div className={styles.gridItem}>
               <FontAwesomeIcon
@@ -116,15 +102,27 @@ const CloseTask = ({ onClose, onSave }) => {
     getTeams(id_service).then((res) => {
       setTeams(res);
     });
-    operatorHandler();
-  }, [id_service]);
+    const arrOperators = [];
+    teams.forEach((el) => {
+      let id = el.id_team;
+      let op = el.operators.map((j) => {
+        return j.name;
+      });
+      const newOp = {
+        id: id,
+        name: op.toString().replace(",", " - "),
+      };
+      arrOperators.push(newOp);
+    });
+    setArrOperators(arrOperators);
+  }, [id_service, teams]);
 
   return (
     <div className={styles.modal_wrapper}>
       <div className={styles.contentWrapper}>
         <div className={styles.content}>
           <h4>Operarios</h4>
-          <DropDown data={arrOperators} onChange={(e) => setSelectedOperators(e.target.value)} />
+          <DropDown data={arrOperators} /* onChange={(e) => setSelectedOperators(e.target.value)} */ />
         </div>
         <div className={styles.content}>
           <h4>Materiales</h4>
