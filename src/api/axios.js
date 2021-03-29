@@ -5,7 +5,7 @@ import store from "../store/store";
 //baseURL: 'http://192.168.77.244:4000',
 
 const instance = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "http://192.168.0.2:4000",
   headers: {
     "Content-Type": "application/json",
   },

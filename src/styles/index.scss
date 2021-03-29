@@ -1,7 +1,7 @@
 @import "./card.scss";
 @import "./status.scss";
-//@import './../components/ClientAccordion/clientAccordion.scss';
-
+@import "./mixins";
+@import "./variables";
 * {
   box-sizing: border-box;
   border-width: 0;
@@ -111,7 +111,7 @@ p {
 
 /*  Smartphones in landscape mode */
 
-@media only screen and (min-width: 421px) and (max-width: 767px) {
+@media only screen and (min-width: 480px) and (max-width: 767px) {
   h1 {
     font-size: 28px;
   }
@@ -131,7 +131,7 @@ p {
 
 /*  Smartphones in portrait mode  */
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 480px) {
   h1 {
     font-size: 26px;
   }
@@ -145,6 +145,6 @@ p {
     font-size: 10px;
   }
   p {
-    font-size: 8px;
+    font-size: 10px;
   }
 }

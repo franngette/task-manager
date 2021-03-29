@@ -4,19 +4,19 @@ import styles from "./style.module.scss";
 import Card from "../../components/Card/index";
 import { Pie } from "react-chartjs-2";
 import { getTasksStatics } from "../../api/index";
+import { BrowserView, MobileView } from "react-device-detect";
 
 const Home = () => {
   const [chartsData, setChartsData] = useState();
 
-
-/*   const chartDataByService = () => {
+  /*   const chartDataByService = () => {
     const result = chartsData?.amount_service?.map((el) => el.description_service);
     return result;
   };
  */
   useEffect(() => {
     //chartDataByService();
-    getTasksStatics().then((res) =>   setChartsData(res));
+    getTasksStatics().then((res) => setChartsData(res));
   }, []);
 
   /*   const lineData = {
@@ -80,52 +80,54 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h3 style={{ margin: "1rem" }}>
-        <b>Dashboard</b>
-      </h3>
-      <div className={styles.wrapper}>
-        <div className={styles.content}>
-          <Card>
-            <div className={styles.graphContainer}>
-              <div className={styles.graph}>
-                <Pie
-                  data={pieDataServices}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    title: {
-                      display: true,
-                      text: "Reclamos por servicio",
-                      fontSize: 20,
-                    },
-                    legend: {
-                      display: true,
-                    },
-                  }}
-                />
-              </div>
-              <div className={styles.graph}>
-                <Pie
-                  data={pieDataTasks}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    title: {
-                      display: true,
-                      text: "Tareas pendientes",
-                      fontSize: 20,
-                    },
-                    legend: {
-                      display: true,
-                    },
-                  }}
-                />
-              </div>
+    <>
+      <BrowserView>
+        <div>
+          <h3 style={{ margin: "1rem" }}>
+            <b>Dashboard</b>
+          </h3>
+          <div className={styles.wrapper}>
+            <div className={styles.content}>
+              <Card>
+                <div className={styles.graphContainer}>
+                  <div className={styles.graph}>
+                    <Pie
+                      data={pieDataServices}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        title: {
+                          display: true,
+                          text: "Reclamos por servicio",
+                          fontSize: 20,
+                        },
+                        legend: {
+                          display: true,
+                        },
+                      }}
+                    />
+                  </div>
+                  <div className={styles.graph}>
+                    <Pie
+                      data={pieDataTasks}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        title: {
+                          display: true,
+                          text: "Tareas pendientes",
+                          fontSize: 20,
+                        },
+                        legend: {
+                          display: true,
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              </Card>
             </div>
-          </Card>
-        </div>
-        {/* <div className={styles.content}>
+            {/* <div className={styles.content}>
           <Card>
             <div className={styles.graphContainer}>
               <div className={styles.graph}>
@@ -148,8 +150,13 @@ const Home = () => {
             </div>
           </Card>
         </div> */}
-      </div>
-    </div>
+          </div>
+        </div>
+      </BrowserView>
+      <MobileView>
+        <h1> This is rendered only on mobile </h1>
+      </MobileView>
+    </>
   );
 };
 

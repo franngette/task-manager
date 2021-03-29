@@ -15,21 +15,20 @@ const Client = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
   const [clientList, setClientList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error , setError] = useState(false);
+  const [error, setError] = useState(false);
 
-  const getData = async ({id_service, account_name, account_number, doc_number, phone_number}) => {
-    setError(false)
+  const getData = async ({ id_service, account_name, account_number, doc_number, phone_number }) => {
+    setError(false);
     setLoading(true);
-    getClients(id_service, account_name, account_number, doc_number, phone_number)
-    .then((res) => {
+    getClients(id_service, account_name, account_number, doc_number, phone_number).then((res) => {
       if (res.error) {
         setClientList([]);
-        setError(true)
+        setError(true);
       } else {
         setClientList(res);
       }
       setLoading(false);
-    })
+    });
   };
 
   const InputsHandler = (e) => {
@@ -41,7 +40,7 @@ const Client = (props) => {
       account_name: "",
       doc_number: "",
       phone_number: "",
-    }
+    };
     params[name] = value;
     if (value === "") {
       setClientList([]);
@@ -51,7 +50,7 @@ const Client = (props) => {
         getData(params);
       }, 500);
     }
-  }
+  };
 
   const renderClientList = () => {
     return clientList.length > 0 && !loading ? (
@@ -72,51 +71,49 @@ const Client = (props) => {
   return (
     <div>
       <h3>
-        <b>Buscar cliente</b>
+        <span className={style.boldText}>Buscar cliente</span>
       </h3>
       <div className={style.client}>
-        <div className={style.search_container}>
-          <div className={style.input_wrapper}>
-            <div className={style.input_container}>
-              <InputText
-                type="number"
-                name="account_number"
-                placeHolder="N Cliente..."
-                icon={faListOl}
-                iconColor="#fe6d73"
-                onChange={(e) => InputsHandler(e)}
-              />
-            </div>
-            <div className={style.input_container}>
-              <InputText
-                type="text"
-                name="account_name"
-                icon={faUserCircle}
-                iconColor="#ffcb77"
-                placeHolder="Nombre..."
-                onChange={(e) => InputsHandler(e)}
-              />
-            </div>
-            <div className={style.input_container}>
-              <InputText
-                type="text"
-                name="doc_number"
-                icon={faAddressCard}
-                iconColor="#17c3b2"
-                placeHolder="DNI..."
-                onChange={(e) => InputsHandler(e)}
-              />
-            </div>
-            <div className={style.input_container}>
-              <InputText
-                type="text"
-                name="phone_number"
-                icon={faPhone}
-                iconColor="#4299e1"
-                placeHolder="Telefono..."
-                onChange={(e) => InputsHandler(e)}
-              />
-            </div>
+        <div className={style.input_wrapper}>
+          <div className={style.input_container}>
+            <InputText
+              type="number"
+              name="account_number"
+              placeHolder="N Cliente..."
+              icon={faListOl}
+              iconColor="#fe6d73"
+              onChange={(e) => InputsHandler(e)}
+            />
+          </div>
+          <div className={style.input_container}>
+            <InputText
+              type="text"
+              name="account_name"
+              icon={faUserCircle}
+              iconColor="#ffcb77"
+              placeHolder="Nombre..."
+              onChange={(e) => InputsHandler(e)}
+            />
+          </div>
+          <div className={style.input_container}>
+            <InputText
+              type="text"
+              name="doc_number"
+              icon={faAddressCard}
+              iconColor="#17c3b2"
+              placeHolder="DNI..."
+              onChange={(e) => InputsHandler(e)}
+            />
+          </div>
+          <div className={style.input_container}>
+            <InputText
+              type="text"
+              name="phone_number"
+              icon={faPhone}
+              iconColor="#4299e1"
+              placeHolder="Telefono..."
+              onChange={(e) => InputsHandler(e)}
+            />
           </div>
         </div>
         {renderClientList()}

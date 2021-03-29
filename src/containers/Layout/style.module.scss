@@ -1,6 +1,12 @@
+@import "../../styles/mixins";
+
 .wrapper {
   height: 100vh;
   display: flex;
+  @include mq('phone', 'max'){
+    flex-direction: column;
+    justify-content: flex-end;
+  }
 }
 
 .container {

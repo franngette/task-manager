@@ -1,8 +1,14 @@
+@import "../../styles/mixins";
 .container {
-  height: 100vh;
   min-width: 4rem;
   border-right-width: 1px;
   background-color: var(--dark);
+  @include mq("phone", "max") {
+    display: flex;
+    justify-content: space-around;
+    order: 2;
+    border-right-width: 0px;
+  }
 }
 .logoContainer {
   display: flex;
@@ -23,6 +29,12 @@
   flex-direction: column;
   align-items: center;
   margin-top: 1rem;
+  @include mq("phone", "max") {
+    width: 100%;
+    margin-top: 0rem;
+    justify-content: space-around;
+    flex-direction: row;
+  }
 }
 
 .li {
@@ -36,7 +48,7 @@
   stroke: white;
   stroke-width: 25px;
   font-size: 1.5rem;
-  transition: color .2s linear;
+  transition: color 0.2s linear;
   &:hover {
     color: white;
   }

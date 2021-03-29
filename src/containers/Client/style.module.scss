@@ -1,28 +1,39 @@
+@import "../../styles/index.scss";
 .client {
   display: flex;
   flex-direction: column;
 }
 
 .search_container {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0rem;
 }
 
 .input_wrapper {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 2rem 0rem;
+  @include mq("phone", "max") {
+    margin: $m-mbY;
+  }
 }
 
 .input_container {
   min-width: 300px;
   margin: 1rem;
+  @include mq("phone", "max") {
+    margin: $m-mbY;
+    max-width: 160px;
+    min-width: 100px;
+  }
 }
 
 .error_title {
   color: #3182ce;
   text-align: center;
   margin-top: 100px;
+}
+.boldText {
+  font-family: "Roboto Bold";
+  color: var(--blue);
 }

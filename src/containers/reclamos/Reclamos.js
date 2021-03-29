@@ -11,9 +11,10 @@ import Card from "../../components/Card/index";
 import Status from "../../components/Status/index";
 import Selector from "../../components/Selector/Selector";
 import InputText from "../../components/InputText/index";
-import { useSelector } from "react-redux";
 import AnimationListItem from "../../components/Animations/AnimatedListItem/AnimatedListItem";
 import Button from "../../components/Button";
+import TaskItem from "./TaskItem/TaskItem";
+import { useSelector } from "react-redux";
 
 const Reclamos = ({ history }) => {
   let timeout = null;
@@ -114,7 +115,8 @@ const Reclamos = ({ history }) => {
         let date = new Date(reclamo.created_at).toLocaleString();
         return (
           <AnimationListItem index={index} key={index} style={{ listStyleType: "none" }}>
-            <div className={styles.card_wrapper}>
+            <TaskItem date={date} reclamo={reclamo} handlerReclamo={handlerReclamo} />
+            {/*             <div className={styles.card_wrapper}>
               <Card>
                 <div className={styles.card}>
                   <div className={styles.card_container} onClick={() => toTask(reclamo)}>
@@ -151,7 +153,7 @@ const Reclamos = ({ history }) => {
                   </div>
                 </div>
               </Card>
-            </div>
+            </div> */}
           </AnimationListItem>
         );
       });

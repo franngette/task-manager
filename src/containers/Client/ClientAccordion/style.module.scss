@@ -1,3 +1,5 @@
+@import "../../../styles/index.scss";
+
 .client_card {
   display: flex;
   flex-direction: column;
@@ -5,6 +7,9 @@
   margin: 0.5rem 0rem;
   width: 100%;
   cursor: pointer;
+  @include mq("phone", "max") {
+    margin: $m-mbY;
+  }
 }
 
 .client_content {
@@ -24,6 +29,9 @@
 .childs {
   width: 100%;
   margin: 0rem 0.5rem;
+  @include mq("phone", "max") {
+    margin: 0;
+  }
 }
 
 .content_child_info {
@@ -58,7 +66,6 @@
   }
 }
 
-
 .id {
   display: flex;
   justify-content: center;
@@ -66,9 +73,12 @@
   border-radius: 10px;
   color: white;
   width: 5em;
-  height: 2em;
+  padding: 0.5rem;
   background-color: var(--light-blue);
   margin: 0rem 1rem;
+  @include mq("phone", "max") {
+    margin: $m-mbX;
+  }
 }
 
 .client_card_child {
@@ -82,10 +92,10 @@
 
 .show_accounts {
   height: auto;
-/*   transition: height 1s ease-out; */
+  /*   transition: height 1s ease-out; */
 }
 
 .hidden_accounts {
   height: 0px;
-/*   transition: height 1s ease-in; */
+  /*   transition: height 1s ease-in; */
 }
