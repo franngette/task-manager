@@ -29,12 +29,10 @@ const Cuadrillas = () => {
     vehicles: [],
     operators: [],
   });
-  const [message, setMessage] = useState({ error: false, message: "" });
 
   const handlerCloseData = async () => {
-    closeTeam(id_service, selectedTeam.id_team)
+    return closeTeam(id_service, selectedTeam.id_team)
       .then((res) => {
-        setMessage(res);
         getTeams(id_service).then((res) => {
           setTeams(res);
         });
@@ -43,39 +41,40 @@ const Cuadrillas = () => {
           id_vehicle: null,
           operators: [],
         });
+        return res;
       })
       .catch((res) => {
-        setMessage(res);
+        return res;
       });
   };
 
   const handleSendData = async (selectedVehicle, selectedOperators) => {
     if (selectedTeam.id_team) {
-      updateTeam(
+      return updateTeam(
         id_service,
         selectedTeam.id_team,
         selectedVehicle,
         selectedOperators
       )
         .then((res) => {
-          setMessage(res);
           getTeams(id_service).then((res) => {
             setTeams(res);
           });
+          return res;
         })
         .catch((res) => {
-          setMessage(res);
+          return res;
         });
     } else {
-      createTeam(id_service, selectedVehicle, selectedOperators)
+      return createTeam(id_service, selectedVehicle, selectedOperators)
         .then((res) => {
-          setMessage(res);
           getTeams(id_service).then((res) => {
             setTeams(res);
           });
+          return res;
         })
         .catch((res) => {
-          setMessage(res);
+          return res;
         });
     }
   };
@@ -88,7 +87,6 @@ const Cuadrillas = () => {
       operators: operators,
     });
     setOpen(true);
-    setMessage({ error: false, message: "" });
   };
 
   const handleEditTeam = async (val) => {
@@ -136,23 +134,25 @@ const Cuadrillas = () => {
         </Button>
       </div>
       <div className={styles.wrapper}>
-        <ListTeams data={teams} sendData={handleEditTeam} />
-        <div className={open ? styles.modal_open : styles.modal_close}>
-          {open && (
-            <WorkTeam
-              onClose={handlerClose}
-              sendData={handleSendData}
-              deleteData={handlerCloseData}
-              teamData={teamData}
-              selectedTeam={selectedTeam}
-              message={message}
-            />
-          )}
-        </div>
+        {teams && (
+          <>
+            <ListTeams data={teams} sendData={handleEditTeam} />
+            <div className={open ? styles.modal_open : styles.modal_close}>
+              {open && (
+                <WorkTeam
+                  onClose={handlerClose}
+                  sendData={handleSendData}
+                  deleteData={handlerCloseData}
+                  teamData={teamData}
+                  selectedTeam={selectedTeam}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
 };
-
 
 export default Cuadrillas;

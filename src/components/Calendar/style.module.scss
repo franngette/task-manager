@@ -69,15 +69,25 @@
 }
 
 .team {
-  height: 90%;
-  border-radius: 10px;
+  height: 100%;
+  background: rgb(44, 82, 130);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid #888;
 }
 
 .rows_team {
-  border-bottom: 1px solid #888;
   width: 100%;
+  display: grid;
+  grid-template-columns: 75px repeat(7, 1fr);
+  min-height: 200px;
+  grid-gap: 5px;
+  position: relative;
+}
+
+.grid_content {
+  width: 100%;
+  color: #fff;
 }

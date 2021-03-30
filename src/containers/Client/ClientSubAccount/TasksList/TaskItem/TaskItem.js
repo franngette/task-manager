@@ -4,7 +4,6 @@ import styles from "./style.module.scss";
 import Incident from "../../../../Reclamos/Reclamo/Incident/Incident";
 import Status from "../../../../../components/Status/index";
 const TaskItem = ({ task }) => {
-  console.log(task);
 
   const renderIncidents = (incidents) => {
     return (

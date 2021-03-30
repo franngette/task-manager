@@ -16,24 +16,6 @@ const Calendar = ({ calendar, week, teams }) => {
   const [task, setTask] = useState({});
   const [show, setShow] = useState(false);
 
-  const content = {
-    display: "grid",
-    gridTemplateRows: `repeat(${teams.length}))`,
-    background: "#2c5282",
-    marginRigth: "5px",
-    width: "75px",
-    color: "white",
-    minWidth: "75px",
-  };
-
-  const column = {
-    width: "100%",
-    position: "relative",
-    background: "aliceblue",
-    display: "grid",
-    gridTemplateRows: `repeat(${teams.length})`,
-  };
-
   const editHandler = (task, type) => {
     setShow(true);
     const selectedTask = { ...task, action_type: type };
@@ -54,26 +36,43 @@ const Calendar = ({ calendar, week, teams }) => {
     renderContent = <Status task={task} onClose={closeModalHandler} />;
   }
 
-  const renderCalendar = () => {
+/*   const renderCalendar = () => {
     // var Week is index weeks on month selected
     return calendar[week].map((day, index) => {
       return (
         <div key={index} style={column}>
-          {teams.map((team, i) => (
-            <CalendarRow key={i} team={team} day={day} editHandler={editHandler} />
-          ))}
+          {teams.map((team, i) => {
+            return (
+              <CalendarRow
+                key={i}
+                team={team}
+                day={day}
+                editHandler={editHandler}
+              />
+            );
+          })}
         </div>
       );
     });
-  };
+  }; */
 
-  const renderTeam = (teams) => {
+  const renderCalendar = (teams, calendar) => {
     return teams.map((team, index) => {
       return (
         <div key={index} className={style.rows_team}>
           <div className={style.team}>
             <p>Team {team.id_team}</p>
           </div>
+          {calendar[week].map((day, index) => {
+            return (
+              <CalendarRow
+                key={index}
+                team={team}
+                day={day}
+                editHandler={editHandler}
+              />
+            );
+          })}
         </div>
       );
     });
@@ -102,8 +101,7 @@ const Calendar = ({ calendar, week, teams }) => {
           <div className={style.calendar}>{renderCalendarHeader()}</div>
         </div>
         <div className={style.container}>
-          <div style={content}>{renderTeam(teams)}</div>
-          <div className={style.calendar}>{renderCalendar()}</div>
+          <div className={style.grid_content}>{renderCalendar(teams, calendar)}</div>
         </div>
       </>
     );
@@ -113,7 +111,11 @@ const Calendar = ({ calendar, week, teams }) => {
     <div>
       {show && (
         <Modal
-          title={task.action_type && task.action_type === "assign" ? "Editar Asignación" : "Nuevo Estado"}
+          title={
+            task.action_type && task.action_type === "assign"
+              ? "Editar Asignación"
+              : "Nuevo Estado"
+          }
           onClose={() => {
             setShow(false);
           }}
