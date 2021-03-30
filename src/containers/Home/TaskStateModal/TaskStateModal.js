@@ -16,8 +16,6 @@ const TaskStateModal = ({ onClose, task }) => {
   const onSaveHandler = async () => {
     if (newState) {
       const res = await createStatusTask(task.id_calendar, newState);
-      console.log(newState, task.id_calendar);
-
       setMessage(res);
     } else {
       setMessage({ error: true, message: "Seleccione Estado" });
@@ -26,7 +24,6 @@ const TaskStateModal = ({ onClose, task }) => {
       setMessage();
     }, 6000);
   };
-  console.log(message);
 
   const renderStatus = () => {
     return statusTask.map((el, i) => {
@@ -45,7 +42,6 @@ const TaskStateModal = ({ onClose, task }) => {
       const allStates = await getStatus();
       const taskStates = await getStatusTask(task.id);
       setStatusTask(taskStates);
-      console.log(allStates, taskStates, task.id);
       const filteredState = allStates.filter((e) => !taskStates.find(({ status }) => e.name === status));
       setStates(filteredState);
     };

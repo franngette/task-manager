@@ -113,7 +113,6 @@ const WorkTeam = ({
       );
     });
   };
-  console.log(selectedTeam)
   return (
     <Card>
       <div className={style.wrapper}>

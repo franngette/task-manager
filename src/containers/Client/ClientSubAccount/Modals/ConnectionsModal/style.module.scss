@@ -1,6 +1,7 @@
+@import "../../../../../styles/index.scss";
+
 .contentWrapper {
   height: 80vh;
-  width: 60vw;
   display: flex;
   flex-direction: column;
 }
@@ -11,6 +12,9 @@
   display: flex;
   width: 100%;
   flex-wrap: wrap;
+  @include mq("phone", "max") {
+    flex-direction: column;
+  }
 }
 
 .input {

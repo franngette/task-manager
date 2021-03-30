@@ -21,9 +21,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faUserCircle, faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import AnimatedListItem from "../../../components/Animations/AnimatedListItem/AnimatedListItem";
 import { getTask, getSubAccountData, createIncident, closeTask } from "../../../api/index";
 import { useSelector } from "react-redux";
+import { isBrowser } from "react-device-detect";
 
 const Reclamo = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
@@ -47,9 +48,11 @@ const Reclamo = (props) => {
   const renderIncidents = (incidents) => {
     return incidents.map((incident, index) => {
       return (
-        <li key={index} style={{ listStyleType: "none" }}>
-          <Incident key={index} incident={incident} />
-        </li>
+        <AnimatedListItem key={index} index={index}>
+          <li style={{ listStyleType: "none" }}>
+            <Incident incident={incident} />
+          </li>
+        </AnimatedListItem>
       );
     });
   };
@@ -87,6 +90,7 @@ const Reclamo = (props) => {
       getSubAccountData(id_service, id_account).then((res) => {
         setTask(resultTaks);
         setSubAccount(res);
+        console.log(res);
       });
     });
   }, [id_service, id_task, id_account]);
@@ -101,14 +105,14 @@ const Reclamo = (props) => {
       <div className={style.wrapper}>
         <div className={style.header}>
           <div className={style.headerChild}>
-            <h3 style={{ margin: "1rem" }}>
+            <h3 style={{ marginRight: "1rem" }}>
               <b>{"Reclamo #" + task.number + " - " + task.created_at}</b>
             </h3>
             {task.last_state ? <Status description={task.last_state_description} name={task.last_state} /> : ""}
           </div>
           {task.is_active ? (
             <Button onClick={() => setShowShowModal(true)} variant="outline">
-              <p style={{ fontSize: "18px" }}>Cerrar reclamo</p>
+              Cerrar reclamo
             </Button>
           ) : null}
         </div>
@@ -177,10 +181,6 @@ const Reclamo = (props) => {
                 </div>
                 <div className={style.card_content}>
                   {task?.equipment ? (
-                    <div className={style.error_message_content}>
-                      <h4 className={style.boldText}>No existen datos.</h4>
-                    </div>
-                  ) : (
                     <>
                       <div className={style.info_content}>
                         <p>
@@ -207,6 +207,10 @@ const Reclamo = (props) => {
                         </p>
                       </div>
                     </>
+                  ) : (
+                    <div className={style.error_message_content}>
+                      <h4 className={style.boldText}>No existen datos.</h4>
+                    </div>
                   )}
                 </div>
               </Card>
@@ -346,33 +350,35 @@ const Reclamo = (props) => {
                 </Card>
               </div>
             </div>
-            <div className={style.card_container}>
-              <Card>
-                <div className={style.card_content_title}>
-                  <div className={style.card_content_icon}>
-                    <FontAwesomeIcon icon={faHardHat} size="1x" color="#ff791a" />
+            {isBrowser && (
+              <div className={style.card_container}>
+                <Card>
+                  <div className={style.card_content_title}>
+                    <div className={style.card_content_icon}>
+                      <FontAwesomeIcon icon={faHardHat} size="1x" color="#ff791a" />
+                    </div>
+                    <h4 className={style.card_title}>Cuadrilla</h4>
                   </div>
-                  <h4 className={style.card_title}>Cuadrilla</h4>
-                </div>
-                <div className={style.card_content}>
-                  {task.team[0] ? (
-                    <div>
-                      <Card>
-                        <div className={style.team_content}>
-                          <p> #{task.team[0].id_team}</p>
-                          <p> {task.team[0].vehicle_name}</p>
-                          <div className={style.img_content}>{renderTeam(task.team)}</div>
-                        </div>
-                      </Card>
-                    </div>
-                  ) : (
-                    <div className={style.error_message_content}>
-                      <h4 className={style.boldText}>No existen datos.</h4>
-                    </div>
-                  )}
-                </div>
-              </Card>
-            </div>
+                  <div className={style.card_content}>
+                    {task.team[0] ? (
+                      <div>
+                        <Card>
+                          <div className={style.team_content}>
+                            <p> #{task.team[0].id_team}</p>
+                            <p> {task.team[0].vehicle_name}</p>
+                            <div className={style.img_content}>{renderTeam(task.team)}</div>
+                          </div>
+                        </Card>
+                      </div>
+                    ) : (
+                      <div className={style.error_message_content}>
+                        <h4 className={style.boldText}>No existen datos.</h4>
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              </div>
+            )}
           </div>
         </div>
         {showIssueModal && (

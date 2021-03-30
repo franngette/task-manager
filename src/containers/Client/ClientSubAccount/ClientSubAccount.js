@@ -16,6 +16,7 @@ import { faExchangeAlt, faHdd, faWifi } from "@fortawesome/free-solid-svg-icons"
 import { useSelector } from "react-redux";
 import AnimatedListItem from "../../../components/Animations/AnimatedListItem/AnimatedListItem";
 import ConnectionsModal from "./Modals/ConnectionsModal/ConnectionsModal";
+import { isBrowser, isMobile } from "react-device-detect";
 
 const ClientSubAccount = (props) => {
   const id_service = useSelector((state) => state.auth.user.id_service);
@@ -248,27 +249,32 @@ const ClientSubAccount = (props) => {
                   </h4>
                   <div>
                     <Button onClick={() => setShowCoonectModal(true)} type="button" variant="outline">
-                      Ver mas
+                      {isBrowser ? 'Ver mas' : 'Ver'}
                     </Button>
                   </div>
                 </div>
-                <div className={styles.cardContent}>
-                  <div style={{ height: "100%" }}>
-                    {connectSubAcc ? (
-                      connectSubAcc.length > 0 ? (
-                        <ConnectionsTable headers={["Tiempo de sesion", "IP", "Ancho de banda"]} data={connectSubAcc} />
+                {isBrowser && (
+                  <div className={styles.cardContent}>
+                    <div style={{ height: "100%" }}>
+                      {connectSubAcc ? (
+                        connectSubAcc.length > 0 ? (
+                          <ConnectionsTable
+                            headers={["Tiempo de sesion", "IP", "Ancho de banda"]}
+                            data={connectSubAcc}
+                          />
+                        ) : (
+                          <div className={styles.contentCentered}>
+                            <h4 className={styles.boldText}>No hay datos</h4>
+                          </div>
+                        )
                       ) : (
                         <div className={styles.contentCentered}>
-                          <h4 className={styles.boldText}>No hay datos</h4>
+                          <Spinner color="#4299e1" size="2rem" />
                         </div>
-                      )
-                    ) : (
-                      <div className={styles.contentCentered}>
-                        <Spinner color="#4299e1" size="2rem" />
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </Card>
             </div>
 

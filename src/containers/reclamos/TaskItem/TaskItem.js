@@ -12,7 +12,6 @@ const TaskItem = ({ reclamo, handlerTask }) => {
     history.push("/reclamo", { id_task: reclamo.id, id_account: reclamo.id_account });
   };
   let date = new Date(reclamo.created_at).toLocaleString();
-console.log(reclamo)
   return (
     <div className={styles.card_wrapper}>
       <Card>
@@ -29,14 +28,14 @@ console.log(reclamo)
                 <p>
                   <span className={styles.boldText}># {reclamo.number} </span>
                 </p>
-                <div className={styles.mh}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <FontAwesomeIcon icon={faMapMarkerAlt} color="#fe6d73" size="1x" />
+                  <p style={{marginLeft: '0.5rem'}}>{reclamo.region_name}</p>
                 </div>
-                <p>{reclamo.region_name}</p>
               </div>
               <div className={styles.card_item}>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <div style={{marginRight: "0.5rem"}}>
+                  <div style={{ marginRight: "0.5rem" }}>
                     <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
                   </div>
                   <p>{date}</p>

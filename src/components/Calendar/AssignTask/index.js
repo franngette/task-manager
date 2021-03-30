@@ -61,7 +61,7 @@ const AssignTask = ({ task, onClose }) => {
   };
 
   return (
-    <div>
+    <div className={style.wrapper}>
       <div className={style.modalContent}>
         <label htmlFor="cuadrilla">
           <h4>Cuadrilla</h4>

@@ -1,3 +1,5 @@
+@import '../../styles/index.scss';
+
 .Show {
   position: fixed;
   top: 0;
@@ -20,7 +22,10 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
   z-index: 500;
-  min-width: 300px;
+  min-width: 50%;
+  @include mq('phone', 'max') {
+    width: 90%;
+  }
 }
 
 .header {

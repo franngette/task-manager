@@ -58,7 +58,7 @@ const ConnectionsModal = ({ connectSubAcc, onClose, login }) => {
         </Button>
       </div>
       <div className={styles.content}>
-        {tableData.length > 0 ? (
+        {tableData?.length > 0 ? (
           <ConnectionsTable headers={["Tiempo de sesion", "IP", "Ancho de banda"]} data={tableData} />
         ) : (
           <div className={styles.contentCentered}>
@@ -68,7 +68,7 @@ const ConnectionsModal = ({ connectSubAcc, onClose, login }) => {
       </div>
       <div className={styles.bottom}>
         <Button type="button" variant="outline" onClick={onClose}>
-          <p style={{ fontSize: "18px" }}>Cerrar</p>
+          Cerrar
         </Button>
       </div>
     </div>

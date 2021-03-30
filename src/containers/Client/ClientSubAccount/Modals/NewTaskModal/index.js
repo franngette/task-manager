@@ -48,17 +48,19 @@ const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
 
   return (
     <div className={styles.modal_wrapper}>
-      <h3>
-        <b>
+      <div className={styles.header}>
+        <h3>
           <span className={styles.boldText}>Cliente</span> #{id}
-        </b>
-      </h3>
-      <h4>
-        <span className={styles.boldText}>Subcuenta</span> #{sid}
-      </h4>
+        </h3>
+        <h4>
+          <span className={styles.boldText}>Subcuenta</span> #{sid}
+        </h4>
+      </div>
+
       <textarea className={styles.description} placeholder="Descripcion.." onChange={(e) => textHandler(e)}></textarea>
       <div className={styles.select}>
-        <div style={{ margin: "0.5rem" }}>
+        <div className={styles.label}>
+          <h4>Tarea</h4>
           <DropDown
             data={taskTypes}
             onChange={(e) => {
@@ -66,7 +68,8 @@ const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
             }}
           />
         </div>
-        <div style={{ margin: "0.5rem" }}>
+        <div className={styles.label}>
+          <h4>Inconveniente</h4>
           <DropDown
             data={taskProblems}
             onChange={(e) => {
