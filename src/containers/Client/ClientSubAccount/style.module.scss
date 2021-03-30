@@ -1,3 +1,5 @@
+@import "../../../styles/index.scss";
+
 .client_sub {
   display: flex;
   flex-direction: column;
@@ -10,6 +12,9 @@
   justify-content: space-between;
   margin: 1rem;
   flex-wrap: wrap;
+  @include mq("phone", "max") {
+    margin: $m-mbY;
+  }
 }
 
 .child {
@@ -20,34 +25,55 @@
 .ctnr_sm {
   display: flex;
   justify-content: space-between;
+  @include mq("phone", "max") {
+    flex-direction: column;
+  }
 }
 
 .ctnr_lg {
   display: flex;
   height: 40%;
+  @include mq("phone", "max") {
+    flex-direction: column;
+  }
 }
 
 .content {
   display: flex;
   width: 100%;
+  @include mq("phone", "max") {
+    flex-direction: column;
+  }
 }
 
 .card_wrapper {
   display: flex;
   width: 100%;
   margin: 0.25rem;
+  @include mq("phone", "max") {
+    margin: 0.25rem 0rem;
+    height: 100%;
+  }
+
 }
 
 .cardContent {
   height: 100%;
   margin: 0.5rem 1rem;
   overflow: auto;
+  @include mq("phone", "max") {
+    margin: 0.25rem 0.5rem;
+  }
 }
 
 .cardTitle {
   font-family: "Roboto Bold";
   margin-left: 1rem;
   margin-top: 1rem;
+  @include mq("phone", "max") {
+    margin-left: 0.5rem;
+    margin-top: 0.25rem;
+  }
 }
 
 .contentCentered {
@@ -99,4 +125,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  @include mq("phone", "max") {
+    margin-left: 0.25rem;
+    margin-top: 0.25rem;
+  }
 }

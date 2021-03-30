@@ -26,7 +26,7 @@ const Button = ({ type = "submit", variant, children, onClick, disabled = false 
 
   return (
     <button disabled={disabled ? disabled : false} className={color} id={style.button} type={type} onClick={onClick}>
-      <div className={style.button_content}>{children}</div>
+      <p className={style.button_content}>{children}</p>
     </button>
   );
 };

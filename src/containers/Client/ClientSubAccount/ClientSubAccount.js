@@ -95,7 +95,7 @@ const ClientSubAccount = (props) => {
             </div>
             <div className={styles.child}>
               <Button type="button" variant="outline" onClick={() => setShowTaskModal(true)}>
-                <p style={{ fontSize: "16px" }}>Nuevo Reclamo</p>
+                Nuevo Reclamo
               </Button>
             </div>
           </div>
@@ -242,11 +242,11 @@ const ClientSubAccount = (props) => {
             <div className={styles.card_wrapper}>
               <Card>
                 <div className={styles.innerHeader}>
-                  <h4 className={styles.cardTitle}>
+                  <h4>
                     <FontAwesomeIcon icon={faExchangeAlt} color="#D133AF" style={{ marginRight: "0.5rem" }} />
                     Conexiones
                   </h4>
-                  <div style={{ marginRight: "1rem", marginTop: "1rem" }}>
+                  <div>
                     <Button onClick={() => setShowCoonectModal(true)} type="button" variant="outline">
                       Ver mas
                     </Button>
