@@ -8,7 +8,7 @@ const Modal = ({ onClose, children, title }) => {
     <div className={[style.Show].join(" ")}>
       <div className={[style.modalMain].join(" ")}>
         <div className={style.header}>
-          <h4>{title}</h4>
+          <h3>{title}</h3>
           <button className={style.closeButton} onClick={() => onClose()}>
             <FontAwesomeIcon icon={faWindowClose} />
           </button>

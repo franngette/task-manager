@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-
 import styles from "./reclamos.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarMinus, faMapMarkerAlt, faEllipsisV, faListOl } from "@fortawesome/free-solid-svg-icons";
 
-import { createCalendar, getTasks, getTeams, getFilters } from "../../api/index";
-
+import { faListOl } from "@fortawesome/free-solid-svg-icons";
 import AssignTeam from "../../components/AssignTeam/index";
-import Card from "../../components/Card/index";
-import Status from "../../components/Status/index";
 import Selector from "../../components/Selector/Selector";
 import InputText from "../../components/InputText/index";
 import AnimationListItem from "../../components/Animations/AnimatedListItem/AnimatedListItem";
 import Button from "../../components/Button";
 import TaskItem from "./TaskItem/TaskItem";
 import { useSelector } from "react-redux";
+import { createCalendar, getTasks, getTeams, getFilters } from "../../api/index";
 
 const Reclamos = ({ history }) => {
   let timeout = null;
@@ -94,7 +89,7 @@ const Reclamos = ({ history }) => {
     });
   };
 
-  const handlerReclamo = (reclamo) => {
+  const handlerTask = (reclamo) => {
     setSelectedReclamo(reclamo);
     if (!open) {
       setOpen(true);
@@ -106,54 +101,12 @@ const Reclamos = ({ history }) => {
     e.preventDefault();
   };
 
-  const toTask = (reclamo) => {
-    history.push("/reclamo", { id_task: reclamo.id, id_account: reclamo.id_account });
-  };
   const createLiReclamos = (reclamos) => {
     if (reclamos[0]?.number) {
       return reclamos.slice(0, counter).map((reclamo, index) => {
-        let date = new Date(reclamo.created_at).toLocaleString();
         return (
           <AnimationListItem index={index} key={index} style={{ listStyleType: "none" }}>
-            <TaskItem date={date} reclamo={reclamo} handlerReclamo={handlerReclamo} />
-            {/*             <div className={styles.card_wrapper}>
-              <Card>
-                <div className={styles.card}>
-                  <div className={styles.card_container} onClick={() => toTask(reclamo)}>
-                    <div className={styles.card_content}>
-                      <h4>{reclamo.account_name}</h4>
-                      <div className={styles.card_item}>
-                        <Status description={reclamo.last_state_description} name={reclamo.last_state} />
-                      </div>
-                    </div>
-                    <div className={styles.card_content}>
-                      <div className={styles.card_item}>
-                        <p>
-                          <span className={styles.boldText}># {reclamo.number} </span>
-                        </p>
-                        <div className={styles.mh}>
-                          <FontAwesomeIcon icon={faMapMarkerAlt} color="#fe6d73" size="1x" />
-                        </div>
-                        <p>{reclamo.region_name}</p>
-                      </div>
-                      <div className={styles.card_item}>
-                        <div className={styles.mh}>
-                          <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
-                        </div>
-                        <div>
-                          <p>{date}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.button_container}>
-                    <button className={styles.button} onClick={() => handlerReclamo(reclamo)}>
-                      <FontAwesomeIcon icon={faEllipsisV} size="1x" />
-                    </button>
-                  </div>
-                </div>
-              </Card>
-            </div> */}
+            <TaskItem reclamo={reclamo} handlerTask={handlerTask} history={history} />
           </AnimationListItem>
         );
       });

@@ -4,12 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarMinus, faMapMarkerAlt, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import Card from "../../../components/Card/index";
 import Status from "../../../components/Status/index";
+import { useHistory } from "react-router-dom";
 
-const TaskItem = ({ reclamo, history, date, handlerReclamo }) => {
+const TaskItem = ({ reclamo, handlerTask }) => {
+  const history = useHistory();
   const toTask = (reclamo) => {
     history.push("/reclamo", { id_task: reclamo.id, id_account: reclamo.id_account });
   };
-
+  let date = new Date(reclamo.created_at).toLocaleString();
+console.log(reclamo)
   return (
     <div className={styles.card_wrapper}>
       <Card>
@@ -32,17 +35,17 @@ const TaskItem = ({ reclamo, history, date, handlerReclamo }) => {
                 <p>{reclamo.region_name}</p>
               </div>
               <div className={styles.card_item}>
-                <div className={styles.mh}>
-                  <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
-                </div>
-                <div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{marginRight: "0.5rem"}}>
+                    <FontAwesomeIcon className={styles.icon} color="#4299e1" icon={faCalendarMinus} size="1x" />
+                  </div>
                   <p>{date}</p>
                 </div>
               </div>
             </div>
           </div>
           <div className={styles.button_container}>
-            <button className={styles.button} onClick={() => handlerReclamo(reclamo)}>
+            <button className={styles.button} onClick={() => handlerTask(reclamo)}>
               <FontAwesomeIcon icon={faEllipsisV} size="1x" />
             </button>
           </div>

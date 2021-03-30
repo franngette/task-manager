@@ -2,36 +2,48 @@ import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 
 import Card from "../../components/Card/index";
+import { useSelector } from "react-redux";
 import { Pie } from "react-chartjs-2";
-import { getTasksStatics } from "../../api/index";
+import { getTasksStatics, getTasksTeam } from "../../api/index";
 import { BrowserView, MobileView } from "react-device-detect";
+import TaskItem from "../Reclamos/TaskItem/TaskItem";
+import AnimatedListItem from "../../components/Animations/AnimatedListItem/AnimatedListItem";
+import Modal from "../../components/Modal/index";
+import TaskStateModal from "./TaskStateModal/TaskStateModal";
 
 const Home = () => {
+  const id_user = useSelector((state) => state.auth.user.id);
+
   const [chartsData, setChartsData] = useState();
+  const [currentTasks, setCurrentTasks] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [selectedReclamo, setSelectedReclamo] = useState({});
 
   /*   const chartDataByService = () => {
     const result = chartsData?.amount_service?.map((el) => el.description_service);
     return result;
   };
  */
+  const handlerTask = (reclamo) => {
+    setSelectedReclamo(reclamo);
+    if (!open) {
+      setOpen(true);
+    }
+  };
+
+  const renderTasks = () => {
+    return currentTasks.map((e, i) => (
+      <AnimatedListItem key={e.id + i}>
+        <TaskItem reclamo={e} handlerTask={handlerTask} />
+      </AnimatedListItem>
+    ));
+  };
+
   useEffect(() => {
     //chartDataByService();
+    getTasksTeam(51).then((res) => setCurrentTasks(res));
     getTasksStatics().then((res) => setChartsData(res));
   }, []);
-
-  /*   const lineData = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        fill: true,
-        lineTension: 0.4,
-        backgroundColor: "rgb(34, 124, 157)",
-        borderColor: "rgba(0,0,0,1)",
-        borderWidth: 1,
-        data: [65, 59, 80, 81, 56],
-      },y
-    ],
-  }; */
 
   const pieDataTasks = {
     datasets: [
@@ -127,34 +139,16 @@ const Home = () => {
                 </div>
               </Card>
             </div>
-            {/* <div className={styles.content}>
-          <Card>
-            <div className={styles.graphContainer}>
-              <div className={styles.graph}>
-                <Line
-                  data={lineData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    title: {
-                      display: true,
-                      text: "Reclamos",
-                      fontSize: 20,
-                    },
-                    legend: {
-                      display: false,
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          </Card>
-        </div> */}
           </div>
         </div>
       </BrowserView>
       <MobileView>
-        <h1> This is rendered only on mobile </h1>
+        {renderTasks()}
+        {open && (
+          <Modal title={`Historial de estados tarea: #${selectedReclamo.id}`} onClose={() => setOpen(false)}>
+            <TaskStateModal onClose={() => setOpen(false)} task={selectedReclamo} />
+          </Modal>
+        )}
       </MobileView>
     </>
   );

@@ -59,9 +59,9 @@ const Calendar = ({ calendar, week, teams }) => {
     return calendar[week].map((day, index) => {
       return (
         <div key={index} style={column}>
-          {teams.map((team, i) => {
-            return <CalendarRow key={i} team={team} day={day} editHandler={editHandler} />;
-          })}
+          {teams.map((team, i) => (
+            <CalendarRow key={i} team={team} day={day} editHandler={editHandler} />
+          ))}
         </div>
       );
     });

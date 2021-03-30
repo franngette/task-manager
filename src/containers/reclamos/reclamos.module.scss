@@ -37,67 +37,6 @@
   width: 100%;
 }
 
-.card_wrapper {
-  margin-bottom: 0.5rem;
-}
-
-.card_container {
-  margin: 1rem;
-  width: 95%;
-  cursor: pointer;
-}
-
-.mh {
-  width: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.icon {
-  width: 1rem;
-  height: 1rem;
-}
-
-.card_content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.card_item {
-  display: flex;
-  align-items: center;
-  color: var(--gray-text);
-}
-
-.button_container {
-  margin: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.button {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 0.5rem;
-  color: var(--dark-blue);
-  background-color: transparent;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--dark-blue);
-    border-radius: 50%;
-    color: white;
-  }
-  &:focus {
-    outline: none;
-  }
-}
-
 .boldText {
   font-family: "Roboto Bold";
   color: var(--blue);
@@ -115,7 +54,6 @@
 
 .modal_open {
   width: 40%;
-  /*   height: 100%; */
   transition: width 1s;
   margin-left: 0.5rem;
 }

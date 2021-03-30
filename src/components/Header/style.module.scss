@@ -1,3 +1,5 @@
+@import "../../styles/index.scss";
+
 .container {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   height: 4rem;
@@ -6,6 +8,12 @@
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  @include mq("phone", "max") {
+    justify-content: unset;
+    height: 2rem;
+    background-color: var(--dark);
+    padding: 0rem;
+  }
 }
 
 .profile_container {
@@ -101,7 +109,7 @@ input[type="file"] {
   min-height: 20px;
   font-size: 1.4rem;
   position: absolute;
-  top:200px;
+  top: 200px;
   right: 70px;
   cursor: pointer;
   &:hover {
@@ -115,4 +123,25 @@ input[type="file"] {
     flex-direction: column;
     width: 100%;
   }
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  background-color: #4299e1;
+}
+
+.titleContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  color: white;
+}
+
+.logo {
+  height: 1.5rem;
+  object-fit: cover;
 }
