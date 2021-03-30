@@ -7,20 +7,22 @@ import Card from "../Card/index";
 import Button from "../Button/index";
 import DropDown from "../DropDown/index";
 import Message from "../Message/index";
-import AnimatedListItem from "../Animations/AnimatedListItem/AnimatedListItem";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "../Spinner";
 
 const WorkTeam = ({
   selectedTeam,
   teamData,
-  message,
   sendData,
   onClose,
   deleteData,
 }) => {
   const [selectedVehicle, setSelectedVehicle] = useState(0);
   const [selectedOperators, setSelectedOperators] = useState([]);
+  const [error, setError] = useState({ error: false, message: "" });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setSelectedVehicle(selectedTeam.id_vehicle);
@@ -63,15 +65,27 @@ const WorkTeam = ({
 
   const sendDataHandler = async (e) => {
     if (selectedOperators.length > 0) {
-      sendData(selectedVehicle, selectedOperators);
+      setLoading(true);
+      sendData(selectedVehicle, selectedOperators).then((res) => {
+        setError(error);
+        setLoading(false);
+      });
     } else {
+      setError({ error: true, message: "No hay datos seleccionados!" })
+      setTimeout(() => {
+        setError({error: false, message: ""})
+      }, 5000)
     }
 
     e.preventDefault();
   };
 
   const closeDataHandler = async (e) => {
-    deleteData(selectedTeam);
+    setLoading(true);
+    deleteData(selectedTeam).then((res) => {
+      setError(error);
+      setLoading(false);
+    });
     e.preventDefault();
   };
 
@@ -99,6 +113,7 @@ const WorkTeam = ({
       );
     });
   };
+  console.log(selectedTeam)
   return (
     <Card>
       <div className={style.wrapper}>
@@ -126,9 +141,6 @@ const WorkTeam = ({
                 <h4>Vehiculo</h4>
               </label>
               <DropDown
-                selectedValue={
-                  selectedTeam.id_vehicle ? selectedTeam.id_vehicle : 0
-                }
                 data={teamData.vehicles}
                 name="vehiculo"
                 form="crear"
@@ -167,12 +179,11 @@ const WorkTeam = ({
             <div className={style.content_center}>
               <div className={style.content_buttons}>
                 <Button
-                  disabled={false}
                   variant="dark"
                   type="submit"
                   onClick={(e) => sendDataHandler(e)}
                 >
-                  Guardar
+                  {loading ? <Spinner /> : "Guardar"}
                 </Button>
                 <Button
                   disabled={false}
@@ -184,10 +195,10 @@ const WorkTeam = ({
                 </Button>
               </div>
             </div>
-            {message.message !== "" && (
+            {error.error && (
               <Message
-                message={message.message}
-                type={message.error ? "error" : "success"}
+                message={error.message}
+                type={error.error ? "error" : "success"}
               />
             )}
           </form>
@@ -200,7 +211,6 @@ const WorkTeam = ({
 WorkTeam.propTypes = {
   selectedTeam: PropTypes.object.isRequired,
   teamData: PropTypes.object.isRequired,
-  message: PropTypes.object.isRequired,
   sendData: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

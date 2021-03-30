@@ -48,9 +48,7 @@ const Signin = (props) => {
             setLoading(false);
           } else {
             dispatch(actions.authLogged(response));
-            //dispatch(actions.connectSocket(response.id));
             connectSocket(response.id)
-            //props.history.push("/home");
           }
         })
         .catch((err) => {
@@ -83,10 +81,6 @@ const Signin = (props) => {
             <div className={styles.line}></div>
             <div className={styles.line}></div>
           </div>
-          {/* <div className={styles.content_title}>
-            <h3 className={styles.title}>TASKS</h3>
-            <h3 className={styles.title}>MANAGE</h3>
-          </div> */}
           <div className={styles.img_content_img}>
             <img className={styles.img} src="/images/login.png" alt="G2 Logo" />
           </div>
@@ -116,7 +110,6 @@ const Signin = (props) => {
               placeHolder="Contraseña"
               icon={faLock}
               iconColor="#4299e1"
-              //value={""}
               onChange={(e) => {
                 passwordHandler(e.target.value);
               }}
