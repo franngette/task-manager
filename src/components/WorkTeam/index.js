@@ -7,7 +7,7 @@ import Card from "../Card/index";
 import Button from "../Button/index";
 import DropDown from "../DropDown/index";
 import Message from "../Message/index";
-
+import AnimatedListItem from "../Animations/AnimatedListItem/AnimatedListItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -62,7 +62,11 @@ const WorkTeam = ({
   };
 
   const sendDataHandler = async (e) => {
-    sendData(selectedVehicle, selectedOperators);
+    if (selectedOperators.length > 0) {
+      sendData(selectedVehicle, selectedOperators);
+    } else {
+    }
+
     e.preventDefault();
   };
 
@@ -122,7 +126,9 @@ const WorkTeam = ({
                 <h4>Vehiculo</h4>
               </label>
               <DropDown
-                selectedValue={selectedTeam.id_vehicle}
+                selectedValue={
+                  selectedTeam.id_vehicle ? selectedTeam.id_vehicle : 0
+                }
                 data={teamData.vehicles}
                 name="vehiculo"
                 form="crear"

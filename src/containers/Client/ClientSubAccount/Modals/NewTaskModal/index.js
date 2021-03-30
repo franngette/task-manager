@@ -35,7 +35,6 @@ const NewTaskModal = ({ id, sid, serviceType, onClose, onSave }) => {
     onSave(id_service, sid, taskType, idProblem, description)
       .then((res) => {
         setMessage(res.message);
-        console.log(res)
         res.error ? setError(true) : setError(false);
       })
       .catch((err) => {

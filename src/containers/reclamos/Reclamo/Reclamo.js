@@ -91,8 +91,6 @@ const Reclamo = (props) => {
     });
   }, [id_service, id_task, id_account]);
 
-  console.log(subAccount);
-
   let loaded = (
     <div className={style.contentCentered}>
       <Spinner color="#4299e1" size="4rem" />
