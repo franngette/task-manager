@@ -136,23 +136,26 @@ const Cuadrillas = () => {
         </Button>
       </div>
       <div className={styles.wrapper}>
-        <ListTeams data={teams} sendData={handleEditTeam} />
-        <div className={open ? styles.modal_open : styles.modal_close}>
-          {open && (
-            <WorkTeam
-              onClose={handlerClose}
-              sendData={handleSendData}
-              deleteData={handlerCloseData}
-              teamData={teamData}
-              selectedTeam={selectedTeam}
-              message={message}
-            />
-          )}
-        </div>
+        {teams && (
+          <>
+            <ListTeams data={teams} sendData={handleEditTeam} />
+            <div className={open ? styles.modal_open : styles.modal_close}>
+              {open && (
+                <WorkTeam
+                  onClose={handlerClose}
+                  sendData={handleSendData}
+                  deleteData={handlerCloseData}
+                  teamData={teamData}
+                  selectedTeam={selectedTeam}
+                  message={message}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
 };
-
 
 export default Cuadrillas;
