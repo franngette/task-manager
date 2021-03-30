@@ -25,7 +25,6 @@ const Calendario = () => {
     const dateSelected = year + "-" + month;
     getCalendar(id_service, dateSelected).then((res) => {
       const tasks = res;
-      console.log(res)
       const calendar = getDaysArray(tasks, year, month);
       setCalendar(calendar);
     });
@@ -107,7 +106,7 @@ const Calendario = () => {
         prevWeek={prevWeek}
         nextWeek={nextWeek}
       />
-      {teams && <Calendar calendar={calendar} teams={teams} week={week} />}
+      {teams && calendar ? <Calendar calendar={calendar} teams={teams} week={week} /> : null}
     </div>
   );
 };

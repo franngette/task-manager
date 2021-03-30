@@ -42,7 +42,7 @@ const CalendarTask = ({ task, onEdit, parentPos }) => {
                   display: "flex",
                   position: "absolute",
                   top: pos.top - parentPos.top + pos.height - 100, //-100 for AnimatedListItem Component
-                  right: 10,
+                  left: pos.left,
                   zIndex: "1",
                 }}
               >

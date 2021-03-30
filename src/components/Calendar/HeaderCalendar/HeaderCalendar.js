@@ -22,7 +22,6 @@ const HeaderCalendar = ({ month, year, dateHandler, nextWeek, prevWeek }) => {
   }, []);
 
   const renderStatusInfo = () => {
-    console.log("render status info");
     return states.map((state, index) => {
       return (
         <div key={index} className={style.info}>
